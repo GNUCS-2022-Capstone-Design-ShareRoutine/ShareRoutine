@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ShareRoutine</string>
+
+    <string name="title_routine">루틴</string>
+    <string name="title_community">커뮤니티</string>
+    <string name="title_user">사용자</string>
 </resources>
