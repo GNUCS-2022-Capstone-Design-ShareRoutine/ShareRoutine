@@ -4,4 +4,8 @@
     <string name="title_routine">루틴</string>
     <string name="title_community">커뮤니티</string>
     <string name="title_user">사용자</string>
+
+    <string name="community_card_view_image">커뮤니티 메인화면 아이템 이미지</string>
+    <string name="community_card_view_title">커뮤니티 메인화면 아이템 제목</string>
+    <string name="community_card_view_username">유저명</string>
 </resources>
