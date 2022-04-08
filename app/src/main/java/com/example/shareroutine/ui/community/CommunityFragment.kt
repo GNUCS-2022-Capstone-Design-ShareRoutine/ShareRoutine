@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.shareroutine.R
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shareroutine.databinding.CommunityFragmentBinding
 
 class CommunityFragment : Fragment() {
@@ -25,7 +25,15 @@ class CommunityFragment : Fragment() {
         _binding = CommunityFragmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Observing below
+        val recyclerView = binding.communityMainList
+
+        recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
+        recyclerView.adapter = CommunityMainAdapter(emptyList())
+
+        viewModel.routineList.observe(viewLifecycleOwner) {
+            val adapter = binding.communityMainList.adapter as CommunityMainAdapter
+            adapter.setData(it)
+        }
 
         return root
     }
