@@ -26,13 +26,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:cpb_background_progressbar_width="40dp" />
+            app:cpb_progressbar_width="24dp"
+            app:cpb_background_progressbar_width="40dp"
+            app:cpb_round_border="true" />
 
         <TextView
             android:id="@+id/routine_main_progress_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NaN"
+            android:text="NaN%"
             android:textSize="48sp"
             android:gravity="center"
             android:textAlignment="center"
