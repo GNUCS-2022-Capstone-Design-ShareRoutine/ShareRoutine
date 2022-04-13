@@ -10,4 +10,6 @@
     <string name="community_card_view_image">커뮤니티 메인화면 아이템 이미지</string>
     <string name="community_card_view_title">커뮤니티 메인화면 아이템 제목</string>
     <string name="community_card_view_username">유저명</string>
+
+    <string name="UserLogin_client_id">832282324599-n474eta4lsgivqf2uaakj9tgt4o98oma.apps.googleusercontent.com</string>
 </resources>
