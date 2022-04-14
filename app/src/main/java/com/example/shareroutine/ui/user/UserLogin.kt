@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.res.TypedArrayUtils.getBoolean
 import com.example.shareroutine.MainActivity
 import com.example.shareroutine.R
+import com.example.shareroutine.data.model.UserAccount
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.lang.Boolean.getBoolean
 import java.lang.reflect.Array.getBoolean
 
 class UserLogin : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
@@ -79,7 +82,7 @@ class UserLogin : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListene
                     val account: GoogleSignInAccount? =
                         result.signInAccount // account 라는 데이터는 구글로그인 정보를 담고 있음. (닉네임, 프로필 사진, 이메일 주소 등)
                     if (account != null) {
-                        //resultLogin(account)
+                        resultLogin(account)
                     } // 로그인 결과값 출력 수행 메소드
                 }
             }
@@ -89,66 +92,71 @@ class UserLogin : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListene
     companion object {
         private const val REQ_SIGN_GOOGLE = 100 // 구글 로그인 결과 코드(임시로 선언)
     }
+
     override fun onConnectionFailed(connectionResult: ConnectionResult) {}
 
+
+//
+
+    private fun resultLogin(account: GoogleSignInAccount) {
+        val credential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
+        auth?.signInWithCredential(credential)
+            ?.addOnCompleteListener(this,
+                OnCompleteListener<Any?> { task ->
+                    if (task.isSuccessful) { // 로그인이 성공했으면 ...
+                        val firebaseUser: FirebaseUser? = auth!!.currentUser
+                        val account1 = UserAccount()
+
+                        val flag: Boolean = PreferenceManager.getBoolean(
+                            this@UserLogin,
+                            firebaseUser?.uid.toString()
+                        )
+
+                        if (firebaseUser != null) {
+                            if (firebaseUser.uid.toString() !== firebaseUser.getIdToken(true)
+                                    .toString()
+                            ) { //로그인 할 때마다 데이터 베이스에 사용자계정이 중복되어 저장되는 것을 막아준다.
+                                if (!flag) {
+                                    account1.setIdToken(firebaseUser.uid)
+                                    account1.setEmailId(firebaseUser.email)
+                                    mDatabase!!.child("UserInfo").child(firebaseUser.uid)
+                                        .setValue(account1)
+                                }
+                                Toast.makeText(this@UserLogin, "로그인 성공", Toast.LENGTH_SHORT).show()
+                                val flagFalse =
+                                    Intent(applicationContext, ResultActivity::class.java)
+                                flagFalse.putExtra("nickName", account.displayName)
+                                flagFalse.putExtra("email", account.email)
+                                flagFalse.putExtra(
+                                    "photoUrl",
+                                    account.photoUrl.toString()
+                                ) // 특정 자료형을 String으로 변환.
+                                if (flag) { //최초실행 이후
+                                    val flagTrue =
+                                        Intent(applicationContext, MainActivity::class.java)
+                                    startActivity(flagTrue)
+                                } else {
+                                    startActivity(flagFalse) //최초실행시 ResultActivity실행 조건문
+                                }
+                                Log.e(
+                                    "spn",
+                                    "resultactivity : " + mDatabase!!.child("UserInfo")
+                                        .child(firebaseUser.uid).child("std_grade_num").key!!
+                                        .isEmpty()
+                                )
+                            }
+                        }
+                    } else { // 로그인이 실패했으면 ...
+                        Toast.makeText(this@UserLogin, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    }
+                })
+    }
+
+
+    private fun Any.addOnCompleteListener(
+        userLogin: UserLogin,
+        onCompleteListener: OnCompleteListener<Any?>
+    ) {
+
+    }
 }
-
-
-// private fun resultLogin(account: GoogleSignInAccount) {
-// val credential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
-// auth?.signInWithCredential(credential)
-// ?.addOnCompleteListener(this,
-// OnCompleteListener<Any?> { task ->
-// if (task.isSuccessful) { // 로그인이 성공했으면 ...
-// val firebaseUser: FirebaseUser? = auth!!.getCurrentUser()
-// val account1 = UserAccount()
-// val flag: Boolean = PreferenceManager.getBoolean(
-// this@Login,
-// firebaseUser?.getUid().toString()
-// )
-// if (firebaseUser != null) {
-// if (firebaseUser.getUid().toString() !== firebaseUser.getIdToken(true)
-// .toString()
-// ) { //로그인 할 때마다 데이터 베이스에 사용자계정이 중복되어 저장되는 것을 막아준다.
-// if (!flag) {
-// account1.setIdToken(firebaseUser.getUid())
-// account1.setEmailId(firebaseUser.getEmail())
-// mDatabase!!.child("UserInfo").child(firebaseUser.getUid())
-// .setValue(account1)
-// }
-// Toast.makeText(this@Login, "로그인 성공", Toast.LENGTH_SHORT).show()
-// val flagFalse = Intent(applicationContext, ResultActivity::class.java)
-// flagFalse.putExtra("nickName", account.displayName)
-// flagFalse.putExtra("email", account.email)
-// flagFalse.putExtra(
-// "photoUrl",
-// account.photoUrl.toString()
-// ) // 특정 자료형을 String으로 변환.
-// if (flag) { //최초실행 이후
-// val flagTrue = Intent(applicationContext, MainActivity::class.java)
-// startActivity(flagTrue)
-// } else {
-// startActivity(flagFalse) //최초실행시 ResultActivity실행 조건문
-// }
-// Log.e(
-// "spn",
-// "resultactivity : " + mDatabase!!.child("UserInfo")
-// .child(firebaseUser.getUid()).child("std_grade_num").key!!
-// .isEmpty()
-// )
-// }
-// }
-// } else { // 로그인이 실패했으면 ...
-// Toast.makeText(this@Login, "로그인 실패", Toast.LENGTH_SHORT).show()
-// }
-// })
-// }
-//
-//
-//
-//
-// }
-//
-// private fun Any.addOnCompleteListener(userLogin: UserLogin, onCompleteListener: OnCompleteListener<Any?>) {
-//
-// }
