@@ -26,7 +26,6 @@ class CommunityFragment : Fragment() {
         val root: View = binding.root
 
         val recyclerView = binding.communityMainList
-
         recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
         recyclerView.adapter = CommunityMainAdapter(emptyList())
 
