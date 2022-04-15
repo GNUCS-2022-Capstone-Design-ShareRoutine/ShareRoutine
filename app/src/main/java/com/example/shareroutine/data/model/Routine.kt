@@ -1,14 +1,10 @@
 package com.example.shareroutine.data.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 // Temporary model
-//@Entity(tableName = "routine", inheritSuperIndices = true)
 @Entity(
-    tableName = "user",
+    tableName = "routine",
     indices = arrayOf(
         Index(
             value = ["routine_title", "routine_term"],
@@ -16,11 +12,11 @@ import androidx.room.PrimaryKey
         )
     )
 )
-data class Routine(
+data class Routine (
     @PrimaryKey(autoGenerate = true) val uid: Int,
     @ColumnInfo(name = "routine_title") var title: String,
-    @ColumnInfo(name = "routine_term") var term: String
+    @ColumnInfo(name = "routine_term") var term: String,
+    @ColumnInfo(name = "routine_username") var username: String
 )
-
 
 
