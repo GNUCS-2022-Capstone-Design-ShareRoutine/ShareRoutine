@@ -13,5 +13,11 @@ class DetailActivity : AppCompatActivity() {
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val title = binding.detailRoutineTitle
+        title.text = intent.getStringExtra("title")
+
+        val username = binding.detailRoutineUsername
+        username.text = intent.getStringExtra("username")
     }
 }

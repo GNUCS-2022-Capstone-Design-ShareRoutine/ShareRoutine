@@ -8,9 +8,65 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <!-- 요소 추가 -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detail_routine_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/detail_routine_username"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detail_routine_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/detail_routine_title"
+            app:layout_constraintBottom_toTopOf="@id/detail_routine_description"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detail_routine_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/detail_routine_username"
+            app:layout_constraintBottom_toTopOf="@id/detail_routine_hash_group"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/detail_routine_hash_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/detail_routine_hash_group"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Layout for test -->
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="해시1" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="해시2" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="해시3" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="해시4" />
+
+        </com.google.android.material.chip.ChipGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -18,10 +74,11 @@
         android:id="@+id/detail_bottom_sheet"
         android:name="com.example.shareroutine.ui.community.TodoListFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#454545"
         android:elevation="4dp"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="16dp"
+        app:behavior_peekHeight="32dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
