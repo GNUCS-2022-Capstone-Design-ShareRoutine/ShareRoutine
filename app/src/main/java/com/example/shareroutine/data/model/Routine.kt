@@ -7,7 +7,7 @@ import androidx.room.*
     tableName = "routine",
     indices = arrayOf(
         Index(
-            value = ["routine_title", "routine_term"],
+            value = ["routine_title", "routine_term", "routine_username"],
             unique = true
         )
     )
