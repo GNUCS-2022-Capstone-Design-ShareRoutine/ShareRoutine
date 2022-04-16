@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.RoutineDetailFragmentBinding
 
 class RoutineDetailFragment : Fragment() {
@@ -23,6 +24,10 @@ class RoutineDetailFragment : Fragment() {
 
         _binding = RoutineDetailFragmentBinding.inflate(inflater, container, false)
         val root = binding.root
+
+        val recyclerView = binding.routineDetailList
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.adapter = RoutineDetailAdapter(emptyList())
 
         return root
     }

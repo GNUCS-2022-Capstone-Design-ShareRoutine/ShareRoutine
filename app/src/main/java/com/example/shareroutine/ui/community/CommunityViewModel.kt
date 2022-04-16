@@ -2,23 +2,24 @@ package com.example.shareroutine.ui.community
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.shareroutine.data.model.Post
 import com.example.shareroutine.data.model.Routine
 
 //Temporary
 class CommunityViewModel : ViewModel() {
-    val routineList = MutableLiveData<List<Routine>>()
+    val postList = MutableLiveData<List<Post>>()
 
-    private val data = arrayListOf<Routine>()
+    private val data = arrayListOf<Post>()
 
-    fun addRoutine(routine: Routine) {
-        data.add(routine)
+    fun addPost(post: Post) {
+        data.add(post)
 
-        routineList.value = data
+        postList.value = data
     }
 
-    fun removeRoutine(routine: Routine) {
-        data.remove(routine)
+    fun removePost(post: Post) {
+        data.remove(post)
 
-        routineList.value = data
+        postList.value = data
     }
 }

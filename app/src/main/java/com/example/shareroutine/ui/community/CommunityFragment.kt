@@ -30,7 +30,7 @@ class CommunityFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
         recyclerView.adapter = CommunityMainAdapter(emptyList())
 
-        viewModel.routineList.observe(viewLifecycleOwner) {
+        viewModel.postList.observe(viewLifecycleOwner) {
             val adapter = binding.communityMainList.adapter as CommunityMainAdapter
             adapter.setData(it)
         }
