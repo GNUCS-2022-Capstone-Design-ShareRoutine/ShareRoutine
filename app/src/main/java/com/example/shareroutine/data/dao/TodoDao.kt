@@ -1,7 +1,8 @@
-package com.example.shareroutine.data.model
+package com.example.shareroutine.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.shareroutine.data.model.Todo
 
 @Dao
 interface TodoDao {

@@ -1,9 +1,13 @@
-package com.example.shareroutine.data.model
+package com.example.shareroutine.data.repository
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.shareroutine.data.dao.RoutineDao
+import com.example.shareroutine.data.dao.TodoDao
+import com.example.shareroutine.data.model.Routine
+import com.example.shareroutine.data.model.Todo
 
 @Database(entities = [Routine::class, Todo::class], version = 1)
 public abstract class AppDatabase : RoomDatabase() {

@@ -1,4 +1,4 @@
-package com.example.shareroutine.data.model
+package com.example.shareroutine.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
