@@ -45,7 +45,7 @@ class PostRepository {
         firebase.updateChildren(childUpdates)
     }
 
-    private fun addPoserEventListener(postReference: DatabaseReference) {
+    private fun addPostEventListener(postReference: DatabaseReference) {
         // [START post_value_event_listener]
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
