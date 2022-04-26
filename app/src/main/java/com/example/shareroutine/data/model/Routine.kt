@@ -3,6 +3,12 @@ package com.example.shareroutine.data.model
 import androidx.room.*
 
 // Temporary model
+data class Routine(
+    var title: String,
+    var todoList: List<RoutineTodo>
+)
+
+/*
 @Entity(
     tableName = "routine",
     indices = arrayOf(
@@ -18,5 +24,4 @@ data class Routine (
     @ColumnInfo(name = "routine_term") var term: String,
     @ColumnInfo(name = "routine_username") var username: String
 )
-
-
+*/

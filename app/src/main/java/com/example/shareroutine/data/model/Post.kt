@@ -3,6 +3,12 @@ package com.example.shareroutine.data.model
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
+data class Post(
+    var title: String,
+    var username: String
+)
+
+/*
 @IgnoreExtraProperties
 data class Post (
     val postId: String,
@@ -22,3 +28,4 @@ data class Post (
         )
     }
 }
+*/
