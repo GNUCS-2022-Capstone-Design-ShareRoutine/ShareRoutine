@@ -23,7 +23,6 @@ class PostRepository {
 
         firebase.child("post").setValue(postId)
     }
-     */
 
     private fun writeNewPost(postId: String, download: Int, content: String, date: Int, like: Int) {
         // Create new post at /user-posts/$userid/$postid and at
@@ -62,7 +61,5 @@ class PostRepository {
         postReference.addValueEventListener(postListener)
         // [END post_value_event_listener]
     }
-
-
-
+    */
 }
