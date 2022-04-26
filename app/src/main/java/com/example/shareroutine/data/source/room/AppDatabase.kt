@@ -1,4 +1,4 @@
-package com.example.shareroutine.data.repository
+package com.example.shareroutine.data.source.room
 
 import android.content.Context
 import androidx.room.Database
