@@ -1,6 +1,8 @@
 package com.example.shareroutine.ui.user
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
@@ -27,8 +29,43 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.lang.Boolean.getBoolean
+import java.lang.reflect.Array.get
 import java.lang.reflect.Array.getBoolean
+object PreferenceHelper {
 
+    fun defaultPrefs(context: Context): SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context)
+
+    private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
+        val editor = this.edit()
+        operation(editor)
+        editor.apply()
+    }
+
+    operator fun SharedPreferences.set(key: String, value: Any?) {
+        when (value) {
+            is String? -> edit { it.putString(key, value) }
+            is Int -> edit { it.putInt(key, value) }
+            is Boolean -> edit{ it.putBoolean(key, value) }
+            is Float -> edit { it.putFloat(key, value) }
+            is Long -> edit { it.putLong(key, value) }
+            else -> throw UnsupportedOperationException("Error")
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    operator fun <T> SharedPreferences.get(key: String, defaultValue: T? = null): T {
+        return when (defaultValue) {
+            is String, null -> getString(key, defaultValue as? String) as T
+            is Int -> getInt(key, defaultValue as? Int ?: -1) as T
+            is Boolean -> getBoolean(key, defaultValue as? Boolean ?: false) as T
+            is Float -> getFloat(key, defaultValue as? Float ?: -1f) as T
+            is Long -> getLong(key, defaultValue as? Long ?: -1) as T
+            else -> throw UnsupportedOperationException("Error")
+        }
+    }
+
+}
 class UserLogin : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
     private lateinit var btn_google // 구글 로그인 버튼
             : SignInButton
@@ -39,6 +76,7 @@ class UserLogin : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListene
     private var mDatabase: DatabaseReference? = null
     override fun onCreate(savedInstanceState: Bundle?) { // 앱이 실행될 때 처음 수행되는 곳
         super.onCreate(savedInstanceState)
+
 
         //상단바 제거
 
@@ -107,7 +145,7 @@ class UserLogin : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListene
                         val firebaseUser: FirebaseUser? = auth!!.currentUser
                         val account1 = UserAccount()
 
-                        val flag: Boolean = PreferenceManager.getBoolean(
+                        val flag: Boolean = SharedPreferences.getBoolean(
                             this@UserLogin,
                             firebaseUser?.uid.toString()
                         )
@@ -124,7 +162,7 @@ class UserLogin : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListene
                                 }
                                 Toast.makeText(this@UserLogin, "로그인 성공", Toast.LENGTH_SHORT).show()
                                 val flagFalse =
-                                    Intent(applicationContext, ResultActivity::class.java)
+                                    Intent(applicationContext, MainActivity::class.java)
                                 flagFalse.putExtra("nickName", account.displayName)
                                 flagFalse.putExtra("email", account.email)
                                 flagFalse.putExtra(
