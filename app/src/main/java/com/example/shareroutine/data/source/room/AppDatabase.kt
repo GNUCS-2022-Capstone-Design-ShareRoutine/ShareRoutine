@@ -1,18 +1,16 @@
 package com.example.shareroutine.data.source.room
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.example.shareroutine.data.dao.RoutineDao
-import com.example.shareroutine.data.dao.TodoDao
-import com.example.shareroutine.data.model.Routine
-import com.example.shareroutine.data.model.Todo
+import androidx.room.*
+import com.example.shareroutine.data.source.room.dao.RoutineDao
+import com.example.shareroutine.data.source.room.entity.Routine
+import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
+import com.example.shareroutine.data.source.room.entity.Todo
 
 @Database(entities = [Routine::class, Todo::class], version = 1)
-public abstract class AppDatabase : RoomDatabase() {
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
-    abstract  fun todoDao(): TodoDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

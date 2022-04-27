@@ -5,6 +5,6 @@ import androidx.room.Relation
 
 data class RoutineWithTodo(
     @Embedded val routine: Routine,
-    @Relation(parentColumn = "id", entityColumn = "routineId")
+    @Relation(parentColumn = "id", entityColumn = "routineId", entity = Todo::class)
     val todos: List<Todo>
 )
