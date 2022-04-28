@@ -1,11 +1,10 @@
 package com.example.shareroutine.data.source.room.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.shareroutine.data.source.room.entity.Routine
 import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
 import com.example.shareroutine.data.source.room.entity.Todo
-
+import kotlinx.coroutines.flow.*
 
 @Dao
 interface RoutineDao {
@@ -18,9 +17,6 @@ interface RoutineDao {
     @Delete
     suspend fun delete(routine: Routine)
 
-    @Query("SELECT * FROM routine_table")
-    fun getAllRoutines(): LiveData<List<Routine>>
-
     @Insert
     suspend fun insert(todo: Todo)
 
@@ -30,11 +26,8 @@ interface RoutineDao {
     @Delete
     suspend fun delete(todo: Todo)
 
-    @Query("SELECT * FROM todo_table")
-    fun getAllTodos(): LiveData<List<Todo>>
-
     @Query("SELECT * FROM todo_table WHERE routineId = :routineId")
-    fun getTodosWithRoutineId(routineId: Int): LiveData<List<Todo>>
+    fun getTodosWithRoutineId(routineId: Int): Flow<List<Todo>>
 
     @Transaction
     suspend fun insert(routineWithTodo: RoutineWithTodo) {
@@ -50,9 +43,9 @@ interface RoutineDao {
     suspend fun update(routineWithTodo: RoutineWithTodo) {
         val routineId = update(routineWithTodo.routine)
 
-        val previous = getTodosWithRoutineId(routineId)
+        val previous = getTodosWithRoutineId(routineId).firstOrNull()
 
-        previous.value!!.map {
+        previous!!.map {
             delete(it)
         }
 
@@ -73,5 +66,5 @@ interface RoutineDao {
 
     @Transaction
     @Query("SELECT * FROM routine_table")
-    fun getRoutinesWithTodos(): LiveData<List<RoutineWithTodo>>
+    fun getRoutinesWithTodos(): Flow<List<RoutineWithTodo>>
 }
