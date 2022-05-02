@@ -28,24 +28,15 @@ class RoutineDetailFragment : Fragment() {
         _binding = RoutineDetailFragmentBinding.inflate(inflater, container, false)
         val root = binding.root
 
-        // Temporary values for testing
-        val todo1 = RoutineTodo("설명 1")
-        val todo2 = RoutineTodo("설명 2")
-        val todo3 = RoutineTodo("설명 3")
-        val todo4 = RoutineTodo("설명 4")
-        val todo5 = RoutineTodo("설명 5")
+        var adapters = emptyList<RoutineDetailAdapter>()
 
-        val todoList = listOf(todo1, todo2, todo3, todo4, todo5)
-
-        val routine1 = Routine("루틴 1", todoList)
-        val routine2 = Routine("루틴 2", todoList)
-        val routine3 = Routine("루틴 3", todoList)
-
-        val routineList = listOf(routine1, routine2, routine3)
-
-        val adapters: List<RoutineDetailAdapter> = routineList.map {
-            RoutineDetailAdapter(it)
+        /*
+        with(viewModel) {
+            usedRoutineList.observe(viewLifecycleOwner) { list ->
+                adapters = list.map { RoutineDetailAdapter(it) }
+            }
         }
+        */
 
         val recyclerView = binding.routineDetailList
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())

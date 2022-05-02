@@ -3,11 +3,10 @@ package com.example.shareroutine.data.source.room
 import android.content.Context
 import androidx.room.*
 import com.example.shareroutine.data.source.room.dao.RoutineDao
-import com.example.shareroutine.data.source.room.entity.Routine
-import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
-import com.example.shareroutine.data.source.room.entity.Todo
+import com.example.shareroutine.data.source.room.entity.RoomEntityRoutine
+import com.example.shareroutine.data.source.room.entity.RoomEntityTodo
 
-@Database(entities = [Routine::class, Todo::class], version = 1)
+@Database(entities = [RoomEntityRoutine::class, RoomEntityTodo::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao

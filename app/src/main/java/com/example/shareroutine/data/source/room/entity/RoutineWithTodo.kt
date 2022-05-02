@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 data class RoutineWithTodo(
-    @Embedded val routine: Routine,
-    @Relation(parentColumn = "id", entityColumn = "routineId", entity = Todo::class)
-    val todos: List<Todo>
+    @Embedded val roomEntityRoutine: RoomEntityRoutine,
+    @Relation(parentColumn = "id", entityColumn = "routineId", entity = RoomEntityTodo::class)
+    val roomEntityTodos: MutableList<RoomEntityTodo>
 )

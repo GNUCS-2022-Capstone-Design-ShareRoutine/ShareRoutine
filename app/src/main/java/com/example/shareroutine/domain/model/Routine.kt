@@ -7,5 +7,6 @@ enum class Term {
 data class Routine(
     val name: String,
     val term: Term,
+    val isUsed: Boolean,
     val todos: List<Todo>
 )

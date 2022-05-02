@@ -4,5 +4,8 @@ import com.example.shareroutine.domain.model.Routine
 import kotlinx.coroutines.flow.Flow
 
 interface RoutineRepository {
-    suspend fun getAllRoutines(): Flow<List<Routine>>
+    suspend fun insert(routine: Routine)
+    suspend fun delete(routine: Routine)
+
+    fun getAllRoutines(): Flow<List<Routine>>
 }

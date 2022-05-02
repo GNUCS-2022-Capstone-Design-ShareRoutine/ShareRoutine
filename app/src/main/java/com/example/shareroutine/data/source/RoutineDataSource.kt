@@ -13,6 +13,7 @@ interface RoutineDataSource {
     suspend fun delete(routine: RoutineWithTodo)
 
     fun getRoutineList(): Flow<List<RoutineWithTodo>>
+    fun getUsedRoutineList(): Flow<List<RoutineWithTodo>>
 }
 
 class RoutineDataSourceImpl(private val dao: RoutineDao) : RoutineDataSource {
@@ -30,5 +31,9 @@ class RoutineDataSourceImpl(private val dao: RoutineDao) : RoutineDataSource {
 
     override fun getRoutineList(): Flow<List<RoutineWithTodo>> {
         return dao.getRoutinesWithTodos()
+    }
+
+    override fun getUsedRoutineList(): Flow<List<RoutineWithTodo>> {
+        return dao.getUsedRoutinesWithTodos()
     }
 }
