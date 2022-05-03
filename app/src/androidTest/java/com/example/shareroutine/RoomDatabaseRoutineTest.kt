@@ -31,7 +31,6 @@ class RoomDatabaseRoutineTest {
 
     @Before
     fun createDb() {
-        // 이후 종속성 주입으로 대체 예정
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).setTransactionExecutor(Executors.newSingleThreadExecutor()).build()
         routineDao = db.routineDao()

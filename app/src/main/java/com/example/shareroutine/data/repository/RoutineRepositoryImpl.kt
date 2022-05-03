@@ -5,8 +5,9 @@ import com.example.shareroutine.data.source.RoutineDataSource
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.repository.RoutineRepository
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class RoutineRepositoryImpl(private val dataSource: RoutineDataSource): RoutineRepository {
+class RoutineRepositoryImpl @Inject constructor(private val dataSource: RoutineDataSource): RoutineRepository {
     override suspend fun insert(routine: Routine) {
         dataSource.insert(RoutineMapper.mapperToRoutineWithTodo(routine))
     }
