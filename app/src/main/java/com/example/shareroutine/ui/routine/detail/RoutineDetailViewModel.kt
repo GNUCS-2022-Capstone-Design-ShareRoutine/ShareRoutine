@@ -10,26 +10,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class RoutineDetailViewModel @Inject constructor(
-    private val getUsedRoutineListUseCase: GetUsedRoutineListUseCase,
+    getUsedRoutineListUseCase: GetUsedRoutineListUseCase,
     private val insertRoutineUseCase: InsertRoutineUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    private val _usedRoutines = MutableLiveData<List<Routine>>()
+    private val _usedRoutines = getUsedRoutineListUseCase().onStart { emptyList<Routine>() }.asLiveData()
     val usedRoutines: LiveData<List<Routine>> get() = _usedRoutines
-
-    init {
-        viewModelScope.launch(ioDispatcher) {
-            getUsedRoutineListUseCase().collect {
-                _usedRoutines.postValue(it)
-            }
-        }
-    }
 
     fun insertNewRoutine(routine: Routine) {
         viewModelScope.launch(ioDispatcher) {
