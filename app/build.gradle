@@ -62,6 +62,10 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.google.android.material:material:1.5.0'
 
+    // For coroutines in Android
+    def kotlinx_coroutines_version = "1.6.1"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version")
+
     // Hilt Dependencies
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
@@ -75,6 +79,7 @@ dependencies {
     // For the Firebase platform
     implementation platform ('com.google.firebase:firebase-bom:29.3.0')
     implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlinx_coroutines_version"
 
     // Custom Dependencies
     implementation 'com.mikhaellopez:circularprogressbar:3.1.0'
@@ -86,7 +91,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
     testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptTest "com.google.dagger:hilt-compiler:$hilt_version"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
     testImplementation 'org.robolectric:robolectric:4.8'
 
     // For instrumentation test
@@ -95,7 +100,7 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$room_version"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
 }
 
 kapt {

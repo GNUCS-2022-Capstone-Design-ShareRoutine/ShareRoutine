@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.shareroutine.data.model.Routine
-import com.example.shareroutine.data.model.RoutineTodo
 import com.example.shareroutine.databinding.RoutineDetailFragmentBinding
 
 class RoutineDetailFragment : Fragment() {

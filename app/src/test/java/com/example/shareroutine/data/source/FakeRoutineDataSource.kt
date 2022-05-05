@@ -22,12 +22,4 @@ class FakeRoutineDataSource(var routines: MutableList<RoutineWithTodo>? = mutabl
             routines?.toList()?.let { emit(it) }
         }
     }
-
-    override fun getUsedRoutineList(): Flow<List<RoutineWithTodo>> {
-        return flow {
-            routines?.filter {
-                it.roomEntityRoutine.isUsed
-            }?.let { emit(it) }
-        }
-    }
 }

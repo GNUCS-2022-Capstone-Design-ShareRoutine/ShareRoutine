@@ -23,8 +23,4 @@ class RoutineDataSourceImplWithRoom @Inject constructor(private val dao: Routine
     override fun getRoutineList(): Flow<List<RoutineWithTodo>> {
         return dao.getRoutinesWithTodos()
     }
-
-    override fun getUsedRoutineList(): Flow<List<RoutineWithTodo>> {
-        return dao.getUsedRoutinesWithTodos()
-    }
 }

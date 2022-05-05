@@ -2,8 +2,7 @@ package com.example.shareroutine.ui.community
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.shareroutine.data.model.Post
-import com.example.shareroutine.data.model.Routine
+import com.example.shareroutine.domain.model.Post
 
 //Temporary
 class CommunityViewModel : ViewModel() {

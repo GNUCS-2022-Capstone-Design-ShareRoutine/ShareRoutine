@@ -72,8 +72,4 @@ interface RoutineDao {
     @Transaction
     @Query("SELECT * FROM routine_table")
     fun getRoutinesWithTodos(): Flow<List<RoutineWithTodo>>
-
-    @Transaction
-    @Query("SELECT * FROM routine_table WHERE isUsed = 1")
-    fun getUsedRoutinesWithTodos(): Flow<List<RoutineWithTodo>>
 }
