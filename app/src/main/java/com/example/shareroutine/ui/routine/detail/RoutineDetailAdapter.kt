@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shareroutine.R
-import com.example.shareroutine.data.model.Routine
+import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.databinding.RoutineDetailListChildBinding
 import com.example.shareroutine.databinding.RoutineDetailListParentBinding
 import kotlin.properties.Delegates
@@ -26,11 +26,11 @@ class RoutineDetailAdapter(private val routine: Routine) : RecyclerView.Adapter<
 
     private var isExpanded: Boolean by Delegates.observable(false) { _: KProperty<*>, _: Boolean, newExpandedValue: Boolean ->
         if (newExpandedValue) {
-            notifyItemRangeInserted(1, routine.todoList.size)
+            notifyItemRangeInserted(1, routine.todos.size)
             //To update the header expand icon
             notifyItemChanged(0)
         } else {
-            notifyItemRangeRemoved(1, routine.todoList.size)
+            notifyItemRangeRemoved(1, routine.todos.size)
             //To update the header expand icon
             notifyItemChanged(0)
         }
@@ -58,17 +58,17 @@ class RoutineDetailAdapter(private val routine: Routine) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ParentViewHolder -> {
-                holder.binding.routineDetailTitle.text = routine.title
+                holder.binding.routineDetailTitle.text = routine.name
                 holder.binding.routineDetailListArrow.rotation = if (isExpanded) IC_EXPANDED_ROTATION_DEG else IC_COLLAPSED_ROTATION_DEG
                 holder.binding.root.setOnClickListener(onHeaderClickListener)
             }
             is ChildViewHolder -> {
-                holder.binding.routineDetailDescription.text = routine.todoList[position - 1].description
+                holder.binding.routineDetailDescription.text = routine.todos[position - 1].description
             }
         }
     }
 
-    override fun getItemCount(): Int = if (isExpanded) routine.todoList.size + 1 else 1
+    override fun getItemCount(): Int = if (isExpanded) routine.todos.size + 1 else 1
 
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) VIEW_TYPE_PARENT else VIEW_TYPE_CHILD
