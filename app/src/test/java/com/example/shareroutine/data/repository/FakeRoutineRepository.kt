@@ -5,9 +5,7 @@ import com.example.shareroutine.domain.repository.RoutineRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeRoutineRepository() : RoutineRepository {
-
-    var routines: MutableList<Routine>? = mutableListOf()
+class FakeRoutineRepository(var routines: MutableList<Routine>? = mutableListOf()) : RoutineRepository {
 
     override suspend fun insert(routine: Routine) {
         routines?.add(routine)

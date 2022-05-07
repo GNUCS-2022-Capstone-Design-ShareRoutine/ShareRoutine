@@ -1,25 +1,54 @@
 package com.example.shareroutine.data.source.realtime
 
 import com.example.shareroutine.data.source.PostDataSource
-import com.example.shareroutine.data.source.realtime.dao.PostDao
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
-import kotlinx.coroutines.flow.Flow
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class PostDataSourceImplWithRealtime(private val dao: PostDao) : PostDataSource {
+class PostDataSourceImplWithRealtime @Inject constructor(private val dbRef: DatabaseReference) : PostDataSource {
     override suspend fun insert(post: RealtimeDBModelPost) {
-        dao.insert(post)
+        val newKey = dbRef.push().key!!
+        post.id = newKey
+        dbRef.child(newKey).setValue(post)
     }
 
     override suspend fun update(post: RealtimeDBModelPost) {
-        dao.update(post)
+        val item: HashMap<String, RealtimeDBModelPost> = hashMapOf()
+        post.id?.let { item.put(it, post) }
+
+        dbRef.updateChildren(item as Map<String, Any>)
     }
 
     override suspend fun delete(post: RealtimeDBModelPost) {
-        dao.delete(post)
+        post.id?.let { dbRef.child(it).removeValue().await() }
     }
 
-    override fun getPostList(): Flow<State<List<RealtimeDBModelPost>>> {
-        return dao.getRealtimeDBModelPostList()
+    override fun getAllPostList() = callbackFlow<Result<List<RealtimeDBModelPost>>> {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val posts = snapshot.children.map {
+                    it.getValue(RealtimeDBModelPost::class.java)!!
+                }
+
+                this@callbackFlow.trySendBlocking(Result.success(posts))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                this@callbackFlow.trySendBlocking(Result.failed(error.message))
+            }
+        }
+
+        dbRef.addValueEventListener(listener)
+
+        awaitClose {
+            dbRef.removeEventListener(listener)
+        }
     }
 }

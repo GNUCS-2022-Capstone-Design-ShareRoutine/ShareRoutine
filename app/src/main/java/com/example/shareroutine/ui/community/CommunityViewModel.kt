@@ -1,24 +1,27 @@
 package com.example.shareroutine.ui.community
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.example.shareroutine.di.IoDispatcher
 import com.example.shareroutine.domain.model.Post
+import com.example.shareroutine.domain.usecase.GetPostListUseCase
+import com.example.shareroutine.domain.usecase.InsertPostUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-//Temporary
-class CommunityViewModel : ViewModel() {
-    val postList = MutableLiveData<List<Post>>()
+@HiltViewModel
+class CommunityViewModel @Inject constructor(
+    getPostListUseCase: GetPostListUseCase,
+    private val insertPostUseCase: InsertPostUseCase,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : ViewModel() {
+    private val _posts = getPostListUseCase().asLiveData()
+    val posts: LiveData<List<Post>> get() = _posts
 
-    private val data = arrayListOf<Post>()
-
-    fun addPost(post: Post) {
-        data.add(post)
-
-        postList.value = data
-    }
-
-    fun removePost(post: Post) {
-        data.remove(post)
-
-        postList.value = data
+    fun insertNewPost(post: Post) {
+        viewModelScope.launch(ioDispatcher) {
+            insertPostUseCase(post)
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.example.shareroutine.data.repository.FakeRoutineRepository
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.domain.model.Todo
+import com.example.shareroutine.domain.repository.RoutineRepository
 import com.example.shareroutine.domain.usecase.GetUsedRoutineListUseCase
 import com.example.shareroutine.domain.usecase.InsertRoutineUseCase
 import com.example.shareroutine.getOrAwaitValue
@@ -29,7 +30,7 @@ class RoutineDetailViewModelTest {
     private val todo2 = Todo(ZonedDateTime.now(), 1, "Description 1", false)
     private val routine = Routine("Routine 1", Term.DAILY, true, listOf(todo1, todo2))
 
-    private lateinit var repo: FakeRoutineRepository
+    private lateinit var repo: RoutineRepository
     private lateinit var getUseCase: GetUsedRoutineListUseCase
     private lateinit var insertUseCase: InsertRoutineUseCase
     private lateinit var viewModel: RoutineDetailViewModel

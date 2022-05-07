@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.RoutineDetailFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RoutineDetailFragment : Fragment() {
 
     private var _binding: RoutineDetailFragmentBinding? = null
@@ -28,13 +30,11 @@ class RoutineDetailFragment : Fragment() {
 
         var adapters = emptyList<RoutineDetailAdapter>()
 
-        /*
         with(viewModel) {
-            usedRoutineList.observe(viewLifecycleOwner) { list ->
+            usedRoutines.observe(viewLifecycleOwner) { list ->
                 adapters = list.map { RoutineDetailAdapter(it) }
             }
         }
-        */
 
         val recyclerView = binding.routineDetailList
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())

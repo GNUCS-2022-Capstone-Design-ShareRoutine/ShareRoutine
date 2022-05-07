@@ -21,7 +21,7 @@ class CommunityMainAdapter(private var postList: List<Post>) : RecyclerView.Adap
         val post = postList[position]
 
         holder.binding.communityCardViewTitle.text = post.title
-        holder.binding.communityCardUsername.text = post.username
+        holder.binding.communityCardUsername.text = post.userId
     }
 
     override fun getItemCount(): Int = postList.size
