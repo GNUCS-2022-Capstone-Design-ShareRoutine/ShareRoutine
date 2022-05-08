@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shareroutine.R
-import com.example.shareroutine.data.model.Post
-import com.example.shareroutine.data.model.Routine
+import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.databinding.CommunityCardViewBinding
 
 class CommunityMainAdapter(private var postList: List<Post>) : RecyclerView.Adapter<CommunityMainAdapter.CommunityMainViewHolder>() {
@@ -22,7 +21,7 @@ class CommunityMainAdapter(private var postList: List<Post>) : RecyclerView.Adap
         val post = postList[position]
 
         holder.binding.communityCardViewTitle.text = post.title
-        holder.binding.communityCardUsername.text = post.username
+        holder.binding.communityCardUsername.text = post.userId
     }
 
     override fun getItemCount(): Int = postList.size

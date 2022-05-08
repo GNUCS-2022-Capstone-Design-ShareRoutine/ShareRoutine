@@ -1,4 +1,4 @@
-package com.example.shareroutine.data.source.room
+package com.example.shareroutine.data.util
 
 import androidx.room.TypeConverter
 import java.time.Instant

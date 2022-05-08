@@ -9,5 +9,4 @@ interface RoutineDataSource {
     suspend fun delete(routine: RoutineWithTodo)
 
     fun getRoutineList(): Flow<List<RoutineWithTodo>>
-    fun getUsedRoutineList(): Flow<List<RoutineWithTodo>>
 }
