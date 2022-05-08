@@ -5,10 +5,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.shareroutine.data.repository.PostRepositoryImpl
 import com.example.shareroutine.data.source.PostDataSource
 import com.example.shareroutine.data.source.realtime.PostDataSourceImplWithRealtime
-import com.example.shareroutine.data.source.realtime.Result
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
 import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.domain.repository.PostRepository
+import com.example.shareroutine.domain.usecase.GetPostListUseCase
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +19,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.withContext
-import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.After
@@ -45,6 +44,7 @@ class FirebaseRealtimeDatabaseTest {
     private lateinit var db: FirebaseDatabase
     private lateinit var dataSource: PostDataSource
     private lateinit var repo: PostRepository
+    private lateinit var getUseCase: GetPostListUseCase
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -57,6 +57,7 @@ class FirebaseRealtimeDatabaseTest {
         db = FirebaseDatabase.getInstance("http://10.0.2.2:9000/?ns=shareroutine")
         dataSource = PostDataSourceImplWithRealtime(db.getReference("community/post"))
         repo = PostRepositoryImpl(dataSource)
+        getUseCase = GetPostListUseCase(repo)
     }
 
     @After
@@ -69,7 +70,7 @@ class FirebaseRealtimeDatabaseTest {
         val post = Post(
             "Title 3", "",
             0, 0,
-            "", ZonedDateTime.now()
+            "Description 3", ZonedDateTime.now()
         )
 
         val job = launch {
@@ -84,13 +85,11 @@ class FirebaseRealtimeDatabaseTest {
     fun get_test() = runTest {
         val list = mutableListOf<Post>()
 
-        val job = launch {
-            withContext(Dispatchers.IO) {
-                val myList = repo.getAllPosts().first()
+        val job = launch(Dispatchers.IO) {
+            val myList = getUseCase().first()
 
-                myList.forEach {
-                    list.add(it)
-                }
+            myList.forEach {
+                list.add(it)
             }
         }
 

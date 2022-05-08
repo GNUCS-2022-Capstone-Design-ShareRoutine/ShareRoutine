@@ -7,7 +7,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -30,18 +29,17 @@ class PostDataSourceImplWithRealtime @Inject constructor(private val dbRef: Data
         post.id?.let { dbRef.child(it).removeValue().await() }
     }
 
-    override fun getAllPostList() = callbackFlow<Result<List<RealtimeDBModelPost>>> {
+    override fun getAllPostList() = callbackFlow {
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val posts = snapshot.children.map {
                     it.getValue(RealtimeDBModelPost::class.java)!!
                 }
-
-                this@callbackFlow.trySendBlocking(Result.success(posts))
+                trySend(Result.success(posts))
             }
 
             override fun onCancelled(error: DatabaseError) {
-                this@callbackFlow.trySendBlocking(Result.failed(error.message))
+                trySend(Result.failed(error.message))
             }
         }
 

@@ -6,7 +6,6 @@ import com.example.shareroutine.data.source.realtime.Result
 import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.domain.repository.PostRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import java.lang.Exception
 import javax.inject.Inject

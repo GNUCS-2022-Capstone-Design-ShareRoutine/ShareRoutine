@@ -17,5 +17,7 @@ object PostDataSourceModule {
 
     @Singleton
     @Provides
-    fun providePostDataSourceImplWithRealtime(): PostDataSource = PostDataSourceImplWithRealtime(Firebase.database.getReference("post"))
+    fun providePostDataSourceImplWithRealtime(dbRef: DatabaseReference): PostDataSource {
+        return PostDataSourceImplWithRealtime(dbRef)
+    }
 }
