@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shareroutine.data.model.Routine
 import com.example.shareroutine.databinding.CommunityFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CommunityFragment : Fragment() {
 
     private var _binding: CommunityFragmentBinding? = null
@@ -39,7 +41,7 @@ class CommunityFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
         recyclerView.adapter = CommunityMainAdapter(routineList)
 
-        viewModel.routineList.observe(viewLifecycleOwner) {
+        viewModel.posts.observe(viewLifecycleOwner) {
             val adapter = binding.communityMainList.adapter as CommunityMainAdapter
             adapter.setData(it)
         }
