@@ -6,8 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.RoutineDetailFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RoutineDetailFragment : Fragment() {
 
     private var _binding: RoutineDetailFragmentBinding? = null
@@ -23,6 +27,21 @@ class RoutineDetailFragment : Fragment() {
 
         _binding = RoutineDetailFragmentBinding.inflate(inflater, container, false)
         val root = binding.root
+
+        var adapters = emptyList<RoutineDetailAdapter>()
+
+        with(viewModel) {
+            usedRoutines.observe(viewLifecycleOwner) { list ->
+                adapters = list.map { RoutineDetailAdapter(it) }
+            }
+        }
+
+        val recyclerView = binding.routineDetailList
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        val concatAdapterConfig = ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build()
+        val concatAdapter = ConcatAdapter(concatAdapterConfig, adapters)
+        recyclerView.adapter = concatAdapter
 
         return root
     }
