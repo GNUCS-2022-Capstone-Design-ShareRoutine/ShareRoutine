@@ -1,7 +1,9 @@
 package com.example.shareroutine.ui.community
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shareroutine.R
@@ -11,17 +13,25 @@ import com.example.shareroutine.databinding.CommunityCardViewBinding
 class CommunityMainAdapter(private var postList: List<Post>) : RecyclerView.Adapter<CommunityMainAdapter.CommunityMainViewHolder>() {
     class CommunityMainViewHolder(val binding: CommunityCardViewBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityMainViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.community_card_view, parent, false)
 
-        return CommunityMainViewHolder(CommunityCardViewBinding.bind(view))
+        return ViewHolder(CommunityCardViewBinding.bind(view))
     }
-
+    
     override fun onBindViewHolder(holder: CommunityMainViewHolder, position: Int) {
         val post = postList[position]
 
         holder.binding.communityCardViewTitle.text = post.title
         holder.binding.communityCardUsername.text = post.userId
+
+        holder.binding.communityCardView.setOnClickListener {
+            val intent = Intent(it.context, DetailActivity::class.java)
+            intent.putExtra("title", post.title)
+            intent.putExtra("username", post.userId)
+
+            it.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = postList.size
