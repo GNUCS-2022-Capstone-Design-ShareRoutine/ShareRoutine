@@ -5,8 +5,10 @@
     <string name="title_community">커뮤니티</string>
     <string name="title_user">사용자</string>
 
-    <string name="routine_menu_add">루틴 추가</string>
+    <string name="routine_menu_add">루틴 수정</string>
+    <string name="routine_menu_done">할 일 완료</string>
     <string name="community_menu_add">게시글 작성</string>
+    <string name="user_menu_edit">정보 수정</string>
     <string name="user_menu_logout">로그아웃</string>
 
     <string name="community_sort_latest">최신순</string>
