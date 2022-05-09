@@ -3,12 +3,12 @@ package com.example.shareroutine.ui.routine
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.viewpager2.widget.ViewPager2
+import com.example.shareroutine.R
 import com.example.shareroutine.databinding.RoutineFragmentBinding
 
 class RoutineFragment : Fragment() {
@@ -29,12 +29,29 @@ class RoutineFragment : Fragment() {
         _binding = RoutineFragmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setHasOptionsMenu(true)
+
         viewPager = binding.routinePager
         viewPager.adapter = RoutinePagerAdapter(this)
 
         // Observing below
 
         return root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.routine_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.routine_menu_add -> {
+                Toast.makeText(requireContext(), "Add pressed", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onAttach(context: Context) {
