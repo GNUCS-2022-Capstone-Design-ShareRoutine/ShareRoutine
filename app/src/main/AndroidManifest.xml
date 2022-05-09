@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRoutine">
         <activity
+            android:name=".ui.routine.manage.RoutineManageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ShareRoutine.NoActionBar" />
+        <activity
             android:name=".ui.community.DetailActivity"
             android:exported="false" />
         <activity
