@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 class GetRoutineListUseCase(private val repository: RoutineRepository) {
     operator fun invoke(): Flow<List<Routine>> {
-        return repository.getAllRoutines()
+        return repository.getAllRoutinesFromLocal()
     }
 }

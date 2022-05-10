@@ -1,5 +1,6 @@
 package com.example.shareroutine.data.mapper
 
+import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelRoutine
 import com.example.shareroutine.data.source.room.entity.RoomEntityRoutine
 import com.example.shareroutine.data.source.room.entity.RoomEntityTodo
 import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
@@ -8,7 +9,7 @@ import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.domain.model.Todo
 
 object RoutineMapper {
-    fun mapperToRoutine(routineWithTodo: RoutineWithTodo): Routine {
+    fun fromRoutineWithTodoToRoutine(routineWithTodo: RoutineWithTodo): Routine {
         val todos = routineWithTodo.roomEntityTodos.map {
             Todo(it.dateTime, it.importance, it.description, it.achieved)
         }
@@ -24,7 +25,7 @@ object RoutineMapper {
         return Routine(routineWithTodo.roomEntityRoutine.name, term, routineWithTodo.roomEntityRoutine.isUsed, todos)
     }
 
-    fun mapperToRoutineWithTodo(routine: Routine): RoutineWithTodo {
+    fun fromRoutineToRoutineWithTodo(routine: Routine): RoutineWithTodo {
         val todos = routine.todos.map {
             RoomEntityTodo(dateTime = it.dateTime, importance = it.importance, description = it.description, achieved = it.achieved)
         }.toMutableList()
@@ -41,4 +42,12 @@ object RoutineMapper {
 
         return RoutineWithTodo(roomEntityRoutine, todos)
     }
+
+//    fun fromRealtimeDBModelRoutineToRoutine(routine: RealtimeDBModelRoutine): Routine {
+//
+//    }
+//
+//    fun fromRoutineToRealtimeDBModelRoutine(routine: Routine): RealtimeDBModelRoutine {
+//
+//    }
 }

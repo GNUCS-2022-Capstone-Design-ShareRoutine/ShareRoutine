@@ -4,7 +4,7 @@ import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeRoutineDataSource(var routines: MutableList<RoutineWithTodo>? = mutableListOf()) : RoutineDataSource {
+class FakeRoutineLocalDataSource(var routines: MutableList<RoutineWithTodo>? = mutableListOf()) : RoutineLocalDataSource {
     override suspend fun insert(routine: RoutineWithTodo) {
         routines?.add(routine)
     }

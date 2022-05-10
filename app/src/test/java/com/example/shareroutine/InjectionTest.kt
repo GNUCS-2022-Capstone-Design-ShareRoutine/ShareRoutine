@@ -1,13 +1,12 @@
 package com.example.shareroutine
 
-import com.example.shareroutine.data.source.RoutineDataSource
+import com.example.shareroutine.data.source.RoutineLocalDataSource
 import com.example.shareroutine.data.source.room.dao.RoutineDao
 import com.example.shareroutine.domain.repository.RoutineRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
@@ -33,7 +32,7 @@ class InjectionTest {
     lateinit var routineDao: RoutineDao
 
     @Inject
-    lateinit var dataSource: RoutineDataSource
+    lateinit var localDataSource: RoutineLocalDataSource
 
     @Inject
     lateinit var repo: RoutineRepository
@@ -50,7 +49,7 @@ class InjectionTest {
 
     @Test
     fun dataSourceInjectionTest() {
-        assertThat(dataSource, `is`(not(nullValue())))
+        assertThat(localDataSource, `is`(not(nullValue())))
     }
 
     @Test

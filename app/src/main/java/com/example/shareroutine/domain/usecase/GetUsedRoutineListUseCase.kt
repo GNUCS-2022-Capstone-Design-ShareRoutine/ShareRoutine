@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 class GetUsedRoutineListUseCase @Inject constructor(private val repository: RoutineRepository) {
     operator fun invoke(): Flow<List<Routine>> {
-        return repository.getAllRoutines().map { it.filter { item -> item.isUsed } }
+        return repository.getAllRoutinesFromLocal().map { it.filter { item -> item.isUsed } }
     }
 }

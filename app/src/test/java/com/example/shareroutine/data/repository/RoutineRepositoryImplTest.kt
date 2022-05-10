@@ -1,7 +1,7 @@
 package com.example.shareroutine.data.repository
 
 import com.example.shareroutine.data.mapper.RoutineMapper
-import com.example.shareroutine.data.source.FakeRoutineDataSource
+import com.example.shareroutine.data.source.FakeRoutineLocalDataSource
 import com.example.shareroutine.data.source.room.entity.RoomEntityRoutine
 import com.example.shareroutine.data.source.room.entity.RoomEntityTodo
 import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
@@ -16,6 +16,9 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
 import java.time.ZonedDateTime
+
+// Test 빌드 깨짐
+// TODO("FakeRoutineRemoteDataSource 작성 필요")
 
 @ExperimentalCoroutinesApi
 class RoutineRepositoryImplTest {
@@ -50,12 +53,12 @@ class RoutineRepositoryImplTest {
     private val routineWithTodo = RoutineWithTodo(routine, todos)
     private val localRoutines = mutableListOf(routineWithTodo)
 
-    private lateinit var dataSource: FakeRoutineDataSource
+    private lateinit var dataSource: FakeRoutineLocalDataSource
     private lateinit var repository: RoutineRepositoryImpl
 
     @Before
     fun setUpRepo() {
-        dataSource = FakeRoutineDataSource(localRoutines)
+        dataSource = FakeRoutineLocalDataSource(localRoutines)
         repository = RoutineRepositoryImpl(dataSource)
     }
 
