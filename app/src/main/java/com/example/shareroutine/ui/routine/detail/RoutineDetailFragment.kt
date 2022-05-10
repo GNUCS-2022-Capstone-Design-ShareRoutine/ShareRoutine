@@ -28,11 +28,11 @@ class RoutineDetailFragment : Fragment() {
         _binding = RoutineDetailFragmentBinding.inflate(inflater, container, false)
         val root = binding.root
 
-        var adapters = emptyList<RoutineDetailAdapter>()
+        var adapters = emptyList<ExpandableRoutineAdapter>()
 
         with(viewModel) {
             usedRoutines.observe(viewLifecycleOwner) { list ->
-                adapters = list.map { RoutineDetailAdapter(it) }
+                adapters = list.map { ExpandableRoutineAdapter(it) }
             }
         }
 
