@@ -21,11 +21,15 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/new_routine_title"
+        android:minHeight="48dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
+        android:layout_margin="8dp"
+        android:hint="@string/new_routine_title_hint"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toTopOf="@id/new_routine_term_label"
         app:layout_constraintTop_toBottomOf="@id/new_routine_title_label"
-        app:layout_constraintBottom_toTopOf="@id/new_routine_term_label" />
+        tools:layout_editor_absoluteX="8dp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/new_routine_term_label"
@@ -52,24 +56,28 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/new_routine_term_daily"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_routine_term_daily_label" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/new_routine_term_weekly"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_routine_term_weekly_label" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/new_routine_term_monthly"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_routine_term_monthly_label" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/new_routine_term_yearly"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_routine_term_yearly_label" />

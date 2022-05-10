@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.shareroutine.R
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.NewRoutineFragmentBinding
 
 class NewRoutineFragment : Fragment() {
@@ -24,6 +25,11 @@ class NewRoutineFragment : Fragment() {
 
         _binding = NewRoutineFragmentBinding.inflate(inflater, container, false)
         val root = binding.root
+
+        binding.newRoutineTodo.apply {
+            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = ConcatAdapter(NewTodoAdapter(emptyList()), AddTodoAdapter())
+        }
 
         return root
     }

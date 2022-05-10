@@ -10,8 +10,8 @@
         android:id="@+id/routine_add_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabBackground="@drawable/tab_selector"
-        app:tabTextColor="@color/design_default_color_primary"
+        app:tabIndicator="@drawable/tab_selector"
+        app:tabIndicatorGravity="stretch"
         app:tabSelectedTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/routine_add_pager" />
