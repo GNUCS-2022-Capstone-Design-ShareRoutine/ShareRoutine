@@ -24,7 +24,7 @@ class RoutineManageActivity : AppCompatActivity() {
         TabLayoutMediator(binding.routineAddTabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = "새 루틴 추가"
-                1 -> tab.text = "기존 목록에서 추가"
+                1 -> tab.text = "기존 목록에서 수정"
             }
         }.attach()
     }

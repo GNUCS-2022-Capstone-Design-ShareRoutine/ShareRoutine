@@ -11,7 +11,7 @@ import com.example.shareroutine.databinding.RoutineDetailListParentBinding
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
-class RoutineDetailAdapter(private val routine: Routine) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ExpandableRoutineAdapter(private val routine: Routine) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
        private const val VIEW_TYPE_CHILD = 0
