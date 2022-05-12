@@ -36,7 +36,7 @@ class RoutineRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchRoutine(): Routine {
+    override suspend fun fetchRoutine(id: String): Routine {
         TODO("Not yet implemented")
     }
 }
