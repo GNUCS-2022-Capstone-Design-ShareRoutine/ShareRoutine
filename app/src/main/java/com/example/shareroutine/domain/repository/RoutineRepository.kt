@@ -12,5 +12,5 @@ interface RoutineRepository {
 
     fun getAllRoutinesFromLocal(): Flow<List<Routine>>
 
-    suspend fun fetchRoutine(): Routine
+    suspend fun fetchRoutine(id: String): Routine
 }
