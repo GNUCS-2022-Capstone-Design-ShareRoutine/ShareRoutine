@@ -2,6 +2,7 @@
     <string name="app_name">ShareRoutine</string>
 
     <string name="text_add">추가</string>
+    <string name="text_search_hint">검색어를 입력하세요…</string>
     <string name="text_confirm">완료</string>
 
     <string name="title_routine">루틴</string>
@@ -11,6 +12,7 @@
     <string name="routine_menu_manage">루틴 관리</string>
     <string name="routine_menu_done">할 일 완료</string>
     <string name="community_menu_add">게시글 작성</string>
+    <string name="community_menu_search">게시글 검색</string>
     <string name="user_menu_edit">정보 수정</string>
     <string name="user_menu_logout">로그아웃</string>
 

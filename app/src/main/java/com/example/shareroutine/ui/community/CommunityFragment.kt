@@ -1,13 +1,17 @@
 package com.example.shareroutine.ui.community
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.shareroutine.MainActivity
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.CommunityFragmentBinding
+import com.example.shareroutine.ui.community.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,6 +54,10 @@ class CommunityFragment : Fragment() {
         when (item.itemId) {
             R.id.community_menu_add -> {
                 Toast.makeText(requireContext(), "Add pressed", Toast.LENGTH_LONG).show()
+            }
+            R.id.community_menu_search -> {
+                val intent = Intent(requireActivity(), SearchActivity::class.java)
+                startActivity(intent)
             }
         }
 
