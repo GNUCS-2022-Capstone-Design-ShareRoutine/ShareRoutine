@@ -2,7 +2,7 @@ package com.example.shareroutine.ui.community
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.shareroutine.data.model.Todo
+import com.example.shareroutine.domain.model.Todo
 
 //Temporary
 class TodoListViewModel : ViewModel() {

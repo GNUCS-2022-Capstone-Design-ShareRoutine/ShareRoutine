@@ -17,7 +17,7 @@ object PostDataSourceModule {
 
     @Singleton
     @Provides
-    fun providePostDataSourceImplWithRealtime(dbRef: DatabaseReference): PostDataSource {
+    fun providePostDataSourceImplWithRealtime(@PostDatabaseRef dbRef: DatabaseReference): PostDataSource {
         return PostDataSourceImplWithRealtime(dbRef)
     }
 }

@@ -2,6 +2,7 @@ package com.example.shareroutine.data.source.realtime
 
 import com.example.shareroutine.data.source.PostDataSource
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
+import com.example.shareroutine.di.PostDatabaseRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -11,18 +12,20 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class PostDataSourceImplWithRealtime @Inject constructor(private val dbRef: DatabaseReference) : PostDataSource {
+class PostDataSourceImplWithRealtime @Inject constructor(
+    @PostDatabaseRef private val dbRef: DatabaseReference
+    ) : PostDataSource {
     override suspend fun insert(post: RealtimeDBModelPost) {
         val newKey = dbRef.push().key!!
         post.id = newKey
-        dbRef.child(newKey).setValue(post)
+        dbRef.child(newKey).setValue(post).await()
     }
 
     override suspend fun update(post: RealtimeDBModelPost) {
         val item: HashMap<String, RealtimeDBModelPost> = hashMapOf()
         post.id?.let { item.put(it, post) }
 
-        dbRef.updateChildren(item as Map<String, Any>)
+        dbRef.updateChildren(item as Map<String, Any>).await()
     }
 
     override suspend fun delete(post: RealtimeDBModelPost) {
@@ -35,11 +38,11 @@ class PostDataSourceImplWithRealtime @Inject constructor(private val dbRef: Data
                 val posts = snapshot.children.map {
                     it.getValue(RealtimeDBModelPost::class.java)!!
                 }
-                trySend(Result.success(posts))
+                trySend(State.success(posts))
             }
 
             override fun onCancelled(error: DatabaseError) {
-                trySend(Result.failed(error.message))
+                trySend(State.failed(error.message))
             }
         }
 

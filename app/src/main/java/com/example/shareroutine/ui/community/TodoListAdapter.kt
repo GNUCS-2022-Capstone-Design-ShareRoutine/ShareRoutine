@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shareroutine.R
-import com.example.shareroutine.data.model.Todo
 import com.example.shareroutine.databinding.TodoItemBinding
+import com.example.shareroutine.domain.model.Todo
 
 class TodoListAdapter(private var todoList: List<Todo>) : RecyclerView.Adapter<TodoListAdapter.ViewHolder>() {
     class ViewHolder(val binding: TodoItemBinding) : RecyclerView.ViewHolder(binding.root)

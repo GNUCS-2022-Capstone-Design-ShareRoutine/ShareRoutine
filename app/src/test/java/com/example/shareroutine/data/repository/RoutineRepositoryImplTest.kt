@@ -1,7 +1,11 @@
 package com.example.shareroutine.data.repository
 
 import com.example.shareroutine.data.mapper.RoutineMapper
-import com.example.shareroutine.data.source.FakeRoutineDataSource
+import com.example.shareroutine.data.source.FakeRoutineLocalDataSource
+import com.example.shareroutine.data.source.FakeRoutineRemoteDataSource
+import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelRoutine
+import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelRoutineWithTodo
+import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelTodo
 import com.example.shareroutine.data.source.room.entity.RoomEntityRoutine
 import com.example.shareroutine.data.source.room.entity.RoomEntityTodo
 import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
@@ -19,52 +23,65 @@ import java.time.ZonedDateTime
 
 @ExperimentalCoroutinesApi
 class RoutineRepositoryImplTest {
-    private val routine = RoomEntityRoutine(
+    private val roomRoutine = RoomEntityRoutine(
         id = 1,
         name = "Routine 1",
         term = 0,
         isUsed = false
     )
-    private val todo1 = RoomEntityTodo(
+    private val roomTodo1 = RoomEntityTodo(
         dateTime = ZonedDateTime.now(),
         importance = 1,
         description = "Description 1",
         achieved = false,
-        routineId = routine.id
+        routineId = roomRoutine.id
     )
-    private val todo2 = RoomEntityTodo(
+    private val roomTodo2 = RoomEntityTodo(
         dateTime = ZonedDateTime.now(),
         importance = 2,
         description = "Description 2",
         achieved = false,
-        routineId = routine.id
+        routineId = roomRoutine.id
     )
-    private val todo3 = RoomEntityTodo(
+    private val roomTodo3 = RoomEntityTodo(
         dateTime = ZonedDateTime.now(),
         importance = 3,
         description = "Description 3",
         achieved = false,
-        routineId = routine.id
+        routineId = roomRoutine.id
     )
-    private val todos = mutableListOf(todo1, todo2, todo3)
-    private val routineWithTodo = RoutineWithTodo(routine, todos)
+    private val roomTodos = mutableListOf(roomTodo1, roomTodo2, roomTodo3)
+    private val routineWithTodo = RoutineWithTodo(roomRoutine, roomTodos)
     private val localRoutines = mutableListOf(routineWithTodo)
 
-    private lateinit var dataSource: FakeRoutineDataSource
+    private val realtimeRoutine = RealtimeDBModelRoutine(
+        id = "routine2",
+        name = "Routine 2",
+        term = 0
+    )
+
+    private val realtimeTodo1 = RealtimeDBModelTodo("Description 1", 1)
+    private val realtimeTodo2 = RealtimeDBModelTodo("Description 2", 2)
+    private val realtimeRoutineWithTodo = RealtimeDBModelRoutineWithTodo(realtimeRoutine, mutableListOf(realtimeTodo1, realtimeTodo2))
+    private val remoteRoutines = mutableListOf(realtimeRoutineWithTodo)
+
+    private lateinit var local: FakeRoutineLocalDataSource
+    private lateinit var remote: FakeRoutineRemoteDataSource
     private lateinit var repository: RoutineRepositoryImpl
 
     @Before
     fun setUpRepo() {
-        dataSource = FakeRoutineDataSource(localRoutines)
-        repository = RoutineRepositoryImpl(dataSource)
+        local = FakeRoutineLocalDataSource(localRoutines)
+        remote = FakeRoutineRemoteDataSource(remoteRoutines)
+        repository = RoutineRepositoryImpl(local, remote)
     }
 
     @Test
     fun getAllRoutines_fromLocalDataSource() = runTest {
-        val routines = repository.getAllRoutines().first()
+        val routines = repository.getAllRoutinesFromLocal().first()
 
         val mapped = localRoutines.map {
-            RoutineMapper.mapperToRoutine(it)
+            RoutineMapper.fromRoutineWithTodoToRoutine(it)
         }
 
         assertThat(routines, `is`(mapped))
@@ -79,7 +96,7 @@ class RoutineRepositoryImplTest {
 
         repository.insert(routine)
 
-        val routines = repository.getAllRoutines().first()
+        val routines = repository.getAllRoutinesFromLocal().first()
 
         assertThat(routines.size, `is`(2))
         assertThat(routines[1].name, `is`(routine.name))

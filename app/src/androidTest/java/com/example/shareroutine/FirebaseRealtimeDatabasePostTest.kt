@@ -30,17 +30,7 @@ import java.time.ZonedDateTime
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-class FirebaseRealtimeDatabaseTest {
-    private val post = RealtimeDBModelPost(
-        routineId = "",
-        userId = "",
-        title = "Title 2",
-        description = "Description 2",
-        liked = 0,
-        downloaded = 0,
-        dateTime = ZonedDateTime.now().toInstant().toEpochMilli()
-    )
-
+class FirebaseRealtimeDatabasePostTest {
     private lateinit var db: FirebaseDatabase
     private lateinit var dataSource: PostDataSource
     private lateinit var repo: PostRepository
