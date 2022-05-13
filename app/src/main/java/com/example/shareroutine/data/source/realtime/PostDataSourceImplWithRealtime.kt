@@ -38,11 +38,11 @@ class PostDataSourceImplWithRealtime @Inject constructor(
                 val posts = snapshot.children.map {
                     it.getValue(RealtimeDBModelPost::class.java)!!
                 }
-                trySend(Result.success(posts))
+                trySend(State.success(posts))
             }
 
             override fun onCancelled(error: DatabaseError) {
-                trySend(Result.failed(error.message))
+                trySend(State.failed(error.message))
             }
         }
 

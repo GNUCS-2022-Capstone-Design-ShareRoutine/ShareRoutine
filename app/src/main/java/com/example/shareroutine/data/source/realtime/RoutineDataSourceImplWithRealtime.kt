@@ -35,7 +35,7 @@ class RoutineDataSourceImplWithRealtime @Inject constructor(
         }
     }
 
-    override suspend fun fetchRoutine(id: String): Result<RealtimeDBModelRoutineWithTodo> {
+    override suspend fun fetchRoutine(id: String): State<RealtimeDBModelRoutineWithTodo> {
         return try {
             val routineSnapshot = routineDbRef.child(id).get().await()
             val todosSnapshot = todoDbRef.child(id).get().await()
@@ -47,10 +47,10 @@ class RoutineDataSourceImplWithRealtime @Inject constructor(
                 todos.add(it.getValue(RealtimeDBModelTodo::class.java)!!)
             }
 
-            Result.success(RealtimeDBModelRoutineWithTodo(routine, todos))
+            State.success(RealtimeDBModelRoutineWithTodo(routine, todos))
         } catch (e: Exception) {
             val msg = e.message!!
-            Result.failed(msg)
+            State.failed(msg)
         }
     }
 }
