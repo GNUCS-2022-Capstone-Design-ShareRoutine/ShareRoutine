@@ -5,18 +5,26 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import androidx.lifecycle.ViewModelProvider
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.ActivitySearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
+    private lateinit var viewModel: SearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.title = "검색"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -27,8 +35,10 @@ class SearchActivity : AppCompatActivity() {
 
         val listener = object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // 확인 버튼 입력할 때마다
-                println("Submitted $query")
+                if (query!! != "") {
+                    viewModel.searchWithHashTag(query)
+                }
+                searchView.clearFocus()
                 return true
             }
 
