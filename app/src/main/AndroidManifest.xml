@@ -4,12 +4,30 @@
     package="com.example.shareroutine">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".ShareRoutineApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRoutine">
+        <activity
+            android:name=".ui.community.search.SearchActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".ui.routine.manage.RoutineManageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ShareRoutine.NoActionBar" />
+        <activity
+            android:name=".ui.community.DetailActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

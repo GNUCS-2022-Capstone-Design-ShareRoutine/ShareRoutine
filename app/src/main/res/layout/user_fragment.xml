@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.user.UserFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="User" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/user_guideline_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/user_guideline_vertical"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <TextView
+        android:id="@+id/user_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="사용자1님"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="@id/user_guideline_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/user_greeting"
+        app:layout_constraintStart_toStartOf="@id/user_guideline_vertical" />
+
+    <TextView
+        android:id="@+id/user_greeting"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/user_greeting"
+        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@id/user_nickname"
+        app:layout_constraintStart_toStartOf="@id/user_guideline_vertical" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,16 @@
 package com.example.shareroutine.ui.community
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shareroutine.R
-import com.example.shareroutine.data.model.Routine
+import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.databinding.CommunityCardViewBinding
 
-class CommunityMainAdapter(private var routineList: List<Routine>) : RecyclerView.Adapter<CommunityMainAdapter.CommunityMainViewHolder>() {
+class CommunityMainAdapter(private var postList: List<Post>) : RecyclerView.Adapter<CommunityMainAdapter.CommunityMainViewHolder>() {
     class CommunityMainViewHolder(val binding: CommunityCardViewBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityMainViewHolder {
@@ -16,19 +18,27 @@ class CommunityMainAdapter(private var routineList: List<Routine>) : RecyclerVie
 
         return CommunityMainViewHolder(CommunityCardViewBinding.bind(view))
     }
-
+    
     override fun onBindViewHolder(holder: CommunityMainViewHolder, position: Int) {
-        val routine = routineList[position]
+        val post = postList[position]
 
-        holder.binding.communityCardViewTitle.text = routine.title
-        holder.binding.communityCardUsername.text = routine.username
+        holder.binding.communityCardViewTitle.text = post.title
+        holder.binding.communityCardUsername.text = post.userId
+
+        holder.binding.communityCardView.setOnClickListener {
+            val intent = Intent(it.context, DetailActivity::class.java)
+            intent.putExtra("title", post.title)
+            intent.putExtra("username", post.userId)
+
+            it.context.startActivity(intent)
+        }
     }
 
-    override fun getItemCount(): Int = routineList.size
+    override fun getItemCount(): Int = postList.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(newList: List<Routine>) {
-        routineList = newList
+    fun setData(newList: List<Post>) {
+        postList = newList
         notifyDataSetChanged()
     }
 }
