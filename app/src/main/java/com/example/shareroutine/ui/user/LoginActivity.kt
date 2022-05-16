@@ -1,21 +1,23 @@
 package com.example.shareroutine.ui.user
 
-import androidx.appcompat.app.AppCompatActivity
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.shareroutine.MainActivity
 import com.example.shareroutine.R
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
-
-
+import com.example.shareroutine.data.model.UserAccount
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInBtn : SignInButton
@@ -23,12 +25,16 @@ class LoginActivity : AppCompatActivity() {
     var auth: FirebaseAuth? = null
     val GOOGLE_REQUEST_CODE = 99
     val TAG = "googleLogin"
+
+    private var mDatabase: DatabaseReference? = null
+
     private lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
         googleSignInBtn = findViewById(R.id.googleSignInBtn)
+        mDatabase = FirebaseDatabase.getInstance().reference
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
             .requestEmail()
@@ -69,6 +75,21 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("please", "로그인 성공")
                     val user = auth!!.currentUser
+                    val account1: UserAccount = UserAccount()
+                    if (user != null) {
+                        account1.setIdToken(user.uid)
+                    }
+                    if (user != null) {
+                        account1.setEmailId(user.email)
+                    }
+                    if (user != null) {
+                        account1.setNickname(user.uid)
+                    }
+                    if (user != null) {
+                        mDatabase?.child("UserInfo")?.child(user.uid)?.setValue(account1)
+                    }
+
+
                     loginSuccess()
                 } else {
                     // If sign in fails, display a message to the user.
