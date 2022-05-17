@@ -1,5 +1,6 @@
 package com.example.shareroutine.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
@@ -15,8 +16,12 @@ object FirebaseModule {
 
     @Singleton
     @Provides
+    fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Singleton
+    @Provides
     @PostDatabaseRef
-    fun providePostDatabaseRef() : DatabaseReference {
+    fun providePostDatabaseRef(): DatabaseReference {
         val db = FirebaseDatabase.getInstance(
             "https://shareroutine-default-rtdb.firebaseio.com/"
         )
@@ -42,6 +47,16 @@ object FirebaseModule {
         )
         return db.getReference("todos")
     }
+
+    @Singleton
+    @Provides
+    @UserDatabaseRef
+    fun provideUserDatabaseRef(): DatabaseReference {
+        val db = FirebaseDatabase.getInstance(
+            "https://shareroutine-default-rtdb.firebaseio.com/"
+        )
+        return db.getReference("users")
+    }
 }
 
 @Retention(AnnotationRetention.BINARY)
@@ -52,6 +67,10 @@ annotation class PostDatabaseRef
 @Qualifier
 annotation class RoutineDatabaseRef
 
-@Retention
+@Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class TodoDatabaseRef
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class UserDatabaseRef

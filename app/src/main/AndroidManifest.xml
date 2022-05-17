@@ -32,15 +32,11 @@
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.ShareRoutine.NoActionBar">
-
-
         </activity>
-
         <activity
             android:name=".ui.user.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.ShareRoutine.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,5 +44,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
