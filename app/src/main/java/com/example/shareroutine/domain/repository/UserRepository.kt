@@ -8,7 +8,7 @@ interface UserRepository {
     suspend fun update(user: User)
     suspend fun delete(user: User)
 
-    suspend fun fetchUser(id: String): User
+    suspend fun fetchUser(id: String): User?
 
     suspend fun signInWithGoogle(idToken: String): User
 }

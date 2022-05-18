@@ -28,9 +28,14 @@ class UserDataSourceImplWithRealtime @Inject constructor(
     override suspend fun fetchUser(id: String): State<RealtimeDBModelUser> {
         return try {
             val snapshot = dbRef.child(id).get().await()
-            val user = snapshot.getValue(RealtimeDBModelUser::class.java)!!
 
-            State.success(user)
+            if (snapshot.exists()) {
+                val user = snapshot.getValue(RealtimeDBModelUser::class.java)!!
+                State.success(user)
+            }
+            else {
+                State.failed("Snapshot doesn't exist")
+            }
         }
         catch (e: Exception) {
             State.failed(e.message!!)
