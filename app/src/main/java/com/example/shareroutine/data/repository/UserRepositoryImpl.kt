@@ -9,6 +9,7 @@ import com.example.shareroutine.domain.model.User
 import com.example.shareroutine.domain.repository.UserRepository
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -17,11 +18,11 @@ class UserRepositoryImpl @Inject constructor(
     private val auth: UserAuthDataSource,
     @IoDispatcher private val ioDisPatcher: CoroutineDispatcher
 ) : UserRepository {
-    override suspend fun insert(user: User) {
+    override suspend fun insert(user: User) = withContext(ioDisPatcher) {
         remoteDataSource.insert(UserMapper.fromUserToRealtimeDBModelUser(user))
     }
 
-    override suspend fun update(user: User) {
+    override suspend fun update(user: User) = withContext(ioDisPatcher) {
         remoteDataSource.update(UserMapper.fromUserToRealtimeDBModelUser(user))
     }
 
@@ -29,8 +30,8 @@ class UserRepositoryImpl @Inject constructor(
         remoteDataSource.delete(UserMapper.fromUserToRealtimeDBModelUser(user))
     }
 
-    override suspend fun fetchUser(id: String): User? {
-        return when (val user = remoteDataSource.fetchUser(id)) {
+    override suspend fun fetchUser(id: String): User? = withContext(ioDisPatcher) {
+        return@withContext when (val user = remoteDataSource.fetchUser(id)) {
             is State.Success -> {
                 UserMapper.fromRealtimeDBModelUserToUser(user.data)
             }
@@ -38,19 +39,16 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun signInWithGoogle(idToken: String): User {
+    override suspend fun signInWithGoogle(idToken: String): User = withContext(ioDisPatcher)  {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
 
-        return withContext(ioDisPatcher) {
-            try {
-                val result = auth.getAuthResultAsync(credential)
+        return@withContext try {
+            val result = auth.getAuthResultAsync(credential).await()
 
-                UserMapper.fromFirebaseUserToUser(result?.user!!)
-            }
-            catch (e: Exception) {
-                println(e.message)
-                User("", "", "")
-            }
+            UserMapper.fromFirebaseUserToUser(result.user!!)
+        } catch (e: Exception) {
+            println(e.message)
+            User("", "", "")
         }
     }
 }

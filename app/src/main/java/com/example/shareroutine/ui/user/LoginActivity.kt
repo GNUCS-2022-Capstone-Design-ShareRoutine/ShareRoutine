@@ -36,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
                     val account = task.getResult(ApiException::class.java)!!
 
                     viewModel.signIn(account.idToken!!)
-                    // loginSuccess()
 
                 } catch (e: ApiException) {
                     Toast.makeText(this, "로그인 실패", Toast.LENGTH_LONG).show()
@@ -62,6 +61,12 @@ class LoginActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             resultLauncher.launch(googleSignInClient.signInIntent)
+        }
+
+        viewModel.user.observe(this) {
+            if (it != null) {
+                loginSuccess()
+            }
         }
     }
 

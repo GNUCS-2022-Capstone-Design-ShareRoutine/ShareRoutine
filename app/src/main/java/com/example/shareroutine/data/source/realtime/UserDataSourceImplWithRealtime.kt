@@ -11,8 +11,6 @@ class UserDataSourceImplWithRealtime @Inject constructor(
     @UserDatabaseRef private val dbRef: DatabaseReference
 ) : UserRemoteDataSource {
     override suspend fun insert(user: RealtimeDBModelUser) {
-        println(user.idToken)
-
         dbRef.child(user.idToken).setValue(user).await()
     }
 

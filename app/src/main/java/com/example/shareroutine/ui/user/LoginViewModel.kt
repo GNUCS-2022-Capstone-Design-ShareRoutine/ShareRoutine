@@ -18,20 +18,25 @@ class LoginViewModel @Inject constructor(
     private val fetchUserUseCase: FetchUserUseCase,
     private val insertUserUseCase: InsertUserUseCase
 ) : ViewModel() {
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> get() = _user
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> get() = _user
 
     fun signIn(idToken: String) {
         viewModelScope.launch {
-            val user = authWithFirebaseUseCase(idToken)
+            try {
+                val firebaseUser = authWithFirebaseUseCase(idToken)
 
-            if (fetchUserUseCase(user.id) != null) {
-                insertUserUseCase(user)
+                val storedUser = fetchUserUseCase(firebaseUser.id)
+
+                if (storedUser == null) {
+                    insertUserUseCase(firebaseUser)
+                }
+
+                _user.postValue(firebaseUser)
             }
-
-            val result = fetchUserUseCase(user.id)
-
-            _user.postValue(user)
+            catch (e: Exception) {
+                println(e.message)
+            }
         }
     }
 }
