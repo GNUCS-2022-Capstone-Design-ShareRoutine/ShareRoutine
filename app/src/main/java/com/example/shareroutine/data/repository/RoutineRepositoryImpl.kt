@@ -4,28 +4,32 @@ import com.example.shareroutine.data.mapper.RoutineMapper
 import com.example.shareroutine.data.source.RoutineLocalDataSource
 import com.example.shareroutine.data.source.RoutineRemoteDataSource
 import com.example.shareroutine.data.source.realtime.State
+import com.example.shareroutine.di.IoDispatcher
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.repository.RoutineRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RoutineRepositoryImpl @Inject constructor(
     private val localDataSource: RoutineLocalDataSource,
-    private val remoteDataSource: RoutineRemoteDataSource
+    private val remoteDataSource: RoutineRemoteDataSource,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
     ) : RoutineRepository {
-    override suspend fun insert(routine: Routine) {
+    override suspend fun insert(routine: Routine) = withContext(ioDispatcher) {
         localDataSource.insert(RoutineMapper.fromRoutineToRoutineWithTodo(routine))
     }
 
-    override suspend fun deleteInLocal(routine: Routine) {
+    override suspend fun deleteInLocal(routine: Routine) = withContext(ioDispatcher) {
         localDataSource.delete(RoutineMapper.fromRoutineToRoutineWithTodo(routine))
     }
 
-    override suspend fun upload(routine: Routine) {
+    override suspend fun upload(routine: Routine) = withContext(ioDispatcher) {
         remoteDataSource.insert(RoutineMapper.fromRoutineToRealtimeDBModelRoutineWithTodo(routine))
     }
 
-    override suspend fun deleteInRemote(routine: Routine) {
+    override suspend fun deleteInRemote(routine: Routine) = withContext(ioDispatcher) {
         remoteDataSource.delete(RoutineMapper.fromRoutineToRealtimeDBModelRoutineWithTodo(routine))
     }
 
@@ -37,8 +41,8 @@ class RoutineRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchRoutine(id: String): Routine {
-        return when (val routine = remoteDataSource.fetchRoutine(id)) {
+    override suspend fun fetchRoutine(id: String): Routine = withContext(ioDispatcher) {
+        return@withContext when (val routine = remoteDataSource.fetchRoutine(id)) {
             is State.Success -> {
                 RoutineMapper.fromRealtimeDBModelRoutineWithTodoToRoutine(routine.data)
             }
