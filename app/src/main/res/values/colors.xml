@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-
+    <color name="share_routine_theme_cream_pink">#FFC7C7</color>
+    <color name="share_routine_theme_cream_pink_light">#FFE2E2</color>
+    <color name="share_routine_theme_dark_purple">#8785A2</color>
+    <color name="share_routine_theme_cloud">#F6F6F6</color>
 </resources>

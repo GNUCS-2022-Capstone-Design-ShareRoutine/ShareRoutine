@@ -75,9 +75,8 @@
         android:name="com.example.shareroutine.ui.community.TodoListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#454545"
+        android:background="@color/white"
         android:elevation="4dp"
-        app:behavior_hideable="true"
         app:behavior_peekHeight="32dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
