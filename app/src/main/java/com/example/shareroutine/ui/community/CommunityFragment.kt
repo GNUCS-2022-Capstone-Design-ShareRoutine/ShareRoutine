@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.shareroutine.MainActivity
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.CommunityFragmentBinding
 import com.example.shareroutine.ui.community.search.SearchActivity

@@ -1,7 +1,6 @@
 package com.example.shareroutine.domain.repository
 
 import com.example.shareroutine.domain.model.User
-import com.google.firebase.auth.AuthCredential
 
 interface UserRepository {
     suspend fun insert(user: User)

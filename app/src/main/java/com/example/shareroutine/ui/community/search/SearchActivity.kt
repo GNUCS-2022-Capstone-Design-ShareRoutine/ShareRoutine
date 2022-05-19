@@ -13,16 +13,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySearchBinding
     private lateinit var viewModel: SearchViewModel
+
+    private val binding by lazy { ActivitySearchBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         supportActionBar?.title = "검색"
     }

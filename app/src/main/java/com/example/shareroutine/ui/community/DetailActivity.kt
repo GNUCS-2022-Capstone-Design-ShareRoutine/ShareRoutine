@@ -6,12 +6,10 @@ import com.example.shareroutine.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailBinding
+    private val binding by lazy { ActivityDetailBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val title = binding.detailRoutineTitle

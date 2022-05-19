@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.TodoListFragmentBinding
-import com.example.shareroutine.domain.model.Todo
 
 class TodoListFragment : Fragment() {
 
