@@ -5,8 +5,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.tasks.asDeferred
 import javax.inject.Inject
 
 class UserDataSourceImplWithAuth @Inject constructor(

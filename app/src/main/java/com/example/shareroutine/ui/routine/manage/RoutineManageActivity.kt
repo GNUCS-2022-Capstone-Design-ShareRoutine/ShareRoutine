@@ -8,14 +8,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class RoutineManageActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRoutineAddBinding
-
     private lateinit var viewPager: ViewPager2
+
+    private val binding by lazy { ActivityRoutineAddBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityRoutineAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewPager = binding.routineAddPager
