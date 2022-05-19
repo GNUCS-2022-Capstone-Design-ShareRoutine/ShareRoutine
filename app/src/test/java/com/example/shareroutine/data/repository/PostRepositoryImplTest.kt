@@ -1,17 +1,24 @@
 package com.example.shareroutine.data.repository
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.shareroutine.data.mapper.PostMapper
 import com.example.shareroutine.data.source.FakePostDataSource
 import com.example.shareroutine.data.source.PostDataSource
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
 import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.domain.repository.PostRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.time.ZonedDateTime
 
@@ -35,10 +42,21 @@ class PostRepositoryImplTest {
     private lateinit var dataSource: PostDataSource
     private lateinit var repo: PostRepository
 
+    private val dispatcher = UnconfinedTestDispatcher()
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @Before
     fun setUp() {
+        Dispatchers.setMain(dispatcher)
         dataSource = FakePostDataSource(remotePosts)
-        repo = PostRepositoryImpl(dataSource)
+        repo = PostRepositoryImpl(dataSource, dispatcher)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test

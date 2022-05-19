@@ -46,7 +46,7 @@ class RoutineDetailViewModelTest {
         repo = FakeRoutineRepository()
         getUseCase = GetUsedRoutineListUseCase(repo)
         insertUseCase = InsertRoutineUseCase(repo)
-        viewModel = RoutineDetailViewModel(getUseCase, insertUseCase, testCoroutineDispatcher)
+        viewModel = RoutineDetailViewModel(getUseCase, insertUseCase)
     }
 
     @After

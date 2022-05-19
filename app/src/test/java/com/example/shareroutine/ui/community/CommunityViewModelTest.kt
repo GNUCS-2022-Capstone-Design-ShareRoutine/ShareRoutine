@@ -29,7 +29,6 @@ class CommunityViewModelTest {
     )
 
     private lateinit var repo: PostRepository
-    private lateinit var insertUseCase: InsertPostUseCase
     private lateinit var getUseCase: GetPostListUseCase
     private lateinit var viewModel: CommunityViewModel
 
@@ -43,24 +42,11 @@ class CommunityViewModelTest {
         Dispatchers.setMain(testCoroutineDispatcher)
         repo = FakePostRepository()
         getUseCase = GetPostListUseCase(repo)
-        insertUseCase = InsertPostUseCase(repo)
-        viewModel = CommunityViewModel(getUseCase, insertUseCase, testCoroutineDispatcher)
+        viewModel = CommunityViewModel(getUseCase)
     }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-    }
-
-    @Test
-    fun insertPost_ThenCheckPostsSize() = runTest {
-        val post2 = Post(
-            "Title 2", "userId2", 0, 0, "Description 1", ZonedDateTime.now()
-        )
-
-        viewModel.insertNewPost(post2)
-
-        val after = viewModel.posts.getOrAwaitValue()
-        assertThat(after.size, `is`(1))
     }
 }
