@@ -22,12 +22,16 @@ object RepositoryModule {
     @Provides
     fun provideRoutineRepository(
         local: RoutineLocalDataSource,
-        remote: RoutineRemoteDataSource
-    ): RoutineRepository = RoutineRepositoryImpl(local, remote)
+        remote: RoutineRemoteDataSource,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): RoutineRepository = RoutineRepositoryImpl(local, remote, ioDispatcher)
 
     @Singleton
     @Provides
-    fun providePostRepository(postDataSource: PostDataSource): PostRepository = PostRepositoryImpl(postDataSource)
+    fun providePostRepository(
+        postDataSource: PostDataSource,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): PostRepository = PostRepositoryImpl(postDataSource, ioDispatcher)
 
     @Singleton
     @Provides

@@ -7,9 +7,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) : ViewModel() {
+class SearchViewModel @Inject constructor() : ViewModel() {
     fun searchWithHashTag(query: String) {
         println("searchWithHashTag called with query string $query")
     }

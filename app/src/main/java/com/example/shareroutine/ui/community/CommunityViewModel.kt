@@ -21,8 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityViewModel @Inject constructor(
     getPostListUseCase: GetPostListUseCase,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    private val _posts = getPostListUseCase().asLiveData(ioDispatcher)
+    private val _posts = getPostListUseCase().asLiveData()
     val posts: LiveData<List<Post>> get() = _posts
 }
