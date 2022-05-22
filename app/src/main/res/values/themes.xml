@@ -8,6 +8,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textViewStyle">@style/TextStyle</item>
+        <item name="buttonStyle">@style/ButtonStyle</item>
     </style>
 
     <style name="Theme.ShareRoutine.NoActionBar">
@@ -18,4 +20,12 @@
     <style name="Theme.ShareRoutine.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
 
     <style name="Theme.ShareRoutine.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Font. -->
+    <style name="TextStyle" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/maplestory_bold</item>
+    </style>
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="fontFamily">@font/maplestory_bold</item>
+    </style>
 </resources>

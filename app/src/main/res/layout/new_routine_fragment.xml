@@ -20,6 +20,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextStyle"
             android:maxLength="20" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -54,28 +55,32 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_routine_term_daily_label" />
+            android:text="@string/new_routine_term_daily_label"
+            android:textAppearance="@style/TextStyle" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/new_routine_term_weekly"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_routine_term_weekly_label" />
+            android:text="@string/new_routine_term_weekly_label"
+            android:textAppearance="@style/TextStyle" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/new_routine_term_monthly"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_routine_term_monthly_label" />
+            android:text="@string/new_routine_term_monthly_label"
+            android:textAppearance="@style/TextStyle" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/new_routine_term_yearly"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_routine_term_yearly_label" />
+            android:text="@string/new_routine_term_yearly_label"
+            android:textAppearance="@style/TextStyle" />
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -106,6 +111,7 @@
         android:layout_height="wrap_content"
         android:text="@string/text_add"
         android:textSize="24sp"
+        android:fontFamily="@font/maplestory_bold"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         app:cornerRadius="0dp"

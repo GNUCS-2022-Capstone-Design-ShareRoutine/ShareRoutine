@@ -17,5 +17,8 @@ class DetailActivity : AppCompatActivity() {
 
         val username = binding.detailRoutineUsername
         username.text = intent.getStringExtra("username")
+
+        // 제목 지정
+        // 해시태그 Chip Post 에서 받아와서 자동으로 넣어지게 하기
     }
 }
