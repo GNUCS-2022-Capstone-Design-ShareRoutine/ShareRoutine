@@ -46,7 +46,7 @@ class FirebaseRealtimeDatabasePostTest {
         Dispatchers.setMain(testDispatcher)
         db = FirebaseDatabase.getInstance("http://10.0.2.2:9000/?ns=shareroutine")
         dataSource = PostDataSourceImplWithRealtime(db.getReference("community/post"))
-        repo = PostRepositoryImpl(dataSource)
+        repo = PostRepositoryImpl(dataSource, testDispatcher)
         getUseCase = GetPostListUseCase(repo)
     }
 

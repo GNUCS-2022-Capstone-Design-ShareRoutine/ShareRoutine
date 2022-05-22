@@ -1,5 +1,6 @@
 package com.example.shareroutine.data.repository
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.shareroutine.data.mapper.RoutineMapper
 import com.example.shareroutine.data.source.FakeRoutineLocalDataSource
 import com.example.shareroutine.data.source.FakeRoutineRemoteDataSource
@@ -12,12 +13,18 @@ import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.domain.model.Todo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.time.ZonedDateTime
 
@@ -60,8 +67,8 @@ class RoutineRepositoryImplTest {
         term = 0
     )
 
-    private val realtimeTodo1 = RealtimeDBModelTodo("Description 1", 1)
-    private val realtimeTodo2 = RealtimeDBModelTodo("Description 2", 2)
+    private val realtimeTodo1 = RealtimeDBModelTodo(ZonedDateTime.now().toInstant().toEpochMilli(), "Description 1", 1)
+    private val realtimeTodo2 = RealtimeDBModelTodo(ZonedDateTime.now().toInstant().toEpochMilli(), "Description 2", 2)
     private val realtimeRoutineWithTodo = RealtimeDBModelRoutineWithTodo(realtimeRoutine, mutableListOf(realtimeTodo1, realtimeTodo2))
     private val remoteRoutines = mutableListOf(realtimeRoutineWithTodo)
 
@@ -69,11 +76,22 @@ class RoutineRepositoryImplTest {
     private lateinit var remote: FakeRoutineRemoteDataSource
     private lateinit var repository: RoutineRepositoryImpl
 
+    private val dispatcher = UnconfinedTestDispatcher()
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @Before
-    fun setUpRepo() {
+    fun setUp() {
+        Dispatchers.setMain(dispatcher)
         local = FakeRoutineLocalDataSource(localRoutines)
         remote = FakeRoutineRemoteDataSource(remoteRoutines)
-        repository = RoutineRepositoryImpl(local, remote)
+        repository = RoutineRepositoryImpl(local, remote, dispatcher)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test
