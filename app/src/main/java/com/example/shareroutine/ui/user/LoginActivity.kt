@@ -1,7 +1,9 @@
 package com.example.shareroutine.ui.user
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -16,7 +18,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -57,9 +62,11 @@ class LoginActivity : AppCompatActivity() {
             activityResultCallback
         )
 
+        autoLogin()
         val btn = binding.googleSignInBtn
 
         btn.setOnClickListener {
+            Log.d("good","no good")
             resultLauncher.launch(googleSignInClient.signInIntent)
         }
 
@@ -83,5 +90,19 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this,MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+    private fun autoLogin(){
+        val mAuth = FirebaseAuth.getInstance()
+        val user: FirebaseUser? = mAuth.getCurrentUser()
+
+        if (user != null) {
+            user.getIdToken(true).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val idToken: String? = task.result.token
+                    val mainMove_intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(mainMove_intent)
+                }
+            }
+        }
     }
 }
