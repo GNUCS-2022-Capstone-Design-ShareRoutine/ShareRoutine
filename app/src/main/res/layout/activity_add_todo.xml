@@ -4,7 +4,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.routine.manage.fresh.AddTodoActivity">
+    tools:context=".ui.routine.manage.fresh.add_todo.AddTodoActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_start_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_end_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_top_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_bottom_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_divide_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_routine_todo_time_label"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="@id/add_todo_top_guideline"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/new_routine_todo_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        app:layout_constraintTop_toTopOf="@id/add_todo_top_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/add_todo_divide_guideline"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline"
+        app:layout_constraintEnd_toEndOf="@id/add_todo_end_guideline" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_routine_todo_label"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="@id/add_todo_divide_guideline"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/add_todo_divide_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/add_todo_bottom_guideline"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline"
+        app:layout_constraintEnd_toEndOf="@id/add_todo_end_guideline">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textAppearance="@style/TextStyle" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_todo_button"

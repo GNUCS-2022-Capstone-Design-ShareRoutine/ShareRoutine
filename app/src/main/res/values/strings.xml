@@ -23,7 +23,9 @@
     <string name="new_routine_term_weekly_label">주간</string>
     <string name="new_routine_term_monthly_label">월간</string>
     <string name="new_routine_term_yearly_label">연간</string>
-    <string name="new_routine_todo_label">할 일 목록</string>
+    <string name="new_routine_todo_time_label">예정 일시</string>
+    <string name="new_routine_todo_label">할 일 내용</string>
+    <string name="new_routine_todo_list_label">할 일 목록</string>
 
     <string name="community_sort_latest">최신순</string>
     <string name="community_sort_likes">좋아요순</string>

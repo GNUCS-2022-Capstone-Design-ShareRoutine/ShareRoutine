@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.NewRoutineFragmentBinding
 import com.example.shareroutine.domain.model.Term
+import com.example.shareroutine.ui.routine.manage.fresh.add_todo.AddTodoActivity
+import java.time.LocalTime
 
 class NewRoutineFragment : Fragment() {
 
@@ -30,9 +32,17 @@ class NewRoutineFragment : Fragment() {
     private val activityResultCallback = ActivityResultCallback<ActivityResult> {
         when (it.resultCode) {
             RESULT_OK -> {
-                val resultData = it?.data?.getStringExtra("result")
+                when (viewModel.routine.term) {
+                    Term.DAILY -> {
+                        val time = it?.data?.getSerializableExtra("time") as LocalTime
 
-                Log.d("NewRoutineFragment", resultData!!)
+                        Log.d("Response time", time.toString())
+                    }
+                    Term.WEEKLY -> {}
+                    Term.MONTHLY -> {}
+                    Term.YEARLY -> {}
+                    Term.NONE -> {}
+                }
             }
         }
     }
