@@ -52,6 +52,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/new_routine_todo_time_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_routine_todo_time_label"
@@ -61,10 +62,11 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/new_routine_todo_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:textSize="28sp"
-        app:layout_constraintTop_toTopOf="@id/add_todo_top_guideline"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/new_routine_todo_time_label"
         app:layout_constraintBottom_toBottomOf="@id/add_todo_divide_guideline"
         app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline"
         app:layout_constraintEnd_toEndOf="@id/add_todo_end_guideline" />

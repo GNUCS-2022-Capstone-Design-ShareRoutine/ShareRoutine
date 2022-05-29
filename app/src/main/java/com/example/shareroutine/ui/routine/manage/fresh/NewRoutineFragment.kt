@@ -19,6 +19,7 @@ import com.example.shareroutine.R
 import com.example.shareroutine.databinding.NewRoutineFragmentBinding
 import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.ui.routine.manage.fresh.add_todo.AddTodoActivity
+import java.time.DayOfWeek
 import java.time.LocalTime
 
 class NewRoutineFragment : Fragment() {
@@ -38,9 +39,21 @@ class NewRoutineFragment : Fragment() {
 
                         Log.d("Response time", time.toString())
                     }
-                    Term.WEEKLY -> {}
-                    Term.MONTHLY -> {}
-                    Term.YEARLY -> {}
+                    Term.WEEKLY -> {
+                        val dayOfWeek = it?.data?.getSerializableExtra("dayOfWeek") as DayOfWeek
+
+                        Log.d("Response dayOfWeek", dayOfWeek.toString())
+                    }
+                    Term.MONTHLY -> {
+                        val day = it?.data?.getIntExtra("day", 0)
+
+                        Log.d("Response day", day.toString())
+                    }
+                    Term.YEARLY -> {
+                        val month = it?.data?.getSerializableExtra("month")
+
+                        Log.d("Response day", month.toString())
+                    }
                     Term.NONE -> {}
                 }
             }
