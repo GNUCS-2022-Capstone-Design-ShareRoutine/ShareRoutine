@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRoutine">
         <activity
-            android:name=".ui.routine.manage.fresh.add_todo.AddTodoActivity"
+            android:name=".ui.routine.manage.fresh.AddTodoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.community.search.SearchActivity"

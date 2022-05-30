@@ -1,4 +1,4 @@
-package com.example.shareroutine.ui.routine.manage.fresh.add_todo
+package com.example.shareroutine.ui.routine.manage.fresh
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,6 +27,8 @@ class AddTodoActivity : AppCompatActivity() {
     private var day: Int = ZonedDateTime.now().dayOfMonth
     private var month: Month = ZonedDateTime.now().month
 
+    private var importance = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -35,7 +37,40 @@ class AddTodoActivity : AppCompatActivity() {
 
         val term = intent.getSerializableExtra("term") as Term
         setTimeText(term)
+        setTimeSelectionUI(term)
+        setTimePicker()
+        setImportancePicker()
+        setAddTodoButton(term)
+    }
 
+    private fun setTimeText(term: Term) {
+        val timeText = when (term) {
+            Term.DAILY -> {
+                val formatter = DateTimeFormatter.ofPattern("a hh시 mm분")
+                formatter.format(time)
+            }
+            Term.WEEKLY -> {
+                val dayOfWeekText = when (dayOfWeek) {
+                    DayOfWeek.MONDAY -> "월요일"
+                    DayOfWeek.TUESDAY -> "화요일"
+                    DayOfWeek.WEDNESDAY -> "수요일"
+                    DayOfWeek.THURSDAY -> "목요일"
+                    DayOfWeek.FRIDAY -> "금요일"
+                    DayOfWeek.SATURDAY -> "토요일"
+                    DayOfWeek.SUNDAY -> "일요일"
+                }
+
+                dayOfWeekText
+            }
+            Term.MONTHLY -> "${day}일"
+            Term.YEARLY -> "${month.value}월"
+            Term.NONE -> "알 수 없는 오류"
+        }
+
+        binding.newRoutineTodoTime.text = timeText
+    }
+
+    private fun setTimeSelectionUI(term: Term) {
         binding.newRoutineTodoTime.setOnClickListener {
             when (term) {
                 Term.DAILY -> timePicker.show(supportFragmentManager, "daily")
@@ -71,7 +106,9 @@ class AddTodoActivity : AppCompatActivity() {
                 Term.NONE -> {}
             }
         }
+    }
 
+    private fun setTimePicker() {
         timePicker.addOnPositiveButtonClickListener {
             val formatter = DateTimeFormatter.ofPattern("a hh시 mm분")
 
@@ -93,45 +130,42 @@ class AddTodoActivity : AppCompatActivity() {
 
             binding.newRoutineTodoTime.text = formatter.format(time)
         }
+    }
 
-        binding.addTodoButton.setOnClickListener {
-            when (term) {
-                Term.DAILY -> intent.putExtra("time", time)
-                Term.WEEKLY -> intent.putExtra("dayOfWeek", dayOfWeek)
-                Term.MONTHLY -> intent.putExtra("day", day)
-                Term.YEARLY -> intent.putExtra("month", month)
-                Term.NONE -> {}
-            }
+    private fun setImportancePicker() {
+        binding.newRoutineTodoImportancePicker.minValue = 1
+        binding.newRoutineTodoImportancePicker.maxValue = 10
 
-            setResult(RESULT_OK, intent)
-            finish()
+        binding.newRoutineTodoImportancePicker.setOnValueChangedListener { _, _, new ->
+            importance = new
         }
     }
 
-    private fun setTimeText(term: Term) {
-        val timeText = when (term) {
-            Term.DAILY -> {
-                val formatter = DateTimeFormatter.ofPattern("a hh시 mm분")
-                formatter.format(time)
+    private fun setAddTodoButton(term: Term) {
+        binding.addTodoButton.setOnClickListener {
+            if (binding.newRoutineTodoDescription.text?.isBlank() == true) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle("입력 오류")
+                    .setMessage("할 일 내용을 입력해주세요.")
+                    .setPositiveButton("확인") { _, _ -> }.show()
             }
-            Term.WEEKLY -> {
-                val dayOfWeekText = when (dayOfWeek) {
-                    DayOfWeek.MONDAY -> "월요일"
-                    DayOfWeek.TUESDAY -> "화요일"
-                    DayOfWeek.WEDNESDAY -> "수요일"
-                    DayOfWeek.THURSDAY -> "목요일"
-                    DayOfWeek.FRIDAY -> "금요일"
-                    DayOfWeek.SATURDAY -> "토요일"
-                    DayOfWeek.SUNDAY -> "일요일"
+            else {
+                when (term) {
+                    Term.DAILY -> intent.putExtra("time", time)
+                    Term.WEEKLY -> intent.putExtra("dayOfWeek", dayOfWeek)
+                    Term.MONTHLY -> intent.putExtra("day", day)
+                    Term.YEARLY -> intent.putExtra("month", month)
+                    Term.NONE -> {}
                 }
 
-                dayOfWeekText
-            }
-            Term.MONTHLY -> "${day}일"
-            Term.YEARLY -> "${month.value}월"
-            Term.NONE -> "알 수 없는 오류"
-        }
+                intent.putExtra("importance", importance)
 
-        binding.newRoutineTodoTime.text = timeText
+                val description = binding.newRoutineTodoDescription.text.toString()
+                intent.putExtra("description", description)
+
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+        }
     }
 }

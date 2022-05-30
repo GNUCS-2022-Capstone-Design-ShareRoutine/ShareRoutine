@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.NewRoutineFragmentBinding
 import com.example.shareroutine.domain.model.Term
-import com.example.shareroutine.ui.routine.manage.fresh.add_todo.AddTodoActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.time.DayOfWeek
 import java.time.LocalTime
 
@@ -56,6 +56,14 @@ class NewRoutineFragment : Fragment() {
                     }
                     Term.NONE -> {}
                 }
+
+                val importance = it?.data?.getIntExtra("importance", 0)
+
+                Log.d("Response importance", importance.toString())
+
+                val description = it?.data?.getStringExtra("description")
+
+                Log.d("Response description", description.toString())
             }
         }
     }
@@ -72,6 +80,15 @@ class NewRoutineFragment : Fragment() {
         setChipGroupListener()
         setRecyclerView()
         setResultLauncher()
+
+        binding.newRoutineConfirm.setOnClickListener {
+            if (viewModel.routine.todos.isEmpty()) {
+                MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("추가 오류")
+                    .setMessage("할 일을 하나 이상 추가해주세요.")
+                    .setPositiveButton("확인") { _, _ -> }.show()
+            }
+        }
 
         return root
     }
@@ -98,9 +115,11 @@ class NewRoutineFragment : Fragment() {
             resultLauncher.launch(intent)
         }
 
-        binding.newRoutineTodo.apply {
-            layoutManager = LinearLayoutManager(requireActivity())
-            adapter = ConcatAdapter(NewTodoAdapter(emptyList()), AddTodoAdapter(addButtonClickListener))
+        viewModel.todoList.observe(viewLifecycleOwner) {
+            binding.newRoutineTodo.apply {
+                layoutManager = LinearLayoutManager(requireActivity())
+                adapter = ConcatAdapter(NewTodoAdapter(it), AddTodoAdapter(addButtonClickListener))
+            }
         }
     }
 
