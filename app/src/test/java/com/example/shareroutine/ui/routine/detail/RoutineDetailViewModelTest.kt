@@ -21,14 +21,23 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.ZonedDateTime
+import java.time.DayOfWeek
+import java.time.LocalTime
 
 @ExperimentalCoroutinesApi
 class RoutineDetailViewModelTest {
 
-    private val todo1 = Todo(ZonedDateTime.now(), 1, "Description 1", false)
-    private val todo2 = Todo(ZonedDateTime.now(), 1, "Description 1", false)
-    private val routine = Routine("Routine 1", Term.DAILY, true, listOf(todo1, todo2))
+    private val todo1 = Todo(
+        time = LocalTime.parse("16:30"),
+        importance = 1,
+        description = "Description 1"
+    )
+    private val todo2 = Todo(
+        dayOfWeek = DayOfWeek.of(3),
+        importance = 1,
+        description = "Description 1"
+    )
+    private val routine = Routine(name = "Routine 1", term = Term.DAILY, isUsed = true, todos = listOf(todo1, todo2))
 
     private lateinit var repo: RoutineRepository
     private lateinit var getUseCase: GetUsedRoutineListUseCase

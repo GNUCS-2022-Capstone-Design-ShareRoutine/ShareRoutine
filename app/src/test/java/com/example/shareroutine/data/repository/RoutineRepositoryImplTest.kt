@@ -26,7 +26,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.ZonedDateTime
+import java.time.DayOfWeek
+import java.time.LocalTime
+import java.time.Month
 
 @ExperimentalCoroutinesApi
 class RoutineRepositoryImplTest {
@@ -37,24 +39,21 @@ class RoutineRepositoryImplTest {
         isUsed = false
     )
     private val roomTodo1 = RoomEntityTodo(
-        dateTime = ZonedDateTime.now(),
+        time = LocalTime.parse("16:30"),
         importance = 1,
         description = "Description 1",
-        achieved = false,
         routineId = roomRoutine.id
     )
     private val roomTodo2 = RoomEntityTodo(
-        dateTime = ZonedDateTime.now(),
+        dayOfWeek = DayOfWeek.of(4),
         importance = 2,
         description = "Description 2",
-        achieved = false,
         routineId = roomRoutine.id
     )
     private val roomTodo3 = RoomEntityTodo(
-        dateTime = ZonedDateTime.now(),
+        month = Month.of(3),
         importance = 3,
         description = "Description 3",
-        achieved = false,
         routineId = roomRoutine.id
     )
     private val roomTodos = mutableListOf(roomTodo1, roomTodo2, roomTodo3)
@@ -67,8 +66,8 @@ class RoutineRepositoryImplTest {
         term = 0
     )
 
-    private val realtimeTodo1 = RealtimeDBModelTodo(ZonedDateTime.now().toInstant().toEpochMilli(), "Description 1", 1)
-    private val realtimeTodo2 = RealtimeDBModelTodo(ZonedDateTime.now().toInstant().toEpochMilli(), "Description 2", 2)
+    private val realtimeTodo1 = RealtimeDBModelTodo(time = "13:30", importance = 1, description = "Description 1")
+    private val realtimeTodo2 = RealtimeDBModelTodo(dayOfWeek = 4, importance = 1, description = "Description 2")
     private val realtimeRoutineWithTodo = RealtimeDBModelRoutineWithTodo(realtimeRoutine, mutableListOf(realtimeTodo1, realtimeTodo2))
     private val remoteRoutines = mutableListOf(realtimeRoutineWithTodo)
 
@@ -107,10 +106,10 @@ class RoutineRepositoryImplTest {
 
     @Test
     fun insert_thenCheckTotalSize_andCheckEachValue() = runTest {
-        val domainTodo1 = Todo(ZonedDateTime.now(), 4, "Description 1", false)
-        val domainTodo2 = Todo(ZonedDateTime.now(), 5, "Description 2", false)
+        val domainTodo1 = Todo(dayOfWeek = DayOfWeek.of(4), importance = 4, description = "Description 1")
+        val domainTodo2 = Todo(dayOfWeek = DayOfWeek.of(3), importance = 5, description = "Description 2")
         val todos = listOf(domainTodo1, domainTodo2)
-        val routine = Routine("Routine 2", Term.WEEKLY, false, todos)
+        val routine = Routine(name = "Routine 2", term = Term.WEEKLY, isUsed = false, todos = todos)
 
         repository.insert(routine)
 
