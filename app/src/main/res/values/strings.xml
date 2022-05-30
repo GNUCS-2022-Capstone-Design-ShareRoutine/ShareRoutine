@@ -23,7 +23,10 @@
     <string name="new_routine_term_weekly_label">주간</string>
     <string name="new_routine_term_monthly_label">월간</string>
     <string name="new_routine_term_yearly_label">연간</string>
-    <string name="new_routine_todo_label">할 일 목록</string>
+    <string name="new_routine_todo_time_label">예정 일시</string>
+    <string name="new_routine_todo_importance_label">중요도</string>
+    <string name="new_routine_todo_label">할 일 내용</string>
+    <string name="new_routine_todo_list_label">할 일 목록</string>
 
     <string name="community_sort_latest">최신순</string>
     <string name="community_sort_likes">좋아요순</string>
@@ -32,6 +35,6 @@
     <string name="community_card_view_username">유저명</string>
     <string name="user_greeting">좋은 하루 되세요!</string>
     <string name="detail_todo_list_tag">할 일 목록</string>
-    
+
     <string name="web_client_id">832282324599-tq66cul3gcgfgvkd3grsfe5lft7ort8s.apps.googleusercontent.com</string>
 </resources>
