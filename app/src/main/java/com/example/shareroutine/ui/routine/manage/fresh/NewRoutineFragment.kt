@@ -4,11 +4,11 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -18,10 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.NewRoutineFragmentBinding
 import com.example.shareroutine.domain.model.Term
+import com.example.shareroutine.domain.model.Todo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.DayOfWeek
 import java.time.LocalTime
+import java.time.Month
 
+@AndroidEntryPoint
 class NewRoutineFragment : Fragment() {
 
     private var _binding: NewRoutineFragmentBinding? = null
@@ -33,37 +37,35 @@ class NewRoutineFragment : Fragment() {
     private val activityResultCallback = ActivityResultCallback<ActivityResult> {
         when (it.resultCode) {
             RESULT_OK -> {
+                val todo = Todo(importance = 0, description = "")
+
+                val importance = it?.data?.getIntExtra("importance", 0)
+                importance?.let { todo.importance = importance }
+
+                val description = it?.data?.getStringExtra("description")
+                description?.let { todo.description = description }
+
                 when (viewModel.routine.term) {
                     Term.DAILY -> {
                         val time = it?.data?.getSerializableExtra("time") as LocalTime
-
-                        Log.d("Response time", time.toString())
+                        todo.time = time
                     }
                     Term.WEEKLY -> {
                         val dayOfWeek = it?.data?.getSerializableExtra("dayOfWeek") as DayOfWeek
-
-                        Log.d("Response dayOfWeek", dayOfWeek.toString())
+                        todo.dayOfWeek = dayOfWeek
                     }
                     Term.MONTHLY -> {
                         val day = it?.data?.getIntExtra("day", 0)
-
-                        Log.d("Response day", day.toString())
+                        todo.day = day
                     }
                     Term.YEARLY -> {
-                        val month = it?.data?.getSerializableExtra("month")
-
-                        Log.d("Response day", month.toString())
+                        val month = it?.data?.getSerializableExtra("month") as Month
+                        todo.month = month
                     }
                     Term.NONE -> {}
                 }
 
-                val importance = it?.data?.getIntExtra("importance", 0)
-
-                Log.d("Response importance", importance.toString())
-
-                val description = it?.data?.getStringExtra("description")
-
-                Log.d("Response description", description.toString())
+                viewModel.addTodo(todo)
             }
         }
     }
@@ -80,15 +82,7 @@ class NewRoutineFragment : Fragment() {
         setChipGroupListener()
         setRecyclerView()
         setResultLauncher()
-
-        binding.newRoutineConfirm.setOnClickListener {
-            if (viewModel.routine.todos.isEmpty()) {
-                MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("추가 오류")
-                    .setMessage("할 일을 하나 이상 추가해주세요.")
-                    .setPositiveButton("확인") { _, _ -> }.show()
-            }
-        }
+        setNewRoutineConfirmButton()
 
         return root
     }
@@ -104,6 +98,7 @@ class NewRoutineFragment : Fragment() {
             }
 
             viewModel.setTerm(term)
+            viewModel.emptyTodos()
         }
     }
 
@@ -128,5 +123,47 @@ class NewRoutineFragment : Fragment() {
             ActivityResultContracts.StartActivityForResult(),
             activityResultCallback
         )
+    }
+
+    private fun setNewRoutineConfirmButton() {
+        binding.newRoutineConfirm.setOnClickListener {
+            if (binding.newRoutineTitleEdit.text?.isBlank() == true) {
+                MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("입력 오류")
+                    .setMessage("루틴 이름을 입력해주세요.")
+                    .setPositiveButton("확인") { _, _ -> }.show()
+            }
+            else if (viewModel.routine.todos.isEmpty()) {
+                MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("추가 오류")
+                    .setMessage("할 일을 하나 이상 추가해주세요.")
+                    .setPositiveButton("확인") { _, _ -> }.show()
+            }
+            else {
+                viewModel.routine.name = binding.newRoutineTitleEdit.text.toString()
+
+                MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("적용 확인")
+                    .setMessage("이 루틴을 바로 사용할까요?")
+                    .setPositiveButton("확인") { _, _ ->
+                        viewModel.addRoutine().observe(viewLifecycleOwner) {
+                            if (it) {
+                                requireActivity().finish()
+                            }
+                            else {
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "동일한 이름의 루틴이 존재합니다.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
+                    .setNegativeButton("취소") { _, _ ->
+
+                    }
+                    .show()
+            }
+        }
     }
 }

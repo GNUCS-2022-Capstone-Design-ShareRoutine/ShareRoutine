@@ -1,12 +1,10 @@
 package com.example.shareroutine.ui.routine.detail
 
 import androidx.lifecycle.*
-import com.example.shareroutine.di.IoDispatcher
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.usecase.GetUsedRoutineListUseCase
-import com.example.shareroutine.domain.usecase.InsertRoutineUseCase
+import com.example.shareroutine.domain.usecase.routine.InsertRoutineUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject

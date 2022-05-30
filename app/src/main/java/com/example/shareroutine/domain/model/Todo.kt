@@ -1,10 +1,14 @@
 package com.example.shareroutine.domain.model
 
-import java.time.ZonedDateTime
+import java.time.DayOfWeek
+import java.time.LocalTime
+import java.time.Month
 
 data class Todo(
-    val dateTime: ZonedDateTime,
-    val importance: Int,
-    val description: String,
-    val achieved: Boolean
+    var time: LocalTime? = null,
+    var dayOfWeek: DayOfWeek? = null,
+    var day: Int? = null,
+    var month: Month? = null,
+    var importance: Int,
+    var description: String
 )

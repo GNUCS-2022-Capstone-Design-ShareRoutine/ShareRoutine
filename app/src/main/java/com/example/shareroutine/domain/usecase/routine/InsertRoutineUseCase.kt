@@ -1,4 +1,4 @@
-package com.example.shareroutine.domain.usecase
+package com.example.shareroutine.domain.usecase.routine
 
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.repository.RoutineRepository

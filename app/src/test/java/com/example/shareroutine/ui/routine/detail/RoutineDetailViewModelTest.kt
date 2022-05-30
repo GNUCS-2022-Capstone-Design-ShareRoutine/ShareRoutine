@@ -7,7 +7,7 @@ import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.domain.model.Todo
 import com.example.shareroutine.domain.repository.RoutineRepository
 import com.example.shareroutine.domain.usecase.GetUsedRoutineListUseCase
-import com.example.shareroutine.domain.usecase.InsertRoutineUseCase
+import com.example.shareroutine.domain.usecase.routine.InsertRoutineUseCase
 import com.example.shareroutine.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

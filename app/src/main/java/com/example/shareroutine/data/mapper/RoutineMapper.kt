@@ -6,17 +6,25 @@ import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelTodo
 import com.example.shareroutine.data.source.room.entity.RoomEntityRoutine
 import com.example.shareroutine.data.source.room.entity.RoomEntityTodo
 import com.example.shareroutine.data.source.room.entity.RoutineWithTodo
+import com.example.shareroutine.data.util.Converters
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.domain.model.Todo
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
 
 object RoutineMapper {
     fun fromRoutineWithTodoToRoutine(routineWithTodo: RoutineWithTodo): Routine {
         val todos = routineWithTodo.roomEntityTodos.map {
-            Todo(it.dateTime, it.importance, it.description, it.achieved)
+            val todo = Todo(importance = it.importance, description = it.description)
+
+            when (routineWithTodo.roomEntityRoutine.term) {
+                0 -> todo.time = it.time
+                1 -> todo.dayOfWeek = it.dayOfWeek
+                2 -> todo.day = it.day
+                3 -> todo.month = it.month
+                else -> {}
+            }
+
+            todo
         }
 
         val term = when (routineWithTodo.roomEntityRoutine.term) {
@@ -27,12 +35,29 @@ object RoutineMapper {
             else -> Term.NONE
         }
 
-        return Routine(routineWithTodo.roomEntityRoutine.name, term, routineWithTodo.roomEntityRoutine.isUsed, todos)
+        return Routine(
+            routineWithTodo.roomEntityRoutine.id,
+            routineWithTodo.roomEntityRoutine.name,
+            term,
+            routineWithTodo.roomEntityRoutine.isUsed,
+            todos
+        )
     }
 
     fun fromRoutineToRoutineWithTodo(routine: Routine): RoutineWithTodo {
         val todos = routine.todos.map {
-            RoomEntityTodo(dateTime = it.dateTime, importance = it.importance, description = it.description, achieved = it.achieved)
+            val todo = RoomEntityTodo(importance = it.importance, description = it.description)
+
+            when (routine.term) {
+                Term.DAILY -> todo.time = it.time
+                Term.WEEKLY -> todo.dayOfWeek = it.dayOfWeek
+                Term.MONTHLY -> todo.day = it.day
+                Term.YEARLY -> todo.month = it.month
+                Term.NONE -> {}
+            }
+
+            todo
+
         }.toMutableList()
 
         val term = when (routine.term) {
@@ -43,17 +68,31 @@ object RoutineMapper {
             Term.NONE -> 4
         }
 
-        val roomEntityRoutine = RoomEntityRoutine(name = routine.name, term = term, isUsed = routine.isUsed)
+        val roomEntityRoutine = RoomEntityRoutine(
+            routine.id,
+            routine.name,
+            term,
+            routine.isUsed
+        )
 
         return RoutineWithTodo(roomEntityRoutine, todos)
     }
 
     fun fromRealtimeDBModelRoutineWithTodoToRoutine(routineWithTodo: RealtimeDBModelRoutineWithTodo): Routine {
+        val converters = Converters()
+
         val todos = routineWithTodo.todos.map {
-            Todo(
-                ZonedDateTime.ofInstant(Instant.ofEpochMilli(it.dateTime), ZoneId.systemDefault()),
-                it.importance, it.description, false
-            )
+            val todo = Todo(importance = it.importance, description = it.description)
+
+            when (routineWithTodo.routine?.term) {
+                0 -> todo.time = converters.timestampToLocalTime(it.time)
+                1 -> todo.dayOfWeek = converters.intToDayOfWeek(it.dayOfWeek)
+                2 -> todo.day = it.day
+                3 -> todo.month = converters.intToMonth(it.month)
+                4 -> {}
+            }
+
+            todo
         }
 
         val routine = routineWithTodo.routine!!
@@ -66,10 +105,12 @@ object RoutineMapper {
             else -> Term.NONE
         }
 
-        return Routine(routine.name, term, false, todos)
+        return Routine(name = routine.name, term = term, isUsed = false, todos = todos)
     }
 
     fun fromRoutineToRealtimeDBModelRoutineWithTodo(routine: Routine): RealtimeDBModelRoutineWithTodo {
+        val converters = Converters()
+
         val term = when (routine.term) {
             Term.DAILY -> 0
             Term.WEEKLY -> 1
@@ -82,12 +123,17 @@ object RoutineMapper {
 
         val realtimeRoutine = RealtimeDBModelRoutine(name = routine.name, term = term)
         routine.todos.forEach {
-            realtimeTodos.add(
-                RealtimeDBModelTodo(
-                    it.dateTime.toInstant().toEpochMilli(),
-                    it.description, it.importance
-                )
-            )
+            val todo = RealtimeDBModelTodo(importance = it.importance, description = it.description)
+
+            when (routine.term) {
+                Term.DAILY -> todo.time = converters.localTimeToTimestamp(it.time)
+                Term.WEEKLY -> todo.dayOfWeek = converters.dayOfWeekToInt(it.dayOfWeek)
+                Term.MONTHLY -> todo.day = it.day
+                Term.YEARLY -> todo.month = converters.monthToInt(it.month)
+                Term.NONE -> {}
+            }
+
+            realtimeTodos.add(todo)
         }
 
         return RealtimeDBModelRoutineWithTodo(realtimeRoutine, realtimeTodos)

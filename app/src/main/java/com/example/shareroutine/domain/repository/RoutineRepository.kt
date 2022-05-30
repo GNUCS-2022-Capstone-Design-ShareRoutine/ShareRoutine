@@ -11,6 +11,7 @@ interface RoutineRepository {
     suspend fun deleteInRemote(routine: Routine)
 
     fun getAllRoutinesFromLocal(): Flow<List<Routine>>
+    suspend fun getRoutineByName(name: String): Routine?
 
     suspend fun fetchRoutine(id: String): Routine
 }

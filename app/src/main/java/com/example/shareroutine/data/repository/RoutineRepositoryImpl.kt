@@ -41,6 +41,11 @@ class RoutineRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getRoutineByName(name: String): Routine? {
+        return localDataSource.getRoutineByName(name)
+            ?.let { RoutineMapper.fromRoutineWithTodoToRoutine(it) }
+    }
+
     override suspend fun fetchRoutine(id: String): Routine = withContext(ioDispatcher) {
         return@withContext when (val routine = remoteDataSource.fetchRoutine(id)) {
             is State.Success -> {
