@@ -37,8 +37,8 @@ object RoutineMapper {
 
         return Routine(
             routineWithTodo.roomEntityRoutine.id,
-            routineWithTodo.roomEntityRoutine.name,
             routineWithTodo.roomEntityRoutine.userId,
+            routineWithTodo.roomEntityRoutine.name,
             term,
             routineWithTodo.roomEntityRoutine.isUsed,
             todos

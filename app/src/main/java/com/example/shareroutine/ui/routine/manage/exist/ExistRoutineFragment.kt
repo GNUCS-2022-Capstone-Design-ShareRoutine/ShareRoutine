@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.ExistRoutineFragmentBinding
 import com.example.shareroutine.ui.adapter.RecyclerViewHeaderAdapter
+import com.example.shareroutine.ui.routine.detail.ExpandableRoutineAdapter
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ExistRoutineFragment : Fragment() {
 
     private var _binding: ExistRoutineFragmentBinding? = null
@@ -27,20 +31,40 @@ class ExistRoutineFragment : Fragment() {
         _binding = ExistRoutineFragmentBinding.inflate(inflater, container, false)
         val root = binding.root
 
-        val myRoutineHeader = RecyclerViewHeaderAdapter("내가 만든 루틴 목록")
-        val downloadedRoutineHeader = RecyclerViewHeaderAdapter("다운로드받은 루틴 목록")
-
-        // val myRoutineAdapter = ExpandableRoutineAdapter
-        // val downloadedRoutineAdapter = ExpandableRoutineAdapter
-
-        // 목록 가져올 때 사이에 끼워 넣어주기
-        val routineAdapter = ConcatAdapter(myRoutineHeader, downloadedRoutineHeader)
-
-        binding.existRoutineRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireActivity())
-            adapter = routineAdapter
-        }
+        observeRoutines()
 
         return root
+    }
+
+    private fun observeRoutines() {
+        val currentUserHeader = RecyclerViewHeaderAdapter("내가 만든 루틴 목록")
+        val downloadedHeader = RecyclerViewHeaderAdapter("다운로드받은 루틴 목록")
+
+        viewModel.routineList.observe(viewLifecycleOwner) { list ->
+            val uid = FirebaseAuth.getInstance().uid!!
+
+            val currentUserRoutineList = list.filter { it.userId == uid }
+            val downloadedRoutineList = list.filter { it.userId != uid }
+
+            val currentUserExpandable = currentUserRoutineList.map {
+                ExpandableRoutineAdapter(it)
+            }
+            val downloadedExpandable = downloadedRoutineList.map {
+                ExpandableRoutineAdapter(it)
+            }
+
+            val currentAdapter = ConcatAdapter(currentUserExpandable)
+            val downloadedAdapter = ConcatAdapter(downloadedExpandable)
+
+            val existAdapter = ConcatAdapter(
+                currentUserHeader, currentAdapter,
+                downloadedHeader, downloadedAdapter
+            )
+
+            binding.existRoutineRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireActivity())
+                adapter = existAdapter
+            }
+        }
     }
 }
