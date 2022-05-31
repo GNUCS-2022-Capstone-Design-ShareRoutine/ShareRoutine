@@ -13,5 +13,6 @@ data class RoomEntityRoutine(
     var id: Int? = null,
     var name: String,
     var term: Int,
-    var isUsed: Boolean
+    var isUsed: Boolean,
+    var userId: String
 )

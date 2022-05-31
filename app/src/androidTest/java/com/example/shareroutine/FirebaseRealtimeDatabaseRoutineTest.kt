@@ -52,7 +52,7 @@ class FirebaseRealtimeDatabaseRoutineTest {
     fun insert_test() = runTest {
         val todo1 = RealtimeDBModelTodo(time = "16:30", importance = 1, description = "Description 3")
         val todo2 = RealtimeDBModelTodo(dayOfWeek = 5, importance = 2, description = "Description 4")
-        val routine = RealtimeDBModelRoutine(name = "루틴 2", term = 0)
+        val routine = RealtimeDBModelRoutine(name = "루틴 2", term = 0, userId = "userId1")
 
         val routineWithTodo = RealtimeDBModelRoutineWithTodo(
             routine, mutableListOf(todo1, todo2)

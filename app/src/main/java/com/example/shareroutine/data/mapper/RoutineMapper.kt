@@ -38,6 +38,7 @@ object RoutineMapper {
         return Routine(
             routineWithTodo.roomEntityRoutine.id,
             routineWithTodo.roomEntityRoutine.name,
+            routineWithTodo.roomEntityRoutine.userId,
             term,
             routineWithTodo.roomEntityRoutine.isUsed,
             todos
@@ -72,7 +73,8 @@ object RoutineMapper {
             routine.id,
             routine.name,
             term,
-            routine.isUsed
+            routine.isUsed,
+            routine.userId
         )
 
         return RoutineWithTodo(roomEntityRoutine, todos)
@@ -105,7 +107,7 @@ object RoutineMapper {
             else -> Term.NONE
         }
 
-        return Routine(name = routine.name, term = term, isUsed = false, todos = todos)
+        return Routine(name = routine.name, userId = routine.userId, term = term, isUsed = false, todos = todos)
     }
 
     fun fromRoutineToRealtimeDBModelRoutineWithTodo(routine: Routine): RealtimeDBModelRoutineWithTodo {
@@ -121,7 +123,12 @@ object RoutineMapper {
 
         val realtimeTodos = mutableListOf<RealtimeDBModelTodo>()
 
-        val realtimeRoutine = RealtimeDBModelRoutine(name = routine.name, term = term)
+        val realtimeRoutine = RealtimeDBModelRoutine(
+            name = routine.name,
+            term = term,
+            userId = routine.userId
+        )
+
         routine.todos.forEach {
             val todo = RealtimeDBModelTodo(importance = it.importance, description = it.description)
 

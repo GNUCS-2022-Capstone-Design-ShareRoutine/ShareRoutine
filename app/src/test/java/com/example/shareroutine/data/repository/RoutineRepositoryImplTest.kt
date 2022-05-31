@@ -36,7 +36,8 @@ class RoutineRepositoryImplTest {
         id = 1,
         name = "Routine 1",
         term = 0,
-        isUsed = false
+        isUsed = false,
+        userId = "userId1"
     )
     private val roomTodo1 = RoomEntityTodo(
         time = LocalTime.parse("16:30"),
@@ -63,7 +64,8 @@ class RoutineRepositoryImplTest {
     private val realtimeRoutine = RealtimeDBModelRoutine(
         id = "routine2",
         name = "Routine 2",
-        term = 0
+        term = 0,
+        userId = "userId1"
     )
 
     private val realtimeTodo1 = RealtimeDBModelTodo(time = "13:30", importance = 1, description = "Description 1")

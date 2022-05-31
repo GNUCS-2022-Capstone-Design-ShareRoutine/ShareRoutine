@@ -11,10 +11,9 @@ import com.example.shareroutine.domain.model.Todo
 import com.example.shareroutine.domain.usecase.routine.GetRoutineByNameUseCase
 import com.example.shareroutine.domain.usecase.routine.InsertRoutineUseCase
 import com.example.shareroutine.domain.usecase.routine.InsertUsedTodoUseCase
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +30,9 @@ class NewRoutineViewModel @Inject constructor(
     val todoList: LiveData<List<Todo>> = _todoList
 
     init {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        routine.userId = currentUser?.uid.toString()
+
         _todoList.value = list
     }
 

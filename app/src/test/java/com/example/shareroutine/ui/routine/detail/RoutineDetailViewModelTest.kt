@@ -33,11 +33,17 @@ class RoutineDetailViewModelTest {
         description = "Description 1"
     )
     private val todo2 = Todo(
-        dayOfWeek = DayOfWeek.of(3),
+        time = LocalTime.parse("09:30"),
         importance = 1,
         description = "Description 1"
     )
-    private val routine = Routine(name = "Routine 1", term = Term.DAILY, isUsed = true, todos = listOf(todo1, todo2))
+    private val routine = Routine(
+        userId = "userId1",
+        name = "Routine 1",
+        term = Term.DAILY,
+        isUsed = true,
+        todos = listOf(todo1, todo2)
+    )
 
     private lateinit var repo: RoutineRepository
     private lateinit var getUseCase: GetUsedRoutineListUseCase
