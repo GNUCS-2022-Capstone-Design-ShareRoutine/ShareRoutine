@@ -21,6 +21,10 @@ class RoutineRepositoryImpl @Inject constructor(
         localDataSource.insert(RoutineMapper.fromRoutineToRoutineWithTodo(routine))
     }
 
+    override suspend fun update(routine: Routine) {
+        localDataSource.update(RoutineMapper.fromRoutineToRoutineWithTodo(routine))
+    }
+
     override suspend fun deleteInLocal(routine: Routine) = withContext(ioDispatcher) {
         localDataSource.delete(RoutineMapper.fromRoutineToRoutineWithTodo(routine))
     }

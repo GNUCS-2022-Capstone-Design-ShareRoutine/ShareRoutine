@@ -46,23 +46,13 @@ interface RoutineDao {
         val previous = getTodosWithRoutineId(routineId).first()
 
         previous.map {
-            delete(it)
-        }
-
-        routineWithTodo.roomEntityTodos.map {
-            it.routineId = routineId
-            insert(it)
+            update(it)
         }
     }
 
-    // 차후 제거
     @Transaction
     suspend fun delete(routineWithTodo: RoutineWithTodo) {
         delete(routineWithTodo.roomEntityRoutine)
-
-        routineWithTodo.roomEntityTodos.map {
-            delete(it)
-        }
     }
 
     @Transaction

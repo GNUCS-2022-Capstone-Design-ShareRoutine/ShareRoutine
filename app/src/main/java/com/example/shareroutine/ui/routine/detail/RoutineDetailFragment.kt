@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.RoutineDetailFragmentBinding
+import com.example.shareroutine.ui.adapter.ExpandableRoutineAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +33,7 @@ class RoutineDetailFragment : Fragment() {
 
         with(viewModel) {
             usedRoutines.observe(viewLifecycleOwner) { list ->
-                adapters = list.map { ExpandableRoutineAdapter(it) }
+                adapters = list.map { ExpandableRoutineAdapter(it) { true } }
             }
         }
 

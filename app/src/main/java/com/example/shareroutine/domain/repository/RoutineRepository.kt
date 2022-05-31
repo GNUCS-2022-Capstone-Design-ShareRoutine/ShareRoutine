@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RoutineRepository {
     suspend fun insert(routine: Routine)
+    suspend fun update(routine: Routine)
     suspend fun deleteInLocal(routine: Routine)
 
     suspend fun upload(routine: Routine)

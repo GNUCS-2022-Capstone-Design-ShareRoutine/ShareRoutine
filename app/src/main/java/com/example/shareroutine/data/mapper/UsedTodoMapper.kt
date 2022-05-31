@@ -26,12 +26,14 @@ object UsedTodoMapper {
             dateTime = usedTodo.dateTime,
             importance = usedTodo.importance,
             description = usedTodo.description,
-            achieved = usedTodo.achieved
+            achieved = usedTodo.achieved,
+            routineId = usedTodo.routineId
         )
     }
 
     fun fromTodoToUsedTodo(todo: Todo, routine: Routine): UsedTodo? {
         val now = ZonedDateTime.now()
+        val uid = routine.id!!
 
         return when (routine.term) {
             Term.DAILY -> {
@@ -42,7 +44,7 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, routine.id!!)
+                UsedTodo(time, todo.importance, todo.description, false, uid)
             }
             Term.WEEKLY -> {
                 val localDateTime = if (todo.dayOfWeek!! == now.dayOfWeek) {
@@ -74,7 +76,7 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, routine.id!!)
+                UsedTodo(time, todo.importance, todo.description, false, uid)
             }
             Term.MONTHLY -> {
                 val localDateTime = todo.day?.let {
@@ -86,7 +88,7 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, routine.id!!)
+                UsedTodo(time, todo.importance, todo.description, false, uid)
             }
             Term.YEARLY -> {
                 val calendar = Calendar.getInstance()
@@ -101,7 +103,7 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, routine.id!!)
+                UsedTodo(time, todo.importance, todo.description, false, uid)
             }
             Term.NONE -> null
         }

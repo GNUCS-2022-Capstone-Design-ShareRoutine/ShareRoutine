@@ -3,6 +3,8 @@ package com.example.shareroutine.data.repository
 import com.example.shareroutine.data.mapper.UsedTodoMapper
 import com.example.shareroutine.data.source.UsedTodoDataSource
 import com.example.shareroutine.di.IoDispatcher
+import com.example.shareroutine.domain.model.Routine
+import com.example.shareroutine.domain.model.Todo
 import com.example.shareroutine.domain.model.UsedTodo
 import com.example.shareroutine.domain.repository.UsedTodoRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,8 +18,12 @@ class UsedTodoRepositoryImpl @Inject constructor(
     private val dataSource: UsedTodoDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
     ) : UsedTodoRepository {
-    override suspend fun insert(usedTodo: UsedTodo) = withContext(ioDispatcher) {
-        dataSource.insert(UsedTodoMapper.fromUsedTodoToRoomEntityUsedTodo(usedTodo))
+    override suspend fun insert(todo: Todo, routine: Routine) = withContext(ioDispatcher) {
+        val usedTodo = UsedTodoMapper.fromTodoToUsedTodo(todo, routine)!!
+
+        dataSource.insert(
+            UsedTodoMapper.fromUsedTodoToRoomEntityUsedTodo(usedTodo)
+        )
     }
 
     override suspend fun update(usedTodo: UsedTodo) = withContext(ioDispatcher) {
