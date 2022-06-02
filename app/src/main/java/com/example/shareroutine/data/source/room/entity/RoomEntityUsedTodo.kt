@@ -8,7 +8,13 @@ import java.time.ZonedDateTime
 
 @Entity(
     tableName = "used_todo_table",
-    foreignKeys = [ForeignKey(entity = RoomEntityRoutine::class, parentColumns = ["id"], childColumns = ["routineId"], onDelete = ForeignKey.CASCADE)],
+    foreignKeys = [ForeignKey(
+        entity = RoomEntityRoutine::class,
+        parentColumns = ["id"],
+        childColumns = ["routineId"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE
+    )],
     indices = [Index(value = ["routineId"])]
 )
 data class RoomEntityUsedTodo(
@@ -18,5 +24,6 @@ data class RoomEntityUsedTodo(
     var importance: Int,
     var description: String,
     var achieved: Boolean,
+    var term: Int,
     var routineId: Int? = null
 )

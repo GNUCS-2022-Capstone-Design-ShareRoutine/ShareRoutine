@@ -6,9 +6,8 @@ import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.domain.model.Todo
 import com.example.shareroutine.domain.repository.RoutineRepository
-import com.example.shareroutine.domain.usecase.GetUsedRoutineListUseCase
+import com.example.shareroutine.domain.usecase.routine.GetUsedTodoListUseCase
 import com.example.shareroutine.domain.usecase.routine.InsertRoutineUseCase
-import com.example.shareroutine.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -21,7 +20,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.DayOfWeek
 import java.time.LocalTime
 
 @ExperimentalCoroutinesApi
@@ -46,7 +44,7 @@ class RoutineDetailViewModelTest {
     )
 
     private lateinit var repo: RoutineRepository
-    private lateinit var getUseCase: GetUsedRoutineListUseCase
+    private lateinit var getUsedTodoCase: GetUsedTodoListUseCase
     private lateinit var insertUseCase: InsertRoutineUseCase
     private lateinit var viewModel: RoutineDetailViewModel
 
@@ -59,21 +57,13 @@ class RoutineDetailViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testCoroutineDispatcher)
         repo = FakeRoutineRepository()
-        getUseCase = GetUsedRoutineListUseCase(repo)
+        // getUsedTodoCase = GetUsedTodoListUseCase(repo)
         insertUseCase = InsertRoutineUseCase(repo)
-        viewModel = RoutineDetailViewModel(getUseCase, insertUseCase)
+        viewModel = RoutineDetailViewModel(getUsedTodoCase)
     }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-    }
-
-    @Test
-    fun insertRoutine_ThenCheckUsedRoutineSize() {
-        viewModel.insertNewRoutine(routine)
-        val after = viewModel.usedRoutines.getOrAwaitValue()
-
-        assertThat(after.size, `is`(not(0)))
     }
 }

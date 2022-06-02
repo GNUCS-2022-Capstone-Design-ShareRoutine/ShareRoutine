@@ -16,6 +16,9 @@
     <string name="user_menu_edit">정보 수정</string>
     <string name="user_menu_logout">로그아웃</string>
 
+    <string name="routine_main_current_todo_label">지금 할 일은…</string>
+    <string name="routine_detail_used_todo_list_label">남은 할 일 목록</string>
+
     <string name="new_routine_name_label">루틴 이름</string>
     <string name="new_routine_title_hint">사용하실 루틴 이름을 입력하세요</string>
     <string name="new_routine_term_label">루틴 기간</string>

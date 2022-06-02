@@ -41,6 +41,8 @@ class ExistRoutineFragment : Fragment() {
         return root
     }
 
+    // 사용 해제 처리 구현
+
     private fun setAdapter() {
         val currentUserHeader = RecyclerViewHeaderAdapter("내가 만든 루틴 목록")
         val downloadedHeader = RecyclerViewHeaderAdapter("다운로드받은 루틴 목록")

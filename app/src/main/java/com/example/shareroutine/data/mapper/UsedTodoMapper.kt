@@ -12,22 +12,34 @@ import java.util.*
 
 object UsedTodoMapper {
     fun fromRoomEntityUsedTodoToUsedTodo(usedTodo: RoomEntityUsedTodo): UsedTodo {
+        val term = when (usedTodo.term) {
+            0 -> Term.DAILY
+            1 -> Term.WEEKLY
+            2 -> Term.MONTHLY
+            3 -> Term.YEARLY
+            else -> Term.NONE
+        }
+
         return UsedTodo(
-            usedTodo.dateTime,
-            usedTodo.importance,
-            usedTodo.description,
-            usedTodo.achieved,
-            usedTodo.id!!
+            usedTodo.id, usedTodo.dateTime,
+            usedTodo.importance, usedTodo.description,
+            usedTodo.achieved, term, usedTodo.routineId!!
         )
     }
 
     fun fromUsedTodoToRoomEntityUsedTodo(usedTodo: UsedTodo): RoomEntityUsedTodo {
+        val term = when (usedTodo.term) {
+            Term.DAILY -> 0
+            Term.WEEKLY -> 1
+            Term.MONTHLY -> 2
+            Term.YEARLY -> 3
+            Term.NONE -> 4
+        }
+
         return RoomEntityUsedTodo(
-            dateTime = usedTodo.dateTime,
-            importance = usedTodo.importance,
-            description = usedTodo.description,
-            achieved = usedTodo.achieved,
-            routineId = usedTodo.routineId
+            usedTodo.id, usedTodo.dateTime,
+            usedTodo.importance, usedTodo.description,
+            usedTodo.achieved, term, usedTodo.routineId
         )
     }
 
@@ -44,7 +56,14 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, uid)
+                UsedTodo(
+                    dateTime = time,
+                    importance = todo.importance,
+                    description = todo.description,
+                    achieved = false,
+                    term = routine.term,
+                    routineId = uid
+                )
             }
             Term.WEEKLY -> {
                 val localDateTime = if (todo.dayOfWeek!! == now.dayOfWeek) {
@@ -76,7 +95,14 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, uid)
+                UsedTodo(
+                    dateTime = time,
+                    importance = todo.importance,
+                    description = todo.description,
+                    achieved = false,
+                    term = routine.term,
+                    routineId = uid
+                )
             }
             Term.MONTHLY -> {
                 val localDateTime = todo.day?.let {
@@ -88,7 +114,14 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, uid)
+                UsedTodo(
+                    dateTime = time,
+                    importance = todo.importance,
+                    description = todo.description,
+                    achieved = false,
+                    term = routine.term,
+                    routineId = uid
+                )
             }
             Term.YEARLY -> {
                 val calendar = Calendar.getInstance()
@@ -103,7 +136,14 @@ object UsedTodoMapper {
 
                 val time = ZonedDateTime.of(localDateTime, ZoneId.of("Asia/Seoul"))
 
-                UsedTodo(time, todo.importance, todo.description, false, uid)
+                UsedTodo(
+                    dateTime = time,
+                    importance = todo.importance,
+                    description = todo.description,
+                    achieved = false,
+                    term = routine.term,
+                    routineId = uid
+                )
             }
             Term.NONE -> null
         }

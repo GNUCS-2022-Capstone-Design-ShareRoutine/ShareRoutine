@@ -142,27 +142,23 @@ class NewRoutineFragment : Fragment() {
             else {
                 viewModel.routine.name = binding.newRoutineTitleEdit.text.toString()
 
-                MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("적용 확인")
-                    .setMessage("이 루틴을 바로 사용할까요?")
-                    .setPositiveButton("확인") { _, _ ->
-                        viewModel.addRoutine().observe(viewLifecycleOwner) {
-                            if (it) {
-                                requireActivity().finish()
-                            }
-                            else {
-                                Toast.makeText(
-                                    requireActivity(),
-                                    "동일한 이름의 루틴이 존재합니다.",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
+                viewModel.addRoutine().observe(viewLifecycleOwner) {
+                    if (it) {
+                        Toast.makeText(
+                            requireActivity(),
+                            "루틴을 추가합니다.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        requireActivity().finish()
                     }
-                    .setNegativeButton("취소") { _, _ ->
-
+                    else {
+                        Toast.makeText(
+                            requireActivity(),
+                            "동일한 이름의 루틴이 존재합니다.",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
-                    .show()
+                }
             }
         }
     }
