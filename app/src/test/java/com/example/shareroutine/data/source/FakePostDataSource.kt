@@ -1,6 +1,6 @@
 package com.example.shareroutine.data.source
 
-import com.example.shareroutine.data.source.realtime.Result
+import com.example.shareroutine.data.source.realtime.State
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,9 +18,9 @@ class FakePostDataSource(var posts: MutableList<RealtimeDBModelPost>? = mutableL
         posts?.remove(post)
     }
 
-    override fun getAllPostList(): Flow<Result<List<RealtimeDBModelPost>>> {
+    override fun getAllPostList(): Flow<State<List<RealtimeDBModelPost>>> {
         return flow {
-            posts?.toList()?.let { emit(Result.success(it)) }
+            posts?.toList()?.let { emit(State.success(it)) }
         }
     }
 }

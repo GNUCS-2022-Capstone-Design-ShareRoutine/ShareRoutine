@@ -2,10 +2,9 @@ package com.example.shareroutine.ui.user
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.UserFragmentBinding
 
@@ -25,8 +24,25 @@ class UserFragment : Fragment() {
         _binding = UserFragmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setHasOptionsMenu(true)
+
         // Observing below
 
         return root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.user_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.user_menu_logout -> {
+                Toast.makeText(requireContext(), "Logout pressed", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

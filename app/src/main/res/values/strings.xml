@@ -1,16 +1,43 @@
 <resources>
     <string name="app_name">ShareRoutine</string>
 
+    <string name="text_add">추가</string>
+    <string name="text_search_hint">검색어를 입력하세요…</string>
+    <string name="text_confirm">완료</string>
+
     <string name="title_routine">루틴</string>
     <string name="title_community">커뮤니티</string>
     <string name="title_user">사용자</string>
+
+    <string name="routine_menu_manage">루틴 관리</string>
+    <string name="routine_menu_done">할 일 완료</string>
+    <string name="community_menu_add">게시글 작성</string>
+    <string name="community_menu_search">게시글 검색</string>
+    <string name="user_menu_edit">정보 수정</string>
+    <string name="user_menu_logout">로그아웃</string>
+
+    <string name="routine_main_current_todo_label">지금 할 일은…</string>
+    <string name="routine_detail_used_todo_list_label">남은 할 일 목록</string>
+
+    <string name="new_routine_name_label">루틴 이름</string>
+    <string name="new_routine_title_hint">사용하실 루틴 이름을 입력하세요</string>
+    <string name="new_routine_term_label">루틴 기간</string>
+    <string name="new_routine_term_daily_label">일간</string>
+    <string name="new_routine_term_weekly_label">주간</string>
+    <string name="new_routine_term_monthly_label">월간</string>
+    <string name="new_routine_term_yearly_label">연간</string>
+    <string name="new_routine_todo_time_label">예정 일시</string>
+    <string name="new_routine_todo_importance_label">중요도</string>
+    <string name="new_routine_todo_label">할 일 내용</string>
+    <string name="new_routine_todo_list_label">할 일 목록</string>
 
     <string name="community_sort_latest">최신순</string>
     <string name="community_sort_likes">좋아요순</string>
     <string name="community_card_view_image">커뮤니티 메인화면 아이템 이미지</string>
     <string name="community_card_view_title">커뮤니티 메인화면 아이템 제목</string>
     <string name="community_card_view_username">유저명</string>
-
     <string name="user_greeting">좋은 하루 되세요!</string>
     <string name="detail_todo_list_tag">할 일 목록</string>
+
+    <string name="web_client_id">832282324599-tq66cul3gcgfgvkd3grsfe5lft7ort8s.apps.googleusercontent.com</string>
 </resources>

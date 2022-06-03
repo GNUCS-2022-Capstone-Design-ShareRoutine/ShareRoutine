@@ -20,9 +20,13 @@ object RoomDatabaseModule {
         app,
         AppDatabase::class.java,
         "share_routine_db"
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     @Singleton
     @Provides
     fun provideRoutineDao(db: AppDatabase) = db.routineDao()
+
+    @Singleton
+    @Provides
+    fun provideUsedTodoDao(db: AppDatabase) = db.usedTodoDao()
 }

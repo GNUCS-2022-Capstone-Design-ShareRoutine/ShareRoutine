@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shareroutine">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ShareRoutineApplication"
         android:allowBackup="true"
@@ -11,10 +13,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRoutine">
         <activity
+            android:name=".ui.routine.manage.fresh.AddTodoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.community.search.SearchActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".ui.routine.manage.RoutineManageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ShareRoutine.NoActionBar" />
+        <activity
             android:name=".ui.community.DetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ShareRoutine.NoActionBar" />
+        <activity
+            android:name=".ui.user.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.ShareRoutine.NoActionBar">
             <intent-filter>

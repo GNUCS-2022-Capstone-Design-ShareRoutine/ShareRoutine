@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.routine.manage.fresh.AddTodoActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_start_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_end_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_top_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_bottom_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_divide_guideline_first"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/add_todo_divide_guideline_second"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/new_routine_todo_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_routine_todo_time_label"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="@id/add_todo_top_guideline"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/new_routine_todo_time"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="28sp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/new_routine_todo_time_label"
+        app:layout_constraintBottom_toBottomOf="@id/add_todo_divide_guideline_first"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline"
+        app:layout_constraintEnd_toEndOf="@id/add_todo_end_guideline" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/new_routine_todo_importance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_routine_todo_importance_label"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="@id/add_todo_divide_guideline_first"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline" />
+
+    <NumberPicker
+        android:id="@+id/new_routine_todo_importance_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/new_routine_todo_importance_label"
+        app:layout_constraintBottom_toTopOf="@id/add_todo_divide_guideline_second"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline"
+        app:layout_constraintEnd_toEndOf="@id/add_todo_end_guideline" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_routine_todo_label"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="@id/add_todo_divide_guideline_second"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/add_todo_divide_guideline_second"
+        app:layout_constraintBottom_toBottomOf="@id/add_todo_bottom_guideline"
+        app:layout_constraintStart_toStartOf="@id/add_todo_start_guideline"
+        app:layout_constraintEnd_toEndOf="@id/add_todo_end_guideline">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/new_routine_todo_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textAppearance="@style/TextStyle" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_todo_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/text_add"
+        android:textSize="24sp"
+        android:fontFamily="@font/maplestory_bold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp"
+        app:icon="@drawable/ic_add"
+        app:iconGravity="textStart"
+        app:iconSize="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
