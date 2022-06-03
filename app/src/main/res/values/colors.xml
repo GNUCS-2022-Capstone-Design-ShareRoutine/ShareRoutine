@@ -12,4 +12,6 @@
     <color name="share_routine_theme_cream_pink_light">#FFE2E2</color>
     <color name="share_routine_theme_dark_purple">#8785A2</color>
     <color name="share_routine_theme_cloud">#F6F6F6</color>
+
+    <color name="share_routine_theme_progress_bar_color">#EB7171</color>
 </resources>

@@ -29,6 +29,12 @@ class FakeRoutineRepository(var routines: MutableList<Routine>? = mutableListOf(
         }
     }
 
+    override suspend fun getRoutineByName(name: String): Routine? {
+        return routines?.find {
+            it.name == name
+        }
+    }
+
     override suspend fun fetchRoutine(id: String): Routine {
         return routines?.get(0)!!
     }

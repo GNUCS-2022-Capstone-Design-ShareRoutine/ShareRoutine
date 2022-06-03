@@ -2,14 +2,12 @@ package com.example.shareroutine
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.shareroutine.data.source.RoutineLocalDataSource
 import com.example.shareroutine.data.source.RoutineRemoteDataSource
 import com.example.shareroutine.data.source.realtime.State
 import com.example.shareroutine.data.source.realtime.RoutineDataSourceImplWithRealtime
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelRoutine
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelRoutineWithTodo
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelTodo
-import com.example.shareroutine.domain.repository.RoutineRepository
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +21,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.time.ZonedDateTime
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -53,9 +50,9 @@ class FirebaseRealtimeDatabaseRoutineTest {
 
     @Test
     fun insert_test() = runTest {
-        val todo1 = RealtimeDBModelTodo(ZonedDateTime.now().toInstant().toEpochMilli(),"Description 3", 2)
-        val todo2 = RealtimeDBModelTodo(ZonedDateTime.now().toInstant().toEpochMilli(),"Description 4", 3)
-        val routine = RealtimeDBModelRoutine(name = "루틴 2", term = 0)
+        val todo1 = RealtimeDBModelTodo(time = "16:30", importance = 1, description = "Description 3")
+        val todo2 = RealtimeDBModelTodo(dayOfWeek = 5, importance = 2, description = "Description 4")
+        val routine = RealtimeDBModelRoutine(name = "루틴 2", term = 0, userId = "userId1")
 
         val routineWithTodo = RealtimeDBModelRoutineWithTodo(
             routine, mutableListOf(todo1, todo2)

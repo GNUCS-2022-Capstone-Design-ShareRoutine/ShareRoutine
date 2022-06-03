@@ -5,6 +5,8 @@ enum class Term {
 }
 
 data class Routine(
+    var id: Int? = null,
+    var userId: String = "",
     var name: String,
     var term: Term,
     var isUsed: Boolean,

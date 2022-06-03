@@ -5,12 +5,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface RoutineRepository {
     suspend fun insert(routine: Routine)
+    suspend fun update(routine: Routine)
     suspend fun deleteInLocal(routine: Routine)
 
     suspend fun upload(routine: Routine)
     suspend fun deleteInRemote(routine: Routine)
 
     fun getAllRoutinesFromLocal(): Flow<List<Routine>>
+    suspend fun getRoutineByName(name: String): Routine?
 
     suspend fun fetchRoutine(id: String): Routine
 }

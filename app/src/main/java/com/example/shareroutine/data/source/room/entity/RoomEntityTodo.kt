@@ -5,7 +5,9 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.time.ZonedDateTime
+import java.time.DayOfWeek
+import java.time.LocalTime
+import java.time.Month
 
 // onUpdate
 @Entity(
@@ -16,9 +18,11 @@ import java.time.ZonedDateTime
 data class RoomEntityTodo(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
-    var dateTime: ZonedDateTime,
+    var time: LocalTime? = null,
+    var dayOfWeek: DayOfWeek? = null,
+    var day: Int? = null,
+    var month: Month? = null,
     var importance: Int,
     var description: String,
-    var achieved: Boolean,
     var routineId: Int? = null
 )

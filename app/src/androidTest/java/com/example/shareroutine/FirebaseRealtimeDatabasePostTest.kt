@@ -5,7 +5,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.shareroutine.data.repository.PostRepositoryImpl
 import com.example.shareroutine.data.source.PostDataSource
 import com.example.shareroutine.data.source.realtime.PostDataSourceImplWithRealtime
-import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
 import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.domain.repository.PostRepository
 import com.example.shareroutine.domain.usecase.GetPostListUseCase

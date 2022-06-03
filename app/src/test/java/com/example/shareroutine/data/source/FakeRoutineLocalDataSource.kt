@@ -22,4 +22,10 @@ class FakeRoutineLocalDataSource(var routines: MutableList<RoutineWithTodo>? = m
             routines?.toList()?.let { emit(it) }
         }
     }
+
+    override suspend fun getRoutineByName(name: String): RoutineWithTodo? {
+        return routines?.find {
+            it.roomEntityRoutine.name == name
+        }
+    }
 }

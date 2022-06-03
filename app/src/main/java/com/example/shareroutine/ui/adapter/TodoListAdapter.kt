@@ -1,4 +1,4 @@
-package com.example.shareroutine.ui.community
+package com.example.shareroutine.ui.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

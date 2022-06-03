@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shareroutine.databinding.ActivityRoutineAddBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RoutineManageActivity : AppCompatActivity() {
 
     private lateinit var viewPager: ViewPager2

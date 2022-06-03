@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "bd25b27cc54271171d9ff4bbf87792f1",
+    "version": 3,
+    "identityHash": "878a820c8b2c9da251a69fd59befc89a",
     "entities": [
       {
         "tableName": "routine_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `term` INTEGER NOT NULL, `isUsed` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `term` INTEGER NOT NULL, `isUsed` INTEGER NOT NULL, `userId` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -30,6 +30,12 @@
             "fieldPath": "isUsed",
             "columnName": "isUsed",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -138,7 +144,7 @@
       },
       {
         "tableName": "used_todo_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `importance` INTEGER NOT NULL, `description` TEXT NOT NULL, `achieved` INTEGER NOT NULL, `routineId` INTEGER, FOREIGN KEY(`routineId`) REFERENCES `routine_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` INTEGER NOT NULL, `importance` INTEGER NOT NULL, `description` TEXT NOT NULL, `achieved` INTEGER NOT NULL, `term` INTEGER NOT NULL, `routineId` INTEGER, FOREIGN KEY(`routineId`) REFERENCES `routine_table`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -171,6 +177,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "routineId",
             "columnName": "routineId",
             "affinity": "INTEGER",
@@ -198,7 +210,7 @@
           {
             "table": "routine_table",
             "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
+            "onUpdate": "CASCADE",
             "columns": [
               "routineId"
             ],
@@ -212,7 +224,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bd25b27cc54271171d9ff4bbf87792f1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '878a820c8b2c9da251a69fd59befc89a')"
     ]
   }
 }

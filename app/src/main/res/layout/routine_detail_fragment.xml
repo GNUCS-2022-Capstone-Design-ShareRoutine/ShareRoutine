@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.routine.detail.RoutineDetailFragment">
 
-    <com.github.mikephil.charting.charts.LineChart
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/routine_detail_importance"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -20,8 +20,8 @@
         android:id="@+id/routine_detail_list_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:text="적용된 루틴"
+        android:layout_margin="8dp"
+        android:text="@string/routine_detail_used_todo_list_label"
         android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/routine_detail_importance"
         app:layout_constraintBottom_toTopOf="@id/routine_detail_list"

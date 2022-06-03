@@ -93,15 +93,13 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun autoLogin(){
         val mAuth = FirebaseAuth.getInstance()
-        val user: FirebaseUser? = mAuth.getCurrentUser()
+        val user: FirebaseUser? = mAuth.currentUser
 
-        if (user != null) {
-            user.getIdToken(true).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val idToken: String? = task.result.token
-                    val mainMove_intent = Intent(applicationContext, MainActivity::class.java)
-                    startActivity(mainMove_intent)
-                }
+        user?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val idToken: String? = task.result.token
+                val mainMoveIntent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(mainMoveIntent)
             }
         }
     }

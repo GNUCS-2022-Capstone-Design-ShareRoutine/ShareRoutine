@@ -2,7 +2,6 @@ package com.example.shareroutine.ui.routine
 
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -19,14 +18,11 @@ class RoutineFragment : Fragment() {
 
     private lateinit var backPressedCallback: OnBackPressedCallback
     private lateinit var viewPager:  ViewPager2
-    private lateinit var viewModel: RoutineViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this)[RoutineViewModel::class.java]
-
         _binding = RoutineFragmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
