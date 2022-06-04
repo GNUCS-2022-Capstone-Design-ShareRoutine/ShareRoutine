@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRoutine">
         <activity
+            android:name=".StartActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.routine.manage.fresh.AddTodoActivity"
             android:exported="false" />
         <activity
