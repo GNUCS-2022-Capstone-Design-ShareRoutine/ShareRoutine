@@ -34,6 +34,12 @@ class UsedTodoRepositoryImpl @Inject constructor(
         dataSource.delete(UsedTodoMapper.fromUsedTodoToRoomEntityUsedTodo(usedTodo))
     }
 
+    override suspend fun getUsedTodoListByRoutine(routine: Routine): List<UsedTodo> = withContext(ioDispatcher) {
+        val usedTodos = dataSource.getUsedTodoListByRoutineId(routine.id!!)
+
+        return@withContext usedTodos.map { UsedTodoMapper.fromRoomEntityUsedTodoToUsedTodo(it) }
+    }
+
     override fun getUsedTodoList(): Flow<List<UsedTodo>> {
         return dataSource.getUsedTodoList().flowOn(ioDispatcher).map { list ->
             list.map {

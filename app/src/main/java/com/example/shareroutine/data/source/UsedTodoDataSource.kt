@@ -8,5 +8,6 @@ interface UsedTodoDataSource {
     suspend fun update(todo: RoomEntityUsedTodo)
     suspend fun delete(todo: RoomEntityUsedTodo)
 
+    suspend fun getUsedTodoListByRoutineId(routineId: Int): List<RoomEntityUsedTodo>
     fun getUsedTodoList(): Flow<List<RoomEntityUsedTodo>>
 }
