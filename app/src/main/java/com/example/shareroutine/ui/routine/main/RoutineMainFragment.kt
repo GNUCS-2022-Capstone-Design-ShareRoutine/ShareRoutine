@@ -56,10 +56,10 @@ class RoutineMainFragment : Fragment() {
         viewModel.usedTodo.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 val achieved = list.filter { it.achieved }
-                val progressText = "${achieved.size / list.size * 100}%"
+                val progressText = "${(achieved.size.toFloat() / list.size * 100).toInt()}%"
 
                 binding.routineMainProgressChart.setProgressWithAnimation(
-                    (achieved.size / list.size * 100).toFloat(),
+                    achieved.size.toFloat() / list.size * 100,
                     1000
                 )
                 binding.routineMainProgressText.text = progressText
@@ -80,11 +80,18 @@ class RoutineMainFragment : Fragment() {
 
                 setAchieveCurrentTodo()
             }
+            else {
+                binding.routineMainProgressText.text = "-"
+                binding.routineMainTextItem.text = "-"
+                binding.routineMainProgressChart.setProgressWithAnimation(
+                    0f, 1000
+                )
+            }
         }
     }
 
     private fun setAchieveCurrentTodo() {
-        val currentTodo = binding.routineMainTextItem.text
+        val currentTodo = binding.routineMainTextItem.text.toString()
 
         if (currentTodo != "-") {
             binding.routineMainTextItem.setOnClickListener {
@@ -109,6 +116,9 @@ class RoutineMainFragment : Fragment() {
                     .setNegativeButton("취소") { _, _ -> }
                     .show()
             }
+        }
+        else {
+            binding.routineMainTextItem.setOnClickListener(null)
         }
     }
 }

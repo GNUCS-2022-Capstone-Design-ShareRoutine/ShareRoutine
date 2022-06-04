@@ -41,12 +41,15 @@ interface RoutineDao {
 
     @Transaction
     suspend fun update(routineWithTodo: RoutineWithTodo) {
-        val routineId = update(routineWithTodo.roomEntityRoutine)
-
-        val previous = getTodosWithRoutineId(routineId).first()
+        val previous = getTodosWithRoutineId(routineWithTodo.roomEntityRoutine.id!!).first()
 
         previous.map {
-            update(it)
+            delete(it)
+        }
+
+        routineWithTodo.roomEntityTodos.map {
+            it.routineId = routineWithTodo.roomEntityRoutine.id
+            insert(it)
         }
     }
 

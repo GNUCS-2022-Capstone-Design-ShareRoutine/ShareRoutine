@@ -10,5 +10,6 @@ interface UsedTodoRepository {
     suspend fun update(usedTodo: UsedTodo)
     suspend fun delete(usedTodo: UsedTodo)
 
+    suspend fun getUsedTodoListByRoutine(routine: Routine): List<UsedTodo>
     fun getUsedTodoList(): Flow<List<UsedTodo>>
 }

@@ -19,6 +19,10 @@ class UsedTodoDataSourceImplWithRoom @Inject constructor(private val dao: UsedTo
         dao.delete(todo)
     }
 
+    override suspend fun getUsedTodoListByRoutineId(routineId: Int): List<RoomEntityUsedTodo> {
+        return dao.getUsedTodosByRoutineId(routineId)
+    }
+
     override fun getUsedTodoList(): Flow<List<RoomEntityUsedTodo>> {
         return dao.getUsedTodos()
     }
