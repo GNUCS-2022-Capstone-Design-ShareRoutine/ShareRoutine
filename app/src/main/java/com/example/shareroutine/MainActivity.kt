@@ -13,8 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    val manager = supportFragmentManager
-
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -41,11 +39,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*fun ShowTabOne(){
-        val transaction = manager.beginTransaction()
-        val fragment = CommunityAddFragment()
-        transaction.replace(R.id.nav_host_fragment_activity_main,fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }*/
 }
