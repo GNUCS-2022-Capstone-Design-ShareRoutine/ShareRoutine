@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingBottom="80dp"
-        app:srcCompat="@drawable/shareroutine2" />
+        app:srcCompat="@drawable/shareroutine1" />
 
     </LinearLayout>
 
