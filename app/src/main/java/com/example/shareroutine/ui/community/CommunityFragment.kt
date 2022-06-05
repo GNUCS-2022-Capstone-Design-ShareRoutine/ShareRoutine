@@ -53,7 +53,8 @@ class CommunityFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.community_menu_add -> {
-
+                val intent = Intent(context, CommunityAddActivity::class.java)
+                startActivity(intent)
                 //Toast.makeText(requireContext(), "Add pressed", Toast.LENGTH_LONG).show()
             }
             R.id.community_menu_search -> {

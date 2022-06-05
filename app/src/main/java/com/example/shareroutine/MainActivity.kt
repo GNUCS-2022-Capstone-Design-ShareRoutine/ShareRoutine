@@ -8,12 +8,15 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shareroutine.databinding.ActivityMainBinding
+import com.example.shareroutine.ui.community.CommunityAddFragment
 import com.example.shareroutine.ui.community.CommunityFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    val manager = supportFragmentManager
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -38,5 +41,14 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
+
+    /*fun ShowTabOne(){
+        val transaction = manager.beginTransaction()
+        val fragment = CommunityAddFragment()
+        transaction.replace(R.id.nav_host_fragment_activity_main,fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }*/
 }
