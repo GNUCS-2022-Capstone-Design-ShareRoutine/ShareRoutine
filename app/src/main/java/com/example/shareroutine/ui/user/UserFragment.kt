@@ -1,5 +1,6 @@
 package com.example.shareroutine.ui.user
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.UserFragmentBinding
+import com.example.shareroutine.ui.routine.manage.RoutineManageActivity
 
 class UserFragment : Fragment() {
 
@@ -37,6 +39,12 @@ class UserFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.user_menu_edit -> {
+                val intent = Intent(requireContext(), UserEditActivity::class.java)
+                startActivity(intent)
+            }
+        }
         when (item.itemId) {
             R.id.user_menu_logout -> {
                 Toast.makeText(requireContext(), "Logout pressed", Toast.LENGTH_LONG).show()
