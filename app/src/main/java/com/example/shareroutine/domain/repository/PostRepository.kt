@@ -9,4 +9,5 @@ interface PostRepository {
     suspend fun delete(post: Post)
 
     fun getAllPosts(): Flow<List<Post>>
+    fun getPostById(id: String): Flow<Post>
 }

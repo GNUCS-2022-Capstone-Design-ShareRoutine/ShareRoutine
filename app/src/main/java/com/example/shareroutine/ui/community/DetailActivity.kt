@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.ActivityDetailBinding
@@ -31,27 +30,7 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.title = "상세 내용"
 
-        viewModel.setPost(intent.getSerializableExtra("post") as Post)
-
-        binding.detailRoutineTitle.text = viewModel.currentPost!!.title
-        binding.detailRoutineUsername.text = viewModel.currentPost!!.user.nickname
-        binding.detailRoutineDescription.text = viewModel.currentPost!!.description
-
-        viewModel.currentPost!!.hashTags.map {
-            val chip = Chip(this)
-
-            chip.text = it
-            chip.setOnClickListener {
-                Log.d("Chip clicked", "${chip.text}")
-            }
-
-            binding.detailRoutineHashGroup.addView(chip)
-        }
-
-        val fragment = binding.detailBottomSheet.getFragment<TodoListFragment>()
-
-        val bundle = bundleOf(Pair("routine", viewModel.currentPost!!.routine))
-        fragment.arguments = bundle
+        observePost()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -70,7 +49,6 @@ class DetailActivity : AppCompatActivity() {
                 val intent = Intent(this, CommunityAddActivity::class.java)
                 intent.putExtra("post", viewModel.currentPost)
                 startActivity(intent)
-                finish()
             }
             R.id.detail_menu_delete -> {
                 viewModel.deleteCurrentPost().observe(this) {
@@ -89,5 +67,33 @@ class DetailActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun observePost() {
+        viewModel.setPost(intent.getSerializableExtra("post") as Post)
+
+        viewModel.observePost(viewModel.currentPost!!.id!!).observe(this) {
+            println("Observing in DetailActivity: $it")
+
+            binding.detailRoutineTitle.text = it.title
+            binding.detailRoutineUsername.text = it.user.nickname
+            binding.detailRoutineDescription.text = it.description
+            binding.detailRoutineHashGroup.removeAllViews()
+
+            it.hashTags.map { tag ->
+                val chip = Chip(this)
+
+                chip.text = tag
+                chip.setOnClickListener {
+                    Log.d("Chip clicked", "${chip.text}")
+                }
+
+                binding.detailRoutineHashGroup.addView(chip)
+            }
+
+            val fragment = binding.detailBottomSheet.getFragment<TodoListFragment>()
+
+            fragment.updateView(it.routine)
+        }
     }
 }

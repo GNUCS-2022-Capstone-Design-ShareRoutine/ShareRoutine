@@ -89,4 +89,35 @@ class PostDataSourceImplWithRealtime @Inject constructor(
             topDbRef.removeEventListener(listener)
         }
     }
+
+    override fun getPostById(id: String) = callbackFlow {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val postWithRoutine = RealtimeDBModelPostWithRoutine()
+
+                val post = snapshot.child(
+                    "community/posts"
+                ).child(id).getValue(RealtimeDBModelPost::class.java)!!
+
+                val routine = snapshot.child(
+                    "routines"
+                ).child(id).getValue(RealtimeDBModelRoutineWithTodo::class.java)!!
+
+                postWithRoutine.post = post
+                postWithRoutine.routineWithTodo = routine
+
+                trySend(State.success(postWithRoutine))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                trySend(State.failed(error.message))
+            }
+        }
+
+        topDbRef.addValueEventListener(listener)
+
+        awaitClose {
+            topDbRef.removeEventListener(listener)
+        }
+    }
 }

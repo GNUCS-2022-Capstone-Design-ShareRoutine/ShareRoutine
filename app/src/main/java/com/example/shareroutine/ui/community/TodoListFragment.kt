@@ -30,17 +30,14 @@ class TodoListFragment : Fragment() {
 
         val recyclerView = binding.todoListRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        recyclerView.adapter = TodoListAdapter(listOf())
         recyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), 1))
 
-        val bundle = arguments
-
-        if (bundle != null) {
-            val routine = bundle.getSerializable("routine") as Routine
-
-            recyclerView.adapter = TodoListAdapter(routine.todos)
-        }
-
         return root
+    }
+
+    fun updateView(routine: Routine) {
+        binding.todoListRecyclerView.apply {
+            adapter = TodoListAdapter(routine.todos)
+        }
     }
 }
