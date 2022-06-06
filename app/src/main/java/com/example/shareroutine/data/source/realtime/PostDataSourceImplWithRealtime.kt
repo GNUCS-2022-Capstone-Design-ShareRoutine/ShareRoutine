@@ -31,15 +31,27 @@ class PostDataSourceImplWithRealtime @Inject constructor(
     }
 
     override suspend fun update(post: RealtimeDBModelPostWithRoutine) {
-        TODO("Not yet implemented")
+        val postData = post.post!!
+        val routine = post.routineWithTodo!!
+
+        val postItem: HashMap<String, RealtimeDBModelPost> = hashMapOf()
+        val routineItem: HashMap<String, RealtimeDBModelRoutineWithTodo> = hashMapOf()
+
+        postData.id?.let {
+            postItem[it] = postData
+            routineItem[it] = routine
+        }
+
+        postDbRef.updateChildren(postItem as Map<String, Any>).await()
+        routineDbRef.updateChildren(routineItem as Map<String, Any>).await()
     }
 
     override suspend fun delete(post: RealtimeDBModelPostWithRoutine) {
         val postData = post.post!!
 
         postData.id?.let {
-            routineDbRef.child(it).removeValue().await()
             postDbRef.child(it).removeValue().await()
+            routineDbRef.child(it).removeValue().await()
         }
     }
 

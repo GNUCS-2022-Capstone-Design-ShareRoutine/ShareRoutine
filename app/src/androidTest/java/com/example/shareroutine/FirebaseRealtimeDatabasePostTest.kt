@@ -5,7 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.shareroutine.data.repository.PostRepositoryImpl
 import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.domain.repository.PostRepository
-import com.example.shareroutine.domain.usecase.GetPostListUseCase
+import com.example.shareroutine.domain.usecase.post.GetPostListUseCase
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

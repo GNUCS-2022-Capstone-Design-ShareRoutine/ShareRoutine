@@ -2,7 +2,7 @@ package com.example.shareroutine.ui.community
 
 import androidx.lifecycle.*
 import com.example.shareroutine.domain.model.Post
-import com.example.shareroutine.domain.usecase.GetPostListUseCase
+import com.example.shareroutine.domain.usecase.post.GetPostListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
