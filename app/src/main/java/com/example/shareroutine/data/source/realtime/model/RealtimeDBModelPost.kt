@@ -7,5 +7,6 @@ data class RealtimeDBModelPost(
     var liked: Int = 0,
     var downloaded: Int = 0,
     var dateTime: Long = 0,
-    var user: RealtimeDBModelUser? = null
+    var user: RealtimeDBModelUser? = null,
+    var hashTags: List<String> = emptyList()
 )

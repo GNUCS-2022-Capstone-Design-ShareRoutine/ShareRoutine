@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.databinding.TodoListFragmentBinding
+import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.ui.adapter.TodoListAdapter
 
 class TodoListFragment : Fragment() {
@@ -28,12 +30,15 @@ class TodoListFragment : Fragment() {
 
         val recyclerView = binding.todoListRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        recyclerView.adapter = TodoListAdapter(listOf()) // viewModel 적용 필요
+        recyclerView.adapter = TodoListAdapter(listOf())
+        recyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), 1))
 
-        viewModel.todoList.observe(viewLifecycleOwner) {
-            val adapter = binding.todoListRecyclerView.adapter as TodoListAdapter
+        val bundle = arguments
 
-            adapter.setData(it)
+        if (bundle != null) {
+            val routine = bundle.getSerializable("routine") as Routine
+
+            recyclerView.adapter = TodoListAdapter(routine.todos)
         }
 
         return root

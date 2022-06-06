@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.ActivitySearchBinding
+import com.example.shareroutine.ui.community.CommunityMainAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,7 +37,14 @@ class SearchActivity : AppCompatActivity() {
         val listener = object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query!! != "") {
-                    viewModel.searchWithHashTag(query)
+                    viewModel.searchWithHashTag(query).observe(this@SearchActivity) {
+                        if (it) {
+                            binding.searchResultList.apply {
+                                layoutManager = GridLayoutManager(this@SearchActivity, 2)
+                                adapter = CommunityMainAdapter(viewModel.data)
+                            }
+                        }
+                    }
                 }
                 searchView.clearFocus()
                 return true

@@ -23,7 +23,8 @@ object PostMapper {
                 ZoneId.systemDefault()
             ),
             routine = RoutineMapper.fromRealtimeDBModelRoutineWithTodoToRoutine(routine),
-            user = UserMapper.fromRealtimeDBModelUserToUser(post.user!!)
+            user = UserMapper.fromRealtimeDBModelUserToUser(post.user!!),
+            hashTags = post.hashTags
         )
     }
 
@@ -35,7 +36,8 @@ object PostMapper {
             liked = post.liked,
             downloaded = post.downloaded,
             dateTime = post.dateTime.toInstant().toEpochMilli(),
-            user = UserMapper.fromUserToRealtimeDBModelUser(post.user)
+            user = UserMapper.fromUserToRealtimeDBModelUser(post.user),
+            hashTags = post.hashTags
         )
 
         val routine = RoutineMapper.fromRoutineToRealtimeDBModelRoutineWithTodo(post.routine)

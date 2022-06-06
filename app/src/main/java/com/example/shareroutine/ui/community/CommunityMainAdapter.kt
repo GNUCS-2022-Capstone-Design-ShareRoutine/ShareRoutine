@@ -26,8 +26,8 @@ class CommunityMainAdapter(private var postList: List<Post>) : RecyclerView.Adap
 
         holder.binding.communityCardView.setOnClickListener {
             val intent = Intent(it.context, DetailActivity::class.java)
-            intent.putExtra("title", post.title)
-            intent.putExtra("username", post.user.nickname)
+
+            intent.putExtra("post", post)
 
             it.context.startActivity(intent)
         }

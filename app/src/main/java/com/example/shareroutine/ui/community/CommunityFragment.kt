@@ -30,13 +30,14 @@ class CommunityFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        val recyclerView = binding.communityMainList
-        recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
-        recyclerView.adapter = CommunityMainAdapter(emptyList())
+        binding.communityMainList.apply {
+            layoutManager = GridLayoutManager(requireActivity(), 2)
+        }
 
         viewModel.posts.observe(viewLifecycleOwner) {
-            val adapter = binding.communityMainList.adapter as CommunityMainAdapter
-            adapter.setData(it)
+            binding.communityMainList.apply {
+                adapter = CommunityMainAdapter(it)
+            }
         }
 
         return root

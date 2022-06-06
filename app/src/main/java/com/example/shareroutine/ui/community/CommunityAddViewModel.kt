@@ -29,10 +29,13 @@ class CommunityAddViewModel @Inject constructor(
 
             val user = fetchUserUseCase(currentUser.uid)!!
 
+            val hashTags: MutableList<String> = hashTag.split("#").toMutableList()
+            hashTags.removeFirst()
+
             val post = Post(
-                title = title, user = user,
-                liked = 0, downloaded = 0, description = content,
-                dateTime = ZonedDateTime.now(), routine = selectedRoutine!!
+                title = title, user = user, liked = 0, downloaded = 0,
+                description = content, dateTime = ZonedDateTime.now(),
+                routine = selectedRoutine!!, hashTags = hashTags
             )
 
             insertPostUseCase(post)

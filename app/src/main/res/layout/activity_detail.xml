@@ -24,7 +24,6 @@
             android:id="@+id/detail_routine_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
             app:layout_constraintTop_toBottomOf="@id/detail_routine_title"
             app:layout_constraintBottom_toTopOf="@id/detail_routine_description"
             app:layout_constraintStart_toStartOf="parent" />
@@ -33,6 +32,7 @@
             android:id="@+id/detail_routine_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="24sp"
             app:layout_constraintTop_toBottomOf="@id/detail_routine_username"
             app:layout_constraintBottom_toTopOf="@id/detail_routine_hash_group"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,31 +42,9 @@
             android:id="@+id/detail_routine_hash_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:singleLine="true"
             app:layout_constraintTop_toBottomOf="@id/detail_routine_hash_group"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <!-- Layout for test -->
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="해시1" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="해시2" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="해시3" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="해시4" />
-
-        </com.google.android.material.chip.ChipGroup>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
