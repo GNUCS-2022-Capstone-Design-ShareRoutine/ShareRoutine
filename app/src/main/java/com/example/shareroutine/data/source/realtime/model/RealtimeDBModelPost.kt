@@ -2,7 +2,6 @@ package com.example.shareroutine.data.source.realtime.model
 
 data class RealtimeDBModelPost(
     var id: String? = null,
-    var routineId: String = "",
     var userId: String = "",
     var title: String = "",
     var description: String = "",

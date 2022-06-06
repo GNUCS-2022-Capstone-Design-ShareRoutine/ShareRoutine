@@ -20,6 +20,17 @@ object FirebaseModule {
 
     @Singleton
     @Provides
+    @TopDatabaseRef
+    fun provideTopDatabaseRef(): DatabaseReference {
+        val db = FirebaseDatabase.getInstance(
+            "https://shareroutine-default-rtdb.firebaseio.com/"
+        )
+
+        return db.reference
+    }
+
+    @Singleton
+    @Provides
     @PostDatabaseRef
     fun providePostDatabaseRef(): DatabaseReference {
         val db = FirebaseDatabase.getInstance(
@@ -58,6 +69,10 @@ object FirebaseModule {
         return db.getReference("users")
     }
 }
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class TopDatabaseRef
 
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
