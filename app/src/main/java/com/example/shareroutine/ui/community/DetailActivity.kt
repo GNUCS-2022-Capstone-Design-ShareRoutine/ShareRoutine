@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.ActivityDetailBinding
@@ -31,6 +32,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.title = "상세 내용"
 
         observePost()
+        setButton()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -70,17 +72,19 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun observePost() {
+        val currentUser = FirebaseAuth.getInstance().currentUser!!
+
         viewModel.setPost(intent.getSerializableExtra("post") as Post)
 
-        viewModel.observePost(viewModel.currentPost!!.id!!).observe(this) {
-            println("Observing in DetailActivity: $it")
+        viewModel.observePost(viewModel.currentPost!!.id!!).observe(this) { post ->
+            viewModel.currentPost = post
 
-            binding.detailRoutineTitle.text = it.title
-            binding.detailRoutineUsername.text = it.user.nickname
-            binding.detailRoutineDescription.text = it.description
+            binding.detailRoutineTitle.text = post.title
+            binding.detailRoutineUsername.text = post.user.nickname
+            binding.detailRoutineDescription.text = post.description
             binding.detailRoutineHashGroup.removeAllViews()
 
-            it.hashTags.map { tag ->
+            post.hashTags.map { tag ->
                 val chip = Chip(this)
 
                 chip.text = tag
@@ -91,9 +95,37 @@ class DetailActivity : AppCompatActivity() {
                 binding.detailRoutineHashGroup.addView(chip)
             }
 
+            if (post.liked.none { it == currentUser.uid }) {
+                binding.detailLikeButton.setBackgroundColor(
+                    ContextCompat.getColor(this, R.color.share_routine_theme_cream_pink)
+                )
+            }
+            else {
+                binding.detailLikeButton.setBackgroundColor(
+                    ContextCompat.getColor(this, R.color.share_routine_theme_dark_purple)
+                )
+            }
+
             val fragment = binding.detailBottomSheet.getFragment<TodoListFragment>()
 
-            fragment.updateView(it.routine)
+            fragment.updateView(post.routine)
+        }
+    }
+
+    private fun setButton() {
+        val currentUser = FirebaseAuth.getInstance().currentUser!!
+
+        binding.detailLikeButton.setOnClickListener {
+            viewModel.likePost().observe(this) { result ->
+                if (result) {
+                    if (viewModel.currentPost!!.liked.none { it == currentUser.uid }) {
+                        Toast.makeText(this, "추천을 취소했습니다!", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Toast.makeText(this, "게시물을 추천했습니다!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 }

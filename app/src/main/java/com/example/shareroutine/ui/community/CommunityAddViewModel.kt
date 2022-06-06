@@ -38,9 +38,10 @@ class CommunityAddViewModel @Inject constructor(
 
             if (currentPost == null) {
                 currentPost = Post(
-                    title = title, user = user, liked = 0, downloaded = 0,
-                    description = content, dateTime = ZonedDateTime.now(),
-                    routine = selectedRoutine!!, hashTags = hashTags
+                    title = title, user = user, liked = mutableListOf(),
+                    downloaded = mutableListOf(), description = content,
+                    dateTime = ZonedDateTime.now(), routine = selectedRoutine!!,
+                    hashTags = hashTags
                 )
 
                 insertPostUseCase(currentPost!!)
@@ -59,10 +60,6 @@ class CommunityAddViewModel @Inject constructor(
         }
 
         return isSuccessful
-    }
-
-    fun checkPostIsNull(): Boolean {
-        return currentPost == null
     }
 
     fun setPost(post: Post) {

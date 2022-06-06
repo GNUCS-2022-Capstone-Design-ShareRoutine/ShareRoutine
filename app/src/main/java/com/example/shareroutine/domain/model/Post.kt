@@ -6,8 +6,8 @@ import java.time.ZonedDateTime
 data class Post(
     var id: String? = null,
     var title: String,
-    var liked: Int,
-    var downloaded: Int,
+    var liked: MutableList<String> = mutableListOf(),
+    var downloaded: MutableList<String> = mutableListOf(),
     var description: String,
     var dateTime: ZonedDateTime,
     var routine: Routine,

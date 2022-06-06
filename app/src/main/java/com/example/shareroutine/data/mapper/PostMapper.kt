@@ -15,8 +15,8 @@ object PostMapper {
         return Post(
             id = post.id,
             title = post.title,
-            liked = post.liked,
-            downloaded = post.downloaded,
+            liked = post.liked.toMutableList(),
+            downloaded = post.downloaded.toMutableList(),
             description = post.description,
             dateTime = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(post.dateTime),
