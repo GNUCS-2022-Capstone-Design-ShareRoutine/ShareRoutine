@@ -3,12 +3,12 @@ package com.example.shareroutine.domain.model
 import java.time.ZonedDateTime
 
 data class Post(
-    val id: String? = null,
-    val title: String,
-    val userId: String,
-    val liked: Int,
-    val downloaded: Int,
-    val description: String,
-    val dateTime: ZonedDateTime,
-    val routine: Routine
+    var id: String? = null,
+    var title: String,
+    var liked: Int,
+    var downloaded: Int,
+    var description: String,
+    var dateTime: ZonedDateTime,
+    var routine: Routine,
+    var user: User
 )
