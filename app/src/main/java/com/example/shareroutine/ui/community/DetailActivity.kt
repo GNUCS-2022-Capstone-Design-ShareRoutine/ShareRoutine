@@ -106,6 +106,9 @@ class DetailActivity : AppCompatActivity() {
                 )
             }
 
+             binding.detailDownloadButton.isEnabled =
+                !(post.downloaded.contains(currentUser.uid) || post.user.id == currentUser.uid)
+
             val fragment = binding.detailBottomSheet.getFragment<TodoListFragment>()
 
             fragment.updateView(post.routine)
@@ -124,6 +127,17 @@ class DetailActivity : AppCompatActivity() {
                     else {
                         Toast.makeText(this, "게시물을 추천했습니다!", Toast.LENGTH_SHORT).show()
                     }
+                }
+            }
+        }
+
+        binding.detailDownloadButton.setOnClickListener {
+            viewModel.downloadRoutine().observe(this) { result ->
+                if (result) {
+                    Toast.makeText(this, "루틴을 다운로드했습니다!", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(this, "루틴 다운로드에 실패했습니다!", Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -2,9 +2,10 @@ package com.example.shareroutine.ui.community
 
 import androidx.lifecycle.*
 import com.example.shareroutine.domain.model.Post
-import com.example.shareroutine.domain.usecase.GetPostByIdUseCase
+import com.example.shareroutine.domain.usecase.post.GetPostByIdUseCase
 import com.example.shareroutine.domain.usecase.post.DeletePostUseCase
 import com.example.shareroutine.domain.usecase.post.UpdatePostUseCase
+import com.example.shareroutine.domain.usecase.routine.InsertRoutineUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val getPostByIdUseCase: GetPostByIdUseCase,
     private val updatePostUseCase: UpdatePostUseCase,
-    private val deletePostUseCase: DeletePostUseCase
+    private val deletePostUseCase: DeletePostUseCase,
+    private val insertRoutineUseCase: InsertRoutineUseCase
 ) : ViewModel() {
     var currentPost: Post? = null
 
@@ -59,7 +61,19 @@ class DetailViewModel @Inject constructor(
         return result
     }
 
-    fun downloadRoutine() {
+    fun downloadRoutine(): LiveData<Boolean> {
+        val currentUser = FirebaseAuth.getInstance().currentUser!!
 
+        currentPost!!.downloaded.add(currentUser.uid)
+
+        val result = MutableLiveData<Boolean>()
+
+        viewModelScope.launch {
+            insertRoutineUseCase(currentPost!!.routine)
+
+            result.value = true
+        }
+
+        return result
     }
 }
