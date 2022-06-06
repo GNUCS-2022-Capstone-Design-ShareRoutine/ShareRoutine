@@ -1,15 +1,19 @@
 package com.example.shareroutine.data.mapper
 
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
+import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPostWithRoutine
 import com.example.shareroutine.domain.model.Post
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-// TODO("루틴 관련 연결 추가 필요")
 object PostMapper {
-    fun mapperToPost(post: RealtimeDBModelPost): Post {
+    fun mapperToPost(postWithRoutine: RealtimeDBModelPostWithRoutine): Post {
+        val post = postWithRoutine.post!!
+        val routine = postWithRoutine.routineWithTodo!!
+
         return Post(
+            id = post.id,
             title = post.title,
             userId = post.userId,
             liked = post.liked,
@@ -18,19 +22,24 @@ object PostMapper {
             dateTime = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(post.dateTime),
                 ZoneId.systemDefault()
-            )
+            ),
+            routine = RoutineMapper.fromRealtimeDBModelRoutineWithTodoToRoutine(routine)
         )
     }
 
-    fun mapperToRealtimeDBModelPost(post: Post): RealtimeDBModelPost {
-        return RealtimeDBModelPost(
-            title = post.title,
+    fun mapperToRealtimeDBModelPost(post: Post): RealtimeDBModelPostWithRoutine {
+        val postData = RealtimeDBModelPost(
+            id = post.id,
             userId = post.userId,
-            routineId = "",
+            title = post.title,
+            description = post.description,
             liked = post.liked,
             downloaded = post.downloaded,
-            description = post.description,
             dateTime = post.dateTime.toInstant().toEpochMilli()
         )
+
+        val routine = RoutineMapper.fromRoutineToRealtimeDBModelRoutineWithTodo(post.routine)
+
+        return RealtimeDBModelPostWithRoutine(postData, routine)
     }
 }

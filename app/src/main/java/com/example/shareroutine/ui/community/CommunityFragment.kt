@@ -4,10 +4,7 @@ import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.CommunityFragmentBinding
@@ -55,7 +52,6 @@ class CommunityFragment : Fragment() {
             R.id.community_menu_add -> {
                 val intent = Intent(context, CommunityAddActivity::class.java)
                 startActivity(intent)
-                //Toast.makeText(requireContext(), "Add pressed", Toast.LENGTH_LONG).show()
             }
             R.id.community_menu_search -> {
                 val intent = Intent(requireActivity(), SearchActivity::class.java)

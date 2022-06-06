@@ -2,6 +2,7 @@ package com.example.shareroutine.data.repository
 
 import com.example.shareroutine.data.mapper.PostMapper
 import com.example.shareroutine.data.source.PostDataSource
+import com.example.shareroutine.data.source.PostWithRoutineDataSource
 import com.example.shareroutine.data.source.realtime.State
 import com.example.shareroutine.di.IoDispatcher
 import com.example.shareroutine.domain.model.Post
@@ -14,7 +15,7 @@ import java.lang.Exception
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
-    private val dataSource: PostDataSource,
+    private val dataSource: PostWithRoutineDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
     ) : PostRepository {
     override suspend fun insert(post: Post) = withContext(ioDispatcher) {
