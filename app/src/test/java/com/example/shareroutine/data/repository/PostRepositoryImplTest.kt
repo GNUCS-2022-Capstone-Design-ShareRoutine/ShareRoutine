@@ -3,7 +3,6 @@ package com.example.shareroutine.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.shareroutine.data.mapper.PostMapper
 import com.example.shareroutine.data.source.FakePostDataSource
-import com.example.shareroutine.data.source.PostDataSource
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
 import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.domain.repository.PostRepository

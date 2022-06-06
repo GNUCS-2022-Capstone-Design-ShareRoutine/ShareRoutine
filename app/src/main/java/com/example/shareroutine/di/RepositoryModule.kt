@@ -38,7 +38,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun providePostRepository(
-        postDataSource: PostWithRoutineDataSource,
+        postDataSource: PostDataSource,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): PostRepository = PostRepositoryImpl(postDataSource, ioDispatcher)
 
