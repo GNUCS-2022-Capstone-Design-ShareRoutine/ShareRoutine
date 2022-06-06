@@ -3,7 +3,6 @@ package com.example.shareroutine.ui.community
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -12,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.ActivityDetailBinding
 import com.example.shareroutine.domain.model.Post
+import com.example.shareroutine.ui.community.search.SearchActivity
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,9 +87,14 @@ class DetailActivity : AppCompatActivity() {
             post.hashTags.map { tag ->
                 val chip = Chip(this)
 
-                chip.text = tag
+                val chipText = "#$tag"
+
+                chip.text = chipText
                 chip.setOnClickListener {
-                    Log.d("Chip clicked", "${chip.text}")
+                    val intentToSearch = Intent(this, SearchActivity::class.java)
+                    intentToSearch.putExtra("query", tag)
+                    startActivity(intentToSearch)
+                    finish()
                 }
 
                 binding.detailRoutineHashGroup.addView(chip)

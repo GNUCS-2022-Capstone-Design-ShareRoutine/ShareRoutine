@@ -20,6 +20,8 @@ class SearchViewModel @Inject constructor(
     fun searchWithHashTag(query: String): LiveData<Boolean> {
         val result = MutableLiveData<Boolean>()
 
+        data.clear()
+
         viewModelScope.launch {
             val list = getPostListUseCase().first()
 
