@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shareroutine.R
@@ -51,7 +50,8 @@ class CommunityFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.community_menu_add -> {
-                Toast.makeText(requireContext(), "Add pressed", Toast.LENGTH_LONG).show()
+                val intent = Intent(context, CommunityAddActivity::class.java)
+                startActivity(intent)
             }
             R.id.community_menu_search -> {
                 val intent = Intent(requireActivity(), SearchActivity::class.java)

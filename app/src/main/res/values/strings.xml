@@ -38,6 +38,10 @@
     <string name="community_card_view_username">유저명</string>
     <string name="user_greeting">좋은 하루 되세요!</string>
     <string name="detail_todo_list_tag">할 일 목록</string>
+    <string name="community_add_title_label">게시글 제목</string>
+    <string name="community_add_hashtag_label">해시태그(#으로 구분)</string>
+    <string name="community_add_content_label">게시글 내용</string>
+    <string name="community_add_routine_list_label">공유할 루틴</string>
 
     <string name="web_client_id">832282324599-tq66cul3gcgfgvkd3grsfe5lft7ort8s.apps.googleusercontent.com</string>
 </resources>

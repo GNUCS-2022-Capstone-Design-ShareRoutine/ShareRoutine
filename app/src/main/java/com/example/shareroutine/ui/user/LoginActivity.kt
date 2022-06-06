@@ -66,7 +66,6 @@ class LoginActivity : AppCompatActivity() {
         val btn = binding.googleSignInBtn
 
         btn.setOnClickListener {
-            Log.d("good","no good")
             resultLauncher.launch(googleSignInClient.signInIntent)
         }
 
@@ -91,6 +90,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
     private fun autoLogin(){
         val mAuth = FirebaseAuth.getInstance()
         val user: FirebaseUser? = mAuth.currentUser
