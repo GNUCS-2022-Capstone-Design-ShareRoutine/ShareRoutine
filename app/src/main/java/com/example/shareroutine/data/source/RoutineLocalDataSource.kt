@@ -10,5 +10,4 @@ interface RoutineLocalDataSource {
     suspend fun delete(routine: RoutineWithTodo)
 
     fun getRoutineList(): Flow<List<RoutineWithTodo>>
-    suspend fun getRoutineByName(name: String): RoutineWithTodo?
 }

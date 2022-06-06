@@ -15,6 +15,8 @@
     <string name="community_menu_search">게시글 검색</string>
     <string name="user_menu_edit">정보 수정</string>
     <string name="user_menu_logout">로그아웃</string>
+    <string name="detail_menu_edit">게시글 수정</string>
+    <string name="detail_menu_delete">게시글 삭제</string>
 
     <string name="routine_main_current_todo_label">지금 할 일은…</string>
     <string name="routine_detail_used_todo_list_label">남은 할 일 목록</string>
@@ -38,6 +40,10 @@
     <string name="community_card_view_username">유저명</string>
     <string name="user_greeting">좋은 하루 되세요!</string>
     <string name="detail_todo_list_tag">할 일 목록</string>
+    <string name="community_add_title_label">게시글 제목</string>
+    <string name="community_add_hashtag_label">해시태그(#으로 구분)</string>
+    <string name="community_add_content_label">게시글 내용</string>
+    <string name="community_add_routine_list_label">공유할 루틴</string>
 
     <string name="web_client_id">832282324599-tq66cul3gcgfgvkd3grsfe5lft7ort8s.apps.googleusercontent.com</string>
 </resources>

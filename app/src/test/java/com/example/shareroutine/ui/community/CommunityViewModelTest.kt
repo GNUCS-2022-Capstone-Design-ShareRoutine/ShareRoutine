@@ -4,21 +4,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.shareroutine.data.repository.FakePostRepository
 import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.domain.repository.PostRepository
-import com.example.shareroutine.domain.usecase.GetPostListUseCase
-import com.example.shareroutine.domain.usecase.InsertPostUseCase
-import com.example.shareroutine.getOrAwaitValue
+import com.example.shareroutine.domain.usecase.post.GetPostListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.Is.`is`
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import java.time.ZonedDateTime
 
 @ExperimentalCoroutinesApi

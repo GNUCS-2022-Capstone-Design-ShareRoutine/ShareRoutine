@@ -7,11 +7,25 @@
     <application
         android:name=".ShareRoutineApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/shareroutine1"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/shareroutine1"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRoutine">
+        <activity
+            android:name=".ui.community.CommunityAddActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
+        <activity
+            android:name=".StartActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.routine.manage.fresh.AddTodoActivity"
             android:exported="false" />

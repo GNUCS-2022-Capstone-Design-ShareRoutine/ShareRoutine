@@ -5,8 +5,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "routine_table",
-    indices = [Index(value = ["name"], unique = true)]
+    tableName = "routine_table"
 )
 data class RoomEntityRoutine(
     @PrimaryKey(autoGenerate = true)

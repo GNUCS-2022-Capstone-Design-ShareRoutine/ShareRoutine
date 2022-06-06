@@ -15,6 +15,9 @@ interface UsedTodoDao {
     @Delete
     suspend fun delete(roomEntityUsedTodo: RoomEntityUsedTodo)
 
+    @Query("SELECT * FROM used_todo_table WHERE routineId = :routineId")
+    suspend fun getUsedTodosByRoutineId(routineId: Int): List<RoomEntityUsedTodo>
+
     @Query("SELECT * FROM used_todo_table")
     fun getUsedTodos(): Flow<List<RoomEntityUsedTodo>>
 }

@@ -22,12 +22,12 @@ class CommunityMainAdapter(private var postList: List<Post>) : RecyclerView.Adap
         val post = postList[position]
 
         holder.binding.communityCardViewTitle.text = post.title
-        holder.binding.communityCardUsername.text = post.userId
+        holder.binding.communityCardUsername.text = post.user.nickname
 
         holder.binding.communityCardView.setOnClickListener {
             val intent = Intent(it.context, DetailActivity::class.java)
-            intent.putExtra("title", post.title)
-            intent.putExtra("username", post.userId)
+
+            intent.putExtra("post", post)
 
             it.context.startActivity(intent)
         }

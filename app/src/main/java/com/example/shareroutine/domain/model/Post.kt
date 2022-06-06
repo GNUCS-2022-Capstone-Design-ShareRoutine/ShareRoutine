@@ -1,13 +1,16 @@
 package com.example.shareroutine.domain.model
 
+import java.io.Serializable
 import java.time.ZonedDateTime
 
-// TODO("루틴 관련 연결 추가 필요")
 data class Post(
-    val title: String,
-    val userId: String,
-    val liked: Int,
-    val downloaded: Int,
-    val description: String,
-    val dateTime: ZonedDateTime
-)
+    var id: String? = null,
+    var title: String,
+    var liked: MutableList<String> = mutableListOf(),
+    var downloaded: MutableList<String> = mutableListOf(),
+    var description: String,
+    var dateTime: ZonedDateTime,
+    var routine: Routine,
+    var user: User,
+    var hashTags: List<String>
+) : Serializable

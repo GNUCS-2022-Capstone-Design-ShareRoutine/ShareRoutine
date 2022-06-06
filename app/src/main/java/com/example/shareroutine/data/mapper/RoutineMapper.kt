@@ -14,7 +14,11 @@ import com.example.shareroutine.domain.model.Todo
 object RoutineMapper {
     fun fromRoutineWithTodoToRoutine(routineWithTodo: RoutineWithTodo): Routine {
         val todos = routineWithTodo.roomEntityTodos.map {
-            val todo = Todo(importance = it.importance, description = it.description)
+            val todo = Todo(
+                id = it.id,
+                importance = it.importance,
+                description = it.description
+            )
 
             when (routineWithTodo.roomEntityRoutine.term) {
                 0 -> todo.time = it.time
@@ -47,7 +51,11 @@ object RoutineMapper {
 
     fun fromRoutineToRoutineWithTodo(routine: Routine): RoutineWithTodo {
         val todos = routine.todos.map {
-            val todo = RoomEntityTodo(importance = it.importance, description = it.description)
+            val todo = RoomEntityTodo(
+                id = it.id,
+                importance = it.importance,
+                description = it.description
+            )
 
             when (routine.term) {
                 Term.DAILY -> todo.time = it.time

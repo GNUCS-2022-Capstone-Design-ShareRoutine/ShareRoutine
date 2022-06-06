@@ -15,7 +15,11 @@ object PostDataSourceModule {
 
     @Singleton
     @Provides
-    fun providePostDataSourceImplWithRealtime(@PostDatabaseRef dbRef: DatabaseReference): PostDataSource {
-        return PostDataSourceImplWithRealtime(dbRef)
+    fun providePostWithDataSourceImplWithRealtime(
+        @TopDatabaseRef topDbRef: DatabaseReference,
+        @PostDatabaseRef postDbRef: DatabaseReference,
+        @RoutineDatabaseRef routineDbRef: DatabaseReference
+    ): PostDataSource {
+        return PostDataSourceImplWithRealtime(topDbRef, postDbRef, routineDbRef)
     }
 }
