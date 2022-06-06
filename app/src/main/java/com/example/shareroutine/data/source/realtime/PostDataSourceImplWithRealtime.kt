@@ -31,15 +31,27 @@ class PostDataSourceImplWithRealtime @Inject constructor(
     }
 
     override suspend fun update(post: RealtimeDBModelPostWithRoutine) {
-        TODO("Not yet implemented")
+        val postData = post.post!!
+        val routine = post.routineWithTodo!!
+
+        val postItem: HashMap<String, RealtimeDBModelPost> = hashMapOf()
+        val routineItem: HashMap<String, RealtimeDBModelRoutineWithTodo> = hashMapOf()
+
+        postData.id?.let {
+            postItem[it] = postData
+            routineItem[it] = routine
+        }
+
+        postDbRef.updateChildren(postItem as Map<String, Any>).await()
+        routineDbRef.updateChildren(routineItem as Map<String, Any>).await()
     }
 
     override suspend fun delete(post: RealtimeDBModelPostWithRoutine) {
         val postData = post.post!!
 
         postData.id?.let {
-            routineDbRef.child(it).removeValue().await()
             postDbRef.child(it).removeValue().await()
+            routineDbRef.child(it).removeValue().await()
         }
     }
 
@@ -64,6 +76,37 @@ class PostDataSourceImplWithRealtime @Inject constructor(
                 }
 
                 trySend(State.success(postsWithRoutine))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                trySend(State.failed(error.message))
+            }
+        }
+
+        topDbRef.addValueEventListener(listener)
+
+        awaitClose {
+            topDbRef.removeEventListener(listener)
+        }
+    }
+
+    override fun getPostById(id: String) = callbackFlow {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val postWithRoutine = RealtimeDBModelPostWithRoutine()
+
+                val post = snapshot.child(
+                    "community/posts"
+                ).child(id).getValue(RealtimeDBModelPost::class.java)!!
+
+                val routine = snapshot.child(
+                    "routines"
+                ).child(id).getValue(RealtimeDBModelRoutineWithTodo::class.java)!!
+
+                postWithRoutine.post = post
+                postWithRoutine.routineWithTodo = routine
+
+                trySend(State.success(postWithRoutine))
             }
 
             override fun onCancelled(error: DatabaseError) {

@@ -59,10 +59,6 @@ interface RoutineDao {
     }
 
     @Transaction
-    @Query("SELECT * FROM routine_table WHERE name = :name")
-    suspend fun getRoutineWithTodosByName(name: String): RoutineWithTodo?
-
-    @Transaction
     @Query("SELECT * FROM routine_table")
     fun getRoutinesWithTodos(): Flow<List<RoutineWithTodo>>
 }

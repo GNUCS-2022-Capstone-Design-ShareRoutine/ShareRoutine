@@ -10,4 +10,5 @@ interface PostDataSource {
     suspend fun delete(post: RealtimeDBModelPostWithRoutine)
 
     fun getAllPostList(): Flow<State<List<RealtimeDBModelPostWithRoutine>>>
+    fun getPostById(id: String): Flow<State<RealtimeDBModelPostWithRoutine>>
 }

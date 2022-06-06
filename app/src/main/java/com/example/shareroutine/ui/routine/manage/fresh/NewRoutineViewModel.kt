@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.example.shareroutine.domain.model.Routine
 import com.example.shareroutine.domain.model.Term
 import com.example.shareroutine.domain.model.Todo
-import com.example.shareroutine.domain.usecase.routine.GetRoutineByNameUseCase
 import com.example.shareroutine.domain.usecase.routine.InsertRoutineUseCase
 import com.example.shareroutine.domain.usecase.routine.UpdateRoutineUseCase
 import com.google.firebase.auth.FirebaseAuth
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewRoutineViewModel @Inject constructor(
-    private val getRoutineByNameUseCase: GetRoutineByNameUseCase,
     private val insertRoutineUseCase: InsertRoutineUseCase,
     private val updateRoutineUseCase: UpdateRoutineUseCase
 ) : ViewModel() {
@@ -68,9 +66,7 @@ class NewRoutineViewModel @Inject constructor(
         val isInsertSuccessful = MutableLiveData<Boolean>()
 
         viewModelScope.launch {
-            val check = getRoutineByNameUseCase(routine.name)
-
-            if (check == null) {
+            if (routine.id == null) {
                 insertRoutineUseCase(routine)
             }
             else {

@@ -8,7 +8,7 @@ import com.example.shareroutine.data.source.room.entity.RoomEntityTodo
 import com.example.shareroutine.data.source.room.entity.RoomEntityUsedTodo
 import com.example.shareroutine.data.util.Converters
 
-@Database(entities = [RoomEntityRoutine::class, RoomEntityTodo::class, RoomEntityUsedTodo::class], version = 3)
+@Database(entities = [RoomEntityRoutine::class, RoomEntityTodo::class, RoomEntityUsedTodo::class], version = 4)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao

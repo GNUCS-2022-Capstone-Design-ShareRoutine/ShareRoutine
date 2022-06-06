@@ -2,12 +2,14 @@ package com.example.shareroutine.ui.community
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.ActivityCommunityAddBinding
+import com.example.shareroutine.domain.model.Post
 import com.example.shareroutine.ui.adapter.RoutineAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +27,20 @@ class CommunityAddActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[CommunityAddViewModel::class.java]
 
         supportActionBar?.title = "게시글 작성"
+
+        val postFromDetailActivity = intent.getSerializableExtra("post")
+
+        if (postFromDetailActivity != null) {
+            val post = postFromDetailActivity as Post
+
+            viewModel.setPost(post)
+
+            binding.communityAddTitleEdit.text = SpannableStringBuilder(post.title)
+            binding.communityAddContentEdit.text = SpannableStringBuilder(post.description)
+            binding.communityAddHashtagEdit.text = SpannableStringBuilder(
+                post.hashTags.joinToString("#", "#")
+            )
+        }
 
         setRecyclerView()
         setButton()
@@ -105,7 +121,7 @@ class CommunityAddActivity : AppCompatActivity() {
                 viewModel.writePost(title, hashTag, content).observe(this) {
                     if (it) {
                         Toast.makeText(this, "게시글을 작성했습니다!",
-                        Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT).show()
                     }
                     else {
                         Toast.makeText(this, "게시글 작성에 실패했습니다!",

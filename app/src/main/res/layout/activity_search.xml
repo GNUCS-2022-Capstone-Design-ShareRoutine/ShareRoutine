@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.community.search.SearchActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_result_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

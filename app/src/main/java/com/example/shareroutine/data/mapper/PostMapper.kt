@@ -15,27 +15,29 @@ object PostMapper {
         return Post(
             id = post.id,
             title = post.title,
-            userId = post.userId,
-            liked = post.liked,
-            downloaded = post.downloaded,
+            liked = post.liked.toMutableList(),
+            downloaded = post.downloaded.toMutableList(),
             description = post.description,
             dateTime = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(post.dateTime),
                 ZoneId.systemDefault()
             ),
-            routine = RoutineMapper.fromRealtimeDBModelRoutineWithTodoToRoutine(routine)
+            routine = RoutineMapper.fromRealtimeDBModelRoutineWithTodoToRoutine(routine),
+            user = UserMapper.fromRealtimeDBModelUserToUser(post.user!!),
+            hashTags = post.hashTags
         )
     }
 
     fun mapperToRealtimeDBModelPost(post: Post): RealtimeDBModelPostWithRoutine {
         val postData = RealtimeDBModelPost(
             id = post.id,
-            userId = post.userId,
             title = post.title,
             description = post.description,
             liked = post.liked,
             downloaded = post.downloaded,
-            dateTime = post.dateTime.toInstant().toEpochMilli()
+            dateTime = post.dateTime.toInstant().toEpochMilli(),
+            user = UserMapper.fromUserToRealtimeDBModelUser(post.user),
+            hashTags = post.hashTags
         )
 
         val routine = RoutineMapper.fromRoutineToRealtimeDBModelRoutineWithTodo(post.routine)

@@ -10,8 +10,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import javax.inject.Inject
+
 
 class PostRepositoryImpl @Inject constructor(
     private val dataSource: PostDataSource,
@@ -35,6 +35,15 @@ class PostRepositoryImpl @Inject constructor(
                 is State.Success -> it.data.map { post ->
                     PostMapper.mapperToPost(post)
                 }
+                is State.Failed -> throw Exception(it.message)
+            }
+        }
+    }
+
+    override fun getPostById(id: String): Flow<Post> {
+        return dataSource.getPostById(id).map {
+            when (it) {
+                is State.Success -> PostMapper.mapperToPost(it.data)
                 is State.Failed -> throw Exception(it.message)
             }
         }
