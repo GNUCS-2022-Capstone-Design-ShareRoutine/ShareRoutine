@@ -26,6 +26,7 @@ class UserEditActivity : AppCompatActivity() {
     private var editText: EditText? = null
     private var button: Button? = null
     private var auth: FirebaseAuth? = null
+
     private lateinit var databaseReference: DatabaseReference
     val database = Firebase.database
     private val myRef = database.reference
@@ -62,6 +63,7 @@ class UserEditActivity : AppCompatActivity() {
                     myRef.child("users").child(firebaseUser.uid).child("nickname").setValue(editText!!.text.toString())
                 }
                 Toast.makeText(this@UserEditActivity, "변경 되었습니다.", Toast.LENGTH_SHORT).show()
+
             }
         })
     }
