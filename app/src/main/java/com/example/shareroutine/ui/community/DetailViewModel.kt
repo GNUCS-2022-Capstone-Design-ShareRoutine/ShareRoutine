@@ -37,8 +37,8 @@ class DetailViewModel @Inject constructor(
         return result
     }
 
-    fun getPost(): MutableLiveData<Post> {
-        val result = MutableLiveData<Post>()
+    fun getPost(): MutableLiveData<Post?> {
+        val result = MutableLiveData<Post?>()
 
         viewModelScope.launch {
             result.value = getPostByIdUseCase(currentPost!!.id!!).first()

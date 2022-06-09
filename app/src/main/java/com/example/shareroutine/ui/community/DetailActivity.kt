@@ -78,7 +78,7 @@ class DetailActivity : AppCompatActivity() {
         viewModel.setPost(intent.getSerializableExtra("post") as Post)
 
         viewModel.getPost().observe(this) { post ->
-            viewModel.currentPost = post
+            viewModel.currentPost = post!!
 
             binding.detailRoutineTitle.text = post.title
             binding.detailRoutineUsername.text = post.user.nickname
