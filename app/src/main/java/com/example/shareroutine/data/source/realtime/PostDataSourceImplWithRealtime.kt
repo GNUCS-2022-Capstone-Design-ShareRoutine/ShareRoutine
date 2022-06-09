@@ -5,10 +5,7 @@ import com.example.shareroutine.data.source.realtime.model.*
 import com.example.shareroutine.di.PostDatabaseRef
 import com.example.shareroutine.di.RoutineDatabaseRef
 import com.example.shareroutine.di.TopDatabaseRef
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
@@ -24,8 +21,8 @@ class PostDataSourceImplWithRealtime @Inject constructor(
         val routine = post.routineWithTodo!!
 
         val newKey = postDbRef.push().key!!
-
         postData.id = newKey
+
         postDbRef.child(newKey).setValue(postData).await()
         routineDbRef.child(newKey).setValue(routine).await()
     }
@@ -42,20 +39,20 @@ class PostDataSourceImplWithRealtime @Inject constructor(
             routineItem[it] = routine
         }
 
-        postDbRef.updateChildren(postItem as Map<String, Any>).await()
-        routineDbRef.updateChildren(routineItem as Map<String, Any>).await()
+        postDbRef.updateChildren(postItem as Map<String, Any>)
+        routineDbRef.updateChildren(routineItem as Map<String, Any>)
     }
 
     override suspend fun delete(post: RealtimeDBModelPostWithRoutine) {
         val postData = post.post!!
 
         postData.id?.let {
-            postDbRef.child(it).removeValue().await()
-            routineDbRef.child(it).removeValue().await()
+            routineDbRef.child(it).removeValue()
+            postDbRef.child(it).removeValue()
         }
     }
 
-    override fun getAllPostList() = callbackFlow<State<List<RealtimeDBModelPostWithRoutine>>> {
+    override fun getAllPostList() = callbackFlow {
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val postsWithRoutine = mutableListOf<RealtimeDBModelPostWithRoutine>()
@@ -67,15 +64,22 @@ class PostDataSourceImplWithRealtime @Inject constructor(
                 posts.map { dbPost ->
                     val postWithRoutine = RealtimeDBModelPostWithRoutine()
 
-                    val routine = snapshot.child("routines").child(dbPost.id!!).getValue(RealtimeDBModelRoutineWithTodo::class.java)!!
+                    val routine = snapshot.child("routines").child(dbPost.id!!).getValue(RealtimeDBModelRoutineWithTodo::class.java)
 
                     postWithRoutine.post = dbPost
-                    postWithRoutine.routineWithTodo = routine
+
+                    if (routine != null) {
+                        postWithRoutine.routineWithTodo = routine
+                    }
 
                     postsWithRoutine.add(postWithRoutine)
                 }
 
-                trySend(State.success(postsWithRoutine))
+                val goodPosts = postsWithRoutine.filter {
+                    it.routineWithTodo != null
+                }
+
+                trySend(State.success(goodPosts))
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -97,11 +101,14 @@ class PostDataSourceImplWithRealtime @Inject constructor(
 
                 val post = snapshot.child(
                     "community/posts"
-                ).child(id).getValue(RealtimeDBModelPost::class.java)!!
+                ).child(id).getValue(RealtimeDBModelPost::class.java)
 
                 val routine = snapshot.child(
                     "routines"
-                ).child(id).getValue(RealtimeDBModelRoutineWithTodo::class.java)!!
+                ).child(id).getValue(RealtimeDBModelRoutineWithTodo::class.java)
+
+                val routineData = snapshot.child("routines").child(id)
+                println("DataSource : $routineData")
 
                 postWithRoutine.post = post
                 postWithRoutine.routineWithTodo = routine

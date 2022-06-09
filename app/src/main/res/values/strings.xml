@@ -37,7 +37,7 @@
     <string name="user_new_nickname_label">변경할 닉네임</string>
 
     <string name="community_sort_latest">최신순</string>
-    <string name="community_sort_likes">좋아요순</string>
+    <string name="community_sort_likes">추천순</string>
     <string name="community_card_view_image">커뮤니티 메인화면 아이템 이미지</string>
     <string name="community_card_view_title">커뮤니티 메인화면 아이템 제목</string>
     <string name="community_card_view_username">유저명</string>

@@ -10,6 +10,7 @@ import javax.inject.Inject
 class CommunityViewModel @Inject constructor(
     getPostListUseCase: GetPostListUseCase,
 ) : ViewModel() {
-    private val _posts = getPostListUseCase().asLiveData()
-    val posts: LiveData<List<Post>> get() = _posts
+    // false = newest, true = liked
+    val sorting = MutableLiveData(false)
+    val posts = getPostListUseCase().asLiveData()
 }

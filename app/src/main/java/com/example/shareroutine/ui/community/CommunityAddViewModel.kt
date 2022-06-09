@@ -9,6 +9,7 @@ import com.example.shareroutine.domain.usecase.routine.GetRoutineListUseCase
 import com.example.shareroutine.domain.usecase.user.FetchUserUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 import javax.inject.Inject
@@ -20,7 +21,11 @@ class CommunityAddViewModel @Inject constructor(
     private val insertPostUseCase: InsertPostUseCase,
     private val updatePostUseCase: UpdatePostUseCase
 ) : ViewModel() {
-    val routineList = getRoutineListUseCase().asLiveData()
+    private val currentUser = FirebaseAuth.getInstance().currentUser!!
+
+    val routineList = getRoutineListUseCase().map { list ->
+        list.filter { it.userId == currentUser.uid }
+    } .asLiveData()
     var selectedRoutine: Routine? = null
 
     private var currentPost: Post? = null
