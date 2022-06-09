@@ -34,11 +34,8 @@ class CommunityFragment : Fragment() {
             layoutManager = GridLayoutManager(requireActivity(), 2)
         }
 
-        viewModel.posts.observe(viewLifecycleOwner) {
-            binding.communityMainList.apply {
-                adapter = CommunityMainAdapter(it)
-            }
-        }
+        observePosts()
+        setChips()
 
         return root
     }
@@ -61,5 +58,42 @@ class CommunityFragment : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun observePosts() {
+        with (viewModel) {
+            posts.observe(viewLifecycleOwner) { list ->
+                sorting.observe(viewLifecycleOwner) {
+                    if (it) {
+                        binding.communityMainList.apply {
+                            adapter = CommunityMainAdapter(
+                                list.sortedBy {
+                                    post -> post.dateTime
+                                }
+                            )
+                        }
+                    }
+                    else {
+                        binding.communityMainList.apply {
+                            adapter = CommunityMainAdapter(
+                                list.sortedBy {
+                                        post -> post.liked.size
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setChips() {
+        binding.communityChipLatest.setOnClickListener {
+            viewModel.sorting.value = false
+        }
+
+        binding.communityChipLikes.setOnClickListener {
+            viewModel.sorting.value = true
+        }
     }
 }

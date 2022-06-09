@@ -8,6 +8,7 @@ import com.example.shareroutine.domain.usecase.post.UpdatePostUseCase
 import com.example.shareroutine.domain.usecase.routine.InsertRoutineUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,8 +37,14 @@ class DetailViewModel @Inject constructor(
         return result
     }
 
-    fun observePost(id: String): LiveData<Post> {
-        return getPostByIdUseCase(id).asLiveData()
+    fun getPost(): MutableLiveData<Post> {
+        val result = MutableLiveData<Post>()
+
+        viewModelScope.launch {
+            result.value = getPostByIdUseCase(currentPost!!.id!!).first()
+        }
+
+        return result
     }
 
     fun likePost(): LiveData<Boolean> {
