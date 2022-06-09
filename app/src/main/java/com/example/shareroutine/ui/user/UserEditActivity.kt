@@ -1,72 +1,59 @@
 package com.example.shareroutine.ui.user
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.shareroutine.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import androidx.lifecycle.ViewModelProvider
+import com.example.shareroutine.databinding.ActivityUserEditBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class UserEditActivity : AppCompatActivity() {
 
-    private var textView: TextView? = null
-    private var editText: EditText? = null
-    private var button: Button? = null
-    private var auth: FirebaseAuth? = null
+    private val binding by lazy { ActivityUserEditBinding.inflate(layoutInflater) }
 
-    private lateinit var databaseReference: DatabaseReference
-    val database = Firebase.database
-    private val myRef = database.reference
+    private lateinit var viewModel: UserEditViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_edit)
-        databaseReference = Firebase.database.reference
+        setContentView(binding.root)
 
-        textView = findViewById(R.id.tv_nickname)
-        editText = findViewById(R.id.edit_nickname)
-        button = findViewById(R.id.edit_nickname_button)
+        viewModel = ViewModelProvider(this)[UserEditViewModel::class.java]
 
+        actionBar?.title = "정보 수정"
+
+        observeUser()
+        setButton()
     }
 
-    override fun onStart() {
-        super.onStart()
-        auth = FirebaseAuth.getInstance()
-        val firebaseUser: FirebaseUser? = auth!!.currentUser
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
+    private fun observeUser() {
+        viewModel.user.observe(this) {
+            binding.prevNickname.text = it.nickname
+        }
+    }
 
+    private fun setButton() {
+        binding.editNicknameButton.setOnClickListener {
+            val newNickname = binding.newNicknameEdit.text.toString()
 
-                val text = firebaseUser?.let { dataSnapshot.child("users").child(it.uid).child("nickname").value } as String
-                textView!!.text = text as CharSequence?
+            if (newNickname.isBlank()) {
+                Toast.makeText(
+                    this,
+                    "한 글자 이상 입력해주세요!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-        button!!.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-
-                if (firebaseUser != null) {
-                    myRef.child("users").child(firebaseUser.uid).child("nickname").setValue(editText!!.text.toString())
+            else {
+                viewModel.changeNickname(newNickname).observe(this) {
+                    if (it) {
+                        Toast.makeText(
+                            this,
+                            "닉네임이 변경되었습니다!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-                Toast.makeText(this@UserEditActivity, "변경 되었습니다.", Toast.LENGTH_SHORT).show()
-
             }
-        })
+        }
     }
-
-
 }
