@@ -4,5 +4,5 @@ data class RealtimeDBModelRoutine(
     var id: String? = null,
     var name: String = "",
     var term: Int = 4,
-    var userId: String
+    var userId: String = ""
 )

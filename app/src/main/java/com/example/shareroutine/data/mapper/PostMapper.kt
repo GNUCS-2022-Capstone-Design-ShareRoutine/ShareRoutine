@@ -1,36 +1,47 @@
 package com.example.shareroutine.data.mapper
 
 import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPost
+import com.example.shareroutine.data.source.realtime.model.RealtimeDBModelPostWithRoutine
 import com.example.shareroutine.domain.model.Post
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-// TODO("루틴 관련 연결 추가 필요")
 object PostMapper {
-    fun mapperToPost(post: RealtimeDBModelPost): Post {
+    fun mapperToPost(postWithRoutine: RealtimeDBModelPostWithRoutine): Post {
+        val post = postWithRoutine.post!!
+        val routine = postWithRoutine.routineWithTodo!!
+
         return Post(
+            id = post.id,
             title = post.title,
-            userId = post.userId,
-            liked = post.liked,
-            downloaded = post.downloaded,
+            liked = post.liked.toMutableList(),
+            downloaded = post.downloaded.toMutableList(),
             description = post.description,
             dateTime = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(post.dateTime),
                 ZoneId.systemDefault()
-            )
+            ),
+            routine = RoutineMapper.fromRealtimeDBModelRoutineWithTodoToRoutine(routine),
+            user = UserMapper.fromRealtimeDBModelUserToUser(post.user!!),
+            hashTags = post.hashTags
         )
     }
 
-    fun mapperToRealtimeDBModelPost(post: Post): RealtimeDBModelPost {
-        return RealtimeDBModelPost(
+    fun mapperToRealtimeDBModelPost(post: Post): RealtimeDBModelPostWithRoutine {
+        val postData = RealtimeDBModelPost(
+            id = post.id,
             title = post.title,
-            userId = post.userId,
-            routineId = "",
+            description = post.description,
             liked = post.liked,
             downloaded = post.downloaded,
-            description = post.description,
-            dateTime = post.dateTime.toInstant().toEpochMilli()
+            dateTime = post.dateTime.toInstant().toEpochMilli(),
+            user = UserMapper.fromUserToRealtimeDBModelUser(post.user),
+            hashTags = post.hashTags
         )
+
+        val routine = RoutineMapper.fromRoutineToRealtimeDBModelRoutineWithTodo(post.routine)
+
+        return RealtimeDBModelPostWithRoutine(postData, routine)
     }
 }

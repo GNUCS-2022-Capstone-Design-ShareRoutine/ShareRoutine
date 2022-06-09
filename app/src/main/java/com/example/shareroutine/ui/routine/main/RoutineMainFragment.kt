@@ -36,6 +36,12 @@ class RoutineMainFragment : Fragment() {
         return root
     }
 
+    override fun onResume() {
+        viewModel.updateDateTime()
+
+        super.onResume()
+    }
+
     private fun setProgressBar() {
         binding.routineMainProgressChart.backgroundProgressBarWidth = 15f
 

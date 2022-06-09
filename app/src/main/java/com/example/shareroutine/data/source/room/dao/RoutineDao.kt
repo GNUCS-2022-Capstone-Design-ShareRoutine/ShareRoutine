@@ -41,6 +41,8 @@ interface RoutineDao {
 
     @Transaction
     suspend fun update(routineWithTodo: RoutineWithTodo) {
+        update(routineWithTodo.roomEntityRoutine)
+
         val previous = getTodosWithRoutineId(routineWithTodo.roomEntityRoutine.id!!).first()
 
         previous.map {
@@ -57,10 +59,6 @@ interface RoutineDao {
     suspend fun delete(routineWithTodo: RoutineWithTodo) {
         delete(routineWithTodo.roomEntityRoutine)
     }
-
-    @Transaction
-    @Query("SELECT * FROM routine_table WHERE name = :name")
-    suspend fun getRoutineWithTodosByName(name: String): RoutineWithTodo?
 
     @Transaction
     @Query("SELECT * FROM routine_table")
