@@ -33,6 +33,9 @@
     <string name="new_routine_todo_label">할 일 내용</string>
     <string name="new_routine_todo_list_label">할 일 목록</string>
 
+    <string name="user_prev_nickname_label">현재 닉네임</string>
+    <string name="user_new_nickname_label">변경할 닉네임</string>
+
     <string name="community_sort_latest">최신순</string>
     <string name="community_sort_likes">좋아요순</string>
     <string name="community_card_view_image">커뮤니티 메인화면 아이템 이미지</string>
