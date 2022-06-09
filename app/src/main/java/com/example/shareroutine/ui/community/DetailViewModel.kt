@@ -71,6 +71,8 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             insertRoutineUseCase(currentPost!!.routine)
 
+            updatePostUseCase(currentPost!!)
+
             result.value = true
         }
 
