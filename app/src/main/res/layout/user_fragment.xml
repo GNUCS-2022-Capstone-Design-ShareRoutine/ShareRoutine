@@ -24,7 +24,6 @@
         android:id="@+id/user_nickname"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:text="사용자1님"
         android:textSize="24sp"
         app:layout_constraintTop_toTopOf="@id/user_guideline_horizontal"
         app:layout_constraintBottom_toTopOf="@id/user_greeting"

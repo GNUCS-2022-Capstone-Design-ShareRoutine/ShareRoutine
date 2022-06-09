@@ -1,5 +1,6 @@
 package com.example.shareroutine.ui.user
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
@@ -7,7 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.shareroutine.R
 import com.example.shareroutine.databinding.UserFragmentBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserFragment : Fragment() {
 
     private var _binding: UserFragmentBinding? = null
@@ -26,7 +31,11 @@ class UserFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        // Observing below
+        viewModel.user.observe(viewLifecycleOwner) {
+            val nicknameText = "${it.nickname}님!"
+
+            binding.userNickname.text = nicknameText
+        }
 
         return root
     }
@@ -38,8 +47,20 @@ class UserFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.user_menu_edit -> {
+                val intent = Intent(requireContext(), UserEditActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        when (item.itemId) {
             R.id.user_menu_logout -> {
-                Toast.makeText(requireContext(), "Logout pressed", Toast.LENGTH_LONG).show()
+
+                Firebase.auth.signOut()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(requireContext(), "앱에서 로그아웃합니다!", Toast.LENGTH_LONG).show()
+
+                requireActivity().finish()
             }
         }
 

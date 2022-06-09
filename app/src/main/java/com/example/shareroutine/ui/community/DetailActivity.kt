@@ -31,7 +31,7 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.title = "상세 내용"
 
-        observePost()
+        setPost()
         setButton()
     }
 
@@ -51,6 +51,7 @@ class DetailActivity : AppCompatActivity() {
                 val intent = Intent(this, CommunityAddActivity::class.java)
                 intent.putExtra("post", viewModel.currentPost)
                 startActivity(intent)
+                finish()
             }
             R.id.detail_menu_delete -> {
                 viewModel.deleteCurrentPost().observe(this) {
@@ -71,12 +72,12 @@ class DetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun observePost() {
+    private fun setPost() {
         val currentUser = FirebaseAuth.getInstance().currentUser!!
 
         viewModel.setPost(intent.getSerializableExtra("post") as Post)
 
-        viewModel.observePost(viewModel.currentPost!!.id!!).observe(this) { post ->
+        viewModel.getPost().observe(this) { post ->
             viewModel.currentPost = post
 
             binding.detailRoutineTitle.text = post.title

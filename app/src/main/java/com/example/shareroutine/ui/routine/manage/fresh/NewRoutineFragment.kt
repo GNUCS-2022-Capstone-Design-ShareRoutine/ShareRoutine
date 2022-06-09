@@ -110,9 +110,21 @@ class NewRoutineFragment : Fragment() {
 
     private fun observeTodoList() {
         viewModel.todoList.observe(viewLifecycleOwner) {
+            val listener = object : NewTodoAdapter.ItemLongClickListener {
+                override fun onItemLongClick(position: Int) {
+                    MaterialAlertDialogBuilder(requireActivity())
+                        .setMessage("할 일을 삭제하시겠습니까?")
+                        .setPositiveButton("확인") { _, _ ->
+                            viewModel.removeTodo(it[position])
+                        }
+                        .setNegativeButton("취소") { _, _ -> }
+                        .show()
+                }
+            }
+
             binding.newRoutineTodo.apply {
                 layoutManager = LinearLayoutManager(requireActivity())
-                adapter = ConcatAdapter(NewTodoAdapter(it), AddTodoAdapter(onButtonClickListener()))
+                adapter = ConcatAdapter(NewTodoAdapter(it, listener), AddTodoAdapter(onButtonClickListener()))
             }
         }
     }

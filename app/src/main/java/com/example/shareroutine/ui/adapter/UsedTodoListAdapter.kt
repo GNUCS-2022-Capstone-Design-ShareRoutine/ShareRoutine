@@ -39,10 +39,10 @@ class UsedTodoListAdapter(private var todoList: List<UsedTodo>) : RecyclerView.A
                     null -> "-"
                 }
 
-                dayOfWeekText
+                "${dayOfWeekText}요일"
             }
             Term.MONTHLY -> "${todo.dateTime.dayOfMonth}일"
-            Term.YEARLY -> "${todo.dateTime.month}월"
+            Term.YEARLY -> "${todo.dateTime.month.value}월"
             Term.NONE -> ""
         }
 

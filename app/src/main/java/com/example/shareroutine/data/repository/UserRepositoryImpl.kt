@@ -9,6 +9,8 @@ import com.example.shareroutine.domain.model.User
 import com.example.shareroutine.domain.repository.UserRepository
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -28,6 +30,17 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun delete(user: User) {
         remoteDataSource.delete(UserMapper.fromUserToRealtimeDBModelUser(user))
+    }
+
+    override fun getUser(id: String): Flow<User> {
+        return remoteDataSource.getUser(id).map {
+            when (it) {
+                is State.Success -> {
+                    UserMapper.fromRealtimeDBModelUserToUser(it.data)
+                }
+                is State.Failed -> throw Exception(it.message)
+            }
+        }
     }
 
     override suspend fun fetchUser(id: String): User? = withContext(ioDisPatcher) {
